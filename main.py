@@ -12,12 +12,12 @@ cards = soup.find_all('div', attrs={'class': 'card thumbnail'})
 items = []
 
 for card in cards:
+    print(card )
     items.append(
         {
             'price': float(card.find('h4', class_='price').text.replace('$', '')),
             'title': card.find('a', class_='title').text,
-            'description': card.find('p', class_='description').text
+            'description': card.find('p', class_='description').text,
+            'reviews_count': int(card.find('p', class_='review-count').text.replace('reviews', '')),
         }
     )
-
-print(items)
