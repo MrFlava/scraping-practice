@@ -1,9 +1,9 @@
 import  requests
 from bs4 import BeautifulSoup
 
-PAGE_URL = 'https://webscraper.io/test-sites/e-commerce/allinone'
+MAIN_PAGE_URL = 'https://webscraper.io/test-sites/e-commerce/allinone'
 
-page_data = requests.get(PAGE_URL).text
+page_data = requests.get(MAIN_PAGE_URL).text
 
 soup = BeautifulSoup(page_data, 'html.parser')
 
