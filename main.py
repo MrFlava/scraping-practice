@@ -40,9 +40,10 @@ def mine_items():
         cards.append({'category': category, 'category_cards': find_cards(soup)})
 
     for card in cards:
-        items.append(parse_category(card.get('category_cards'), card.get('category')))
-
-    print(len(items))
+        print(len(card['category_cards']))
+    #     items.append(parse_category(card.get('category_cards'), card.get('category')))
+    #
+    # print(len(items))
     return items
 
 
