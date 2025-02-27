@@ -37,10 +37,12 @@ def mine_items():
 
     for category, url in PRODUCT_SOURCES_URLS.items():
         soup = get_soup(url)
-        cards.append({category: find_cards(soup)})
+        cards.append({'category': category, 'category_cards': find_cards(soup)})
 
+    for card in cards:
+        items.append(parse_category(card.get('category_cards'), card.get('category')))
 
-
+    print(len(items))
     return items
 
 
