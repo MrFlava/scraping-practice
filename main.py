@@ -18,17 +18,15 @@ def get_soup(url: str) -> BeautifulSoup:
 def find_cards(soup: BeautifulSoup) -> ResultSet:
     return soup.find_all('div', attrs={'class': 'card thumbnail'})
 
-def parse_category(cards: list, item_type: str):
-    for card in cards:
-        a = {
-                'price': float(card.find('h4', class_='price').text.replace('$', '')),
-                'title': card.find('a', class_='title').get('title'),
-                'description': card.find('p', class_='description').text,
-                'reviews_count': int(card.find('p', class_='review-count').text.replace('reviews', '')),
-                'type': item_type,
-        }
-        print(a)
-        return a
+def parse_category(category_cards: list, parsed_items: list ,item_type: str):
+    for category_card in category_cards:
+        parsed_items.append({
+            'price': float(category_card.find('h4', class_='price').text.replace('$', '')),
+            'title': category_card.find('a', class_='title').get('title'),
+            'description': category_card.find('p', class_='description').text,
+            'reviews_count': int(category_card.find('p', class_='review-count').text.replace('reviews', '')),
+            'type': item_type,
+        })
 
 
 def mine_items():
@@ -40,10 +38,8 @@ def mine_items():
         cards.append({'category': category, 'category_cards': find_cards(soup)})
 
     for card in cards:
-        print(len(card['category_cards']))
-    #     items.append(parse_category(card.get('category_cards'), card.get('category')))
-    #
-    # print(len(items))
+        parse_category(card['category_cards'], items, card['category'])
+
     return items
 
 
