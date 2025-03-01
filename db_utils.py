@@ -5,8 +5,9 @@ class DbUtils:
         self.db_name = db_name
         self.collection_name = collection_name
         self.client = pymongo.MongoClient(db_host, db_port)
-        # db = client['admin']
-        #
-        # a = db.scraped_items
-        # a.insert_one({'test': 'test'})
 
+    def get_collection(self) -> pymongo.collection.Collection:
+        db = self.client[self.db_name]
+        collection = db[self.collection_name]
+
+        return collection
