@@ -1,11 +1,20 @@
+from typing import List
+
 import  requests
 from bs4 import BeautifulSoup, ResultSet
+
+from db_utils import DbUtils
 
 PRODUCT_SOURCES_URLS =  {
         'laptops': 'https://webscraper.io/test-sites/e-commerce/allinone/computers/laptops',
         'tablets': 'https://webscraper.io/test-sites/e-commerce/allinone/computers/tablets',
         'phones': 'https://webscraper.io/test-sites/e-commerce/allinone/phones/touch'
 }
+
+DB_HOST = 'localhost'
+DB_PORT = 27017
+DB_NAME = 'admin'
+DB_COLLECTION = 'scraped_items'
 
 
 def get_soup(url: str) -> BeautifulSoup:
@@ -42,11 +51,20 @@ def mine_items():
 
     return items
 
+def insert_items_into_db(items: List[dict]) -> None:
+    db_utils = DbUtils(DB_HOST, DB_PORT, DB_NAME, DB_COLLECTION)
+
+    collection = db_utils.get_collection()
+    collection.insert_many(items)
+
 
 
 def main():
     items = mine_items()
-    print(items)
+    print('Items mined:', len(items))
+    print('Inserting items into database...')
+    insert_items_into_db(items)
+    print('Item inserted into database successfully.')
 
 if __name__ == '__main__':
     main()
