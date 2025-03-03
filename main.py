@@ -6,15 +6,15 @@ from bs4 import BeautifulSoup, ResultSet
 from db_utils import DbUtils
 
 PRODUCT_SOURCES_URLS =  {
-        'laptops': 'https://webscraper.io/test-sites/e-commerce/allinone/computers/laptops',
-        'tablets': 'https://webscraper.io/test-sites/e-commerce/allinone/computers/tablets',
-        'phones': 'https://webscraper.io/test-sites/e-commerce/allinone/phones/touch'
+        'laptops': '',
+        'tablets': '',
+        'phones': ''
 }
 
-DB_HOST = 'localhost'
-DB_PORT = 27017
-DB_NAME = 'admin'
-DB_COLLECTION = 'scraped_items'
+DB_HOST = ''
+DB_PORT = None
+DB_NAME = ''
+DB_COLLECTION = ''
 
 
 def get_soup(url: str) -> BeautifulSoup:
