@@ -5,6 +5,13 @@ load_dotenv()
 
 # db settings
 DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
+DB_PORT = int(os.getenv("DB_PORT"))
 DB_NAME = os.getenv("DB_NAME")
 DB_COLLECTION = os.getenv("DB_COLLECTION")
+
+# urls and categories
+PRODUCT_SOURCES_URLS = {
+    'laptops': os.getenv("LAPTOP_URL"),
+    'tablets': os.getenv("TABLETS"),
+    'phones': os.getenv("PHONES")
+}
