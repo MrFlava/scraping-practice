@@ -4,18 +4,7 @@ import  requests
 from bs4 import BeautifulSoup, ResultSet
 
 from db_utils import DbUtils
-
-PRODUCT_SOURCES_URLS =  {
-        'laptops': '',
-        'tablets': '',
-        'phones': ''
-}
-
-DB_HOST = ''
-DB_PORT = None
-DB_NAME = ''
-DB_COLLECTION = ''
-
+from settings import *
 
 def get_soup(url: str) -> BeautifulSoup:
     page_data = requests.get(url).text
