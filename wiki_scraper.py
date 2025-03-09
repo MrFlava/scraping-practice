@@ -19,8 +19,10 @@ def main():
         hall_of_fame_data = json.load(file)
 
     soup = BeautifulSoup(response, 'html.parser')
-    # a = soup.find_all('a', attrs={'title': ''})
-    # print(a)
+
+    for person in hall_of_fame_data.get('persons'):
+        url = soup.find_all('a', attrs={'title': person})
+        print(url)
 
 
 if __name__ == '__main__':
