@@ -15,3 +15,6 @@ PRODUCT_SOURCES_URLS = {
     'tablets': os.getenv("TABLETS"),
     'phones': os.getenv("PHONES")
 }
+
+WIKI_ROCK_HALL_OF_FAME=os.getenv("WIKI_ROCK_HALL_OF_FAME")
+HALL_OF_FAME_FILE_PATH=os.getenv("HALL_OF_FAME_FILE_PATH")
