@@ -4,7 +4,7 @@ import  requests
 from bs4 import BeautifulSoup, ResultSet
 
 from db_utils import DbUtils
-from settings import *
+from settings import DB_PORT, DB_NAME, DB_COLLECTION, DB_HOST, PRODUCT_SOURCES_URLS
 
 def get_soup(url: str) -> BeautifulSoup:
     page_data = requests.get(url).text
