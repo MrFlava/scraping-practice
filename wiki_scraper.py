@@ -5,7 +5,7 @@ import dotenv
 import  requests
 from bs4 import BeautifulSoup
 
-from settings import HALL_OF_FAME_FILE_PATH, WIKI_ROCK_HALL_OF_FAME
+from settings import HALL_OF_FAME_FILE_PATH, WIKI_ROCK_HALL_OF_FAME, WIKI_MAIN_URL
 
 # Needs to scrap all urls of the performers or members of band (including band name)
 
@@ -13,6 +13,8 @@ from settings import HALL_OF_FAME_FILE_PATH, WIKI_ROCK_HALL_OF_FAME
 
 
 def main():
+    performers = []
+
     response = requests.get(WIKI_ROCK_HALL_OF_FAME).text
 
     with open(HALL_OF_FAME_FILE_PATH, 'r') as file:
@@ -21,9 +23,9 @@ def main():
     soup = BeautifulSoup(response, 'html.parser')
 
     for person in hall_of_fame_data.get('persons'):
-        url = soup.find_all('a', attrs={'title': person})
-        print(url)
+        url = soup.find_all('a', attrs={'title': person})[0]
+        performers.append({'performer': person, 'url': WIKI_MAIN_URL+url['href']})
 
-
+    print(performers)
 if __name__ == '__main__':
     main()
