@@ -6,15 +6,17 @@
     "Ray Charles",
     "Sam Cooke",
     "Fats Domino",
-    "The Everly Brothers",
     "Buddy Holly",
     "Jerry Lee Lewis",
     "Little Richard",
     "Elvis Presley",
-    "The Coasters",
     "Aretha Franklin",
     "Marvin Gaye",
     "Bill Haley",
     "Roy Orbison"
+  ],
+  "bands": [
+    "The Everly Brothers",
+    "The Coasters"
   ]
 }
