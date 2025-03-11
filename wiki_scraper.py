@@ -22,10 +22,15 @@ def main():
 
     soup = BeautifulSoup(response, 'html.parser')
 
-    for person in hall_of_fame_data.get('persons'):
+    persons = hall_of_fame_data.get('persons')
+    bands = hall_of_fame_data.get('bands')
+
+    for person in persons:
         url = soup.find_all('a', attrs={'title': person})[0]
         performers.append({'performer': person, 'url': WIKI_MAIN_URL+url['href']})
 
-    print(performers)
+    for band in bands:
+        url = soup.find_all('a', attrs={'title': band})[0]
+        # band_soup =
 if __name__ == '__main__':
     main()
