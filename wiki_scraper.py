@@ -36,11 +36,11 @@ def main():
         # print(table_soup)
 
         for row in table_soup:
-            if "Past members" in row.find('th', attrs={'class': 'infobox-label'}):
-                print(row)
-            # if row.name == "Past members":
-            #     print(row)
-        # print(table_soup)
+            th_row = row.find('th', attrs={'class': 'infobox-label'})
+
+            if th_row:
+                if th_row.text == "Past members" or th_row.text == "Members":
+                    print(row.find_all('a'))
 
 if __name__ == '__main__':
     main()
