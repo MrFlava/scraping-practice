@@ -24,13 +24,23 @@ def main():
 
     persons = hall_of_fame_data.get('persons')
     bands = hall_of_fame_data.get('bands')
-
-    for person in persons:
-        url = soup.find_all('a', attrs={'title': person})[0]
-        performers.append({'performer': person, 'url': WIKI_MAIN_URL+url['href']})
+    #
+    # for person in persons:
+    #     url = soup.find_all('a', attrs={'title': person})[0]
+    #     performers.append({'performer': person, 'url': WIKI_MAIN_URL+url['href']})
 
     for band in bands:
-        url = soup.find_all('a', attrs={'title': band})[0]
-        # band_soup =
+        url = WIKI_MAIN_URL+soup.find_all('a', attrs={'title': band})[0]['href']
+        band_soup = BeautifulSoup(requests.get(url).text)
+        table_soup =  band_soup.find('table', attrs={'class': 'infobox vcard plainlist'}).find_all('tr')
+        # print(table_soup)
+
+        for row in table_soup:
+            if "Past members" in row.find('th', attrs={'class': 'infobox-label'}):
+                print(row)
+            # if row.name == "Past members":
+            #     print(row)
+        # print(table_soup)
+
 if __name__ == '__main__':
     main()
