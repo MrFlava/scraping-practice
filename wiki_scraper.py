@@ -9,8 +9,14 @@ from settings import HALL_OF_FAME_FILE_PATH, WIKI_ROCK_HALL_OF_FAME, WIKI_MAIN_U
 
 
 
+def parse_persons(performers: list, persons: list, soup: BeautifulSoup):
+    for person in persons:
+        url = soup.find_all('a', attrs={'title': person})[0]
+        performers.append({'performer': person, 'url': WIKI_MAIN_URL+url['href']})
 
-def main():
+def parse_band_members(soup: BeautifulSoup):
+
+def mine_urls():
     performers = []
     band_performers = []
 
@@ -20,35 +26,37 @@ def main():
         hall_of_fame_data = json.load(file)
 
     soup = BeautifulSoup(response, 'html.parser')
-
     persons = hall_of_fame_data.get('persons')
     bands = hall_of_fame_data.get('bands')
 
-    for person in persons:
-        url = soup.find_all('a', attrs={'title': person})[0]
-        performers.append({'performer': person, 'url': WIKI_MAIN_URL+url['href']})
+    parse_persons(performers, persons, soup)
 
-    for band in bands:
-        url = WIKI_MAIN_URL+soup.find_all('a', attrs={'title': band})[0]['href']
-        band_soup = BeautifulSoup(requests.get(url).text)
-        table_soup =  band_soup.find('table', attrs={'class': 'infobox vcard plainlist'}).find_all('tr')
 
-        members_main = []
-        for row in table_soup:
-            th_row = row.find('th', attrs={'class': 'infobox-label'})
-            unparsed_members = []
-            if th_row:
 
-                if th_row.text == "Past members" or th_row.text == "Members":
-                    unparsed_members += row.find_all('a')
 
-            for member in unparsed_members:
-                members_main.append({
-                    'name': member['title'],
-                    'url': WIKI_MAIN_URL+member['href']
-                })
+def main():
 
-        band_performers.append({'band_name': band, 'members': members_main})
+    # for band in bands:
+    #     url = WIKI_MAIN_URL+soup.find_all('a', attrs={'title': band})[0]['href']
+    #     band_soup = BeautifulSoup(requests.get(url).text)
+    #     table_soup =  band_soup.find('table', attrs={'class': 'infobox vcard plainlist'}).find_all('tr')
+    #
+    #     members_main = []
+    #     for row in table_soup:
+    #         th_row = row.find('th', attrs={'class': 'infobox-label'})
+    #         unparsed_members = []
+    #         if th_row:
+    #
+    #             if th_row.text == "Past members" or th_row.text == "Members":
+    #                 unparsed_members += row.find_all('a')
+    #
+    #         for member in unparsed_members:
+    #             members_main.append({
+    #                 'name': member['title'],
+    #                 'url': WIKI_MAIN_URL+member['href']
+    #             })
+    #
+    #     band_performers.append({'band_name': band, 'members': members_main})
 
 if __name__ == '__main__':
     main()
