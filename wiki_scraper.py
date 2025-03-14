@@ -35,12 +35,17 @@ def main():
         table_soup =  band_soup.find('table', attrs={'class': 'infobox vcard plainlist'}).find_all('tr')
         # print(table_soup)
 
+        members_main = []
         for row in table_soup:
             th_row = row.find('th', attrs={'class': 'infobox-label'})
-
+            unparsed_members = []
             if th_row:
+
                 if th_row.text == "Past members" or th_row.text == "Members":
-                    print(row.find_all('a'))
+                    unparsed_members += row.find_all('a')
+
+            for member in unparsed_members:
+                print(member['title'], member['href'])
 
 if __name__ == '__main__':
     main()
