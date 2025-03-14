@@ -14,7 +14,29 @@ def parse_persons(performers: list, persons: list, soup: BeautifulSoup):
         url = soup.find_all('a', attrs={'title': person})[0]
         performers.append({'performer': person, 'url': WIKI_MAIN_URL+url['href']})
 
-def parse_band_members(soup: BeautifulSoup):
+def parse_band_members(band_performers: list, bands: list, soup: BeautifulSoup):
+
+    for band in bands:
+        url = WIKI_MAIN_URL+soup.find_all('a', attrs={'title': band})[0]['href']
+        band_soup = BeautifulSoup(requests.get(url).text)
+        table_soup =  band_soup.find('table', attrs={'class': 'infobox vcard plainlist'}).find_all('tr')
+
+        members_main = []
+        for row in table_soup:
+            th_row = row.find('th', attrs={'class': 'infobox-label'})
+            unparsed_members = []
+            if th_row:
+
+                if th_row.text == "Past members" or th_row.text == "Members":
+                    unparsed_members += row.find_all('a')
+
+            for member in unparsed_members:
+                members_main.append({
+                    'name': member['title'],
+                    'url': WIKI_MAIN_URL+member['href']
+                })
+
+        band_performers.append({'band_name': band, 'members': members_main})
 
 def mine_urls():
     performers = []
@@ -29,34 +51,20 @@ def mine_urls():
     persons = hall_of_fame_data.get('persons')
     bands = hall_of_fame_data.get('bands')
 
+    print('start to mine persons')
     parse_persons(performers, persons, soup)
+    print(f'mine persons finished, length: {len(persons)}')
 
+    print('start to mine band members')
+    parse_band_members(band_performers, bands, soup)
+    print(f'mine band members finished, length: {len(band_performers)}')
 
 
 
 def main():
-
-    # for band in bands:
-    #     url = WIKI_MAIN_URL+soup.find_all('a', attrs={'title': band})[0]['href']
-    #     band_soup = BeautifulSoup(requests.get(url).text)
-    #     table_soup =  band_soup.find('table', attrs={'class': 'infobox vcard plainlist'}).find_all('tr')
-    #
-    #     members_main = []
-    #     for row in table_soup:
-    #         th_row = row.find('th', attrs={'class': 'infobox-label'})
-    #         unparsed_members = []
-    #         if th_row:
-    #
-    #             if th_row.text == "Past members" or th_row.text == "Members":
-    #                 unparsed_members += row.find_all('a')
-    #
-    #         for member in unparsed_members:
-    #             members_main.append({
-    #                 'name': member['title'],
-    #                 'url': WIKI_MAIN_URL+member['href']
-    #             })
-    #
-    #     band_performers.append({'band_name': band, 'members': members_main})
+    print('start to mine')
+    mine_urls()
+    print('done')
 
 if __name__ == '__main__':
     main()
