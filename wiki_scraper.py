@@ -1,7 +1,5 @@
-import os
 import json
 
-import dotenv
 import  requests
 from bs4 import BeautifulSoup
 
@@ -14,6 +12,7 @@ from settings import HALL_OF_FAME_FILE_PATH, WIKI_ROCK_HALL_OF_FAME, WIKI_MAIN_U
 
 def main():
     performers = []
+    band_performers = []
 
     response = requests.get(WIKI_ROCK_HALL_OF_FAME).text
 
@@ -24,16 +23,15 @@ def main():
 
     persons = hall_of_fame_data.get('persons')
     bands = hall_of_fame_data.get('bands')
-    #
-    # for person in persons:
-    #     url = soup.find_all('a', attrs={'title': person})[0]
-    #     performers.append({'performer': person, 'url': WIKI_MAIN_URL+url['href']})
+
+    for person in persons:
+        url = soup.find_all('a', attrs={'title': person})[0]
+        performers.append({'performer': person, 'url': WIKI_MAIN_URL+url['href']})
 
     for band in bands:
         url = WIKI_MAIN_URL+soup.find_all('a', attrs={'title': band})[0]['href']
         band_soup = BeautifulSoup(requests.get(url).text)
         table_soup =  band_soup.find('table', attrs={'class': 'infobox vcard plainlist'}).find_all('tr')
-        # print(table_soup)
 
         members_main = []
         for row in table_soup:
@@ -45,7 +43,12 @@ def main():
                     unparsed_members += row.find_all('a')
 
             for member in unparsed_members:
-                print(member['title'], member['href'])
+                members_main.append({
+                    'name': member['title'],
+                    'url': WIKI_MAIN_URL+member['href']
+                })
+
+        band_performers.append({'band_name': band, 'members': members_main})
 
 if __name__ == '__main__':
     main()
