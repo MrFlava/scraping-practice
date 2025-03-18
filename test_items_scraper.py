@@ -4,7 +4,7 @@ import  requests
 from bs4 import BeautifulSoup, ResultSet
 
 from db_utils import DbUtils
-from settings import DB_PORT, DB_NAME, DB_COLLECTION, DB_HOST, PRODUCT_SOURCES_URLS
+from settings import DB_PORT, DB_NAME, DB_ITEMS_COLLECTION, DB_HOST, PRODUCT_SOURCES_URLS
 
 def get_soup(url: str) -> BeautifulSoup:
     page_data = requests.get(url).text
@@ -41,7 +41,7 @@ def mine_items():
     return items
 
 def insert_items_into_db(items: List[dict]) -> None:
-    db_utils = DbUtils(DB_HOST, DB_PORT, DB_NAME, DB_COLLECTION)
+    db_utils = DbUtils(DB_HOST, DB_PORT, DB_NAME, DB_ITEMS_COLLECTION)
 
     collection = db_utils.get_collection()
     collection.insert_many(items)
