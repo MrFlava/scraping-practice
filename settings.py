@@ -7,7 +7,8 @@ load_dotenv()
 DB_HOST = os.getenv("DB_HOST")
 DB_PORT = int(os.getenv("DB_PORT"))
 DB_NAME = os.getenv("DB_NAME")
-DB_COLLECTION = os.getenv("DB_COLLECTION")
+DB_ITEMS_COLLECTION = os.getenv("DB_ITEMS_COLLECTION")
+DB_HALL_OF_FAME_COLLECTION=os.getenv("DB_HALL_OF_FAME_COLLECTION")
 
 # urls and categories
 PRODUCT_SOURCES_URLS = {

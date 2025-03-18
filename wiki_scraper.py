@@ -31,10 +31,12 @@ def parse_band_members(band_performers: list, bands: list, soup: BeautifulSoup):
                     unparsed_members += row.find_all('a')
 
             for member in unparsed_members:
-                members_main.append({
-                    'name': member['title'],
-                    'url': WIKI_MAIN_URL+member['href']
-                })
+                print(member.text)
+                if member.text != "Personnel section" and member.text != "[2]":
+                    members_main.append({
+                        'name': member['title'],
+                        'url': WIKI_MAIN_URL+member['href']
+                    })
 
         band_performers.append({'band_name': band, 'members': members_main})
 
