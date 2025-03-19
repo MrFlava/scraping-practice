@@ -17,6 +17,8 @@ def parse_persons(performers: list, persons: list, soup: BeautifulSoup):
 def parse_band_members(band_performers: list, bands: list, soup: BeautifulSoup):
 
     for band in bands:
+        if band == "The Four Tops":
+            band = "Four Tops"
         url = WIKI_MAIN_URL+soup.find_all('a', attrs={'title': band})[0]['href']
         band_soup = BeautifulSoup(requests.get(url).text)
         table_soup =  band_soup.find('table', attrs={'class': 'infobox vcard plainlist'}).find_all('tr')
@@ -31,12 +33,12 @@ def parse_band_members(band_performers: list, bands: list, soup: BeautifulSoup):
                     unparsed_members += row.find_all('a')
 
             for member in unparsed_members:
-                print(member.text)
-                if member.text != "Personnel section" and member.text != "[2]":
+                if member.text not in ["Personnel section", "[2]", "[1]"]:
                     members_main.append({
                         'name': member['title'],
                         'url': WIKI_MAIN_URL+member['href']
                     })
+
 
         band_performers.append({'band_name': band, 'members': members_main})
 
