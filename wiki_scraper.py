@@ -16,7 +16,7 @@ BAND_NAME_VARIANTS =  {
     "Queen": "Queen (band)",
 }
 
-NON_PARSING_ELEMENTS = ["Personnel section", "[2]", "[1]", "[3]"]
+NON_PARSING_ELEMENTS = ["Personnel section", "[2]", "[1]", "[3]", "Early members"]
 
 def parse_persons(performers: list, persons: list, soup: BeautifulSoup):
     for person in persons:
