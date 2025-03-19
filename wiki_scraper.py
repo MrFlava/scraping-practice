@@ -11,7 +11,9 @@ BAND_NAME_VARIANTS =  {
     "The Four Tops": "Four Tops",
     "Cream": "Cream (band)",
     "The Grateful Dead": "Grateful Dead",
-    "Eagles": "Eagles (band)"
+    "Eagles": "Eagles (band)",
+    "Santana": "Santana (band)",
+    "Queen": "Queen (band)",
 }
 
 NON_PARSING_ELEMENTS = ["Personnel section", "[2]", "[1]", "[3]"]
