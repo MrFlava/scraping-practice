@@ -7,7 +7,13 @@ from settings import HALL_OF_FAME_FILE_PATH, WIKI_ROCK_HALL_OF_FAME, WIKI_MAIN_U
 
 # Needs to scrap all urls of the performers or members of band (including band name)
 
+BAND_NAME_VARIANTS =  {
+    "The Four Tops": "Four Tops",
+    "Cream": "Cream (band)",
+    "The Grateful Dead": "Grateful Dead",
+}
 
+NON_PARSING_ELEMENTS = ["Personnel section", "[2]", "[1]"]
 
 def parse_persons(performers: list, persons: list, soup: BeautifulSoup):
     for person in persons:
@@ -17,8 +23,10 @@ def parse_persons(performers: list, persons: list, soup: BeautifulSoup):
 def parse_band_members(band_performers: list, bands: list, soup: BeautifulSoup):
 
     for band in bands:
-        if band == "The Four Tops":
-            band = "Four Tops"
+
+        if band in BAND_NAME_VARIANTS.keys():
+            band = BAND_NAME_VARIANTS[band]
+
         url = WIKI_MAIN_URL+soup.find_all('a', attrs={'title': band})[0]['href']
         band_soup = BeautifulSoup(requests.get(url).text)
         table_soup =  band_soup.find('table', attrs={'class': 'infobox vcard plainlist'}).find_all('tr')
@@ -33,7 +41,7 @@ def parse_band_members(band_performers: list, bands: list, soup: BeautifulSoup):
                     unparsed_members += row.find_all('a')
 
             for member in unparsed_members:
-                if member.text not in ["Personnel section", "[2]", "[1]"]:
+                if member.text not in NON_PARSING_ELEMENTS:
                     members_main.append({
                         'name': member['title'],
                         'url': WIKI_MAIN_URL+member['href']
