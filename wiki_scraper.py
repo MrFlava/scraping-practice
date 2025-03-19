@@ -11,9 +11,10 @@ BAND_NAME_VARIANTS =  {
     "The Four Tops": "Four Tops",
     "Cream": "Cream (band)",
     "The Grateful Dead": "Grateful Dead",
+    "Eagles": "Eagles (band)"
 }
 
-NON_PARSING_ELEMENTS = ["Personnel section", "[2]", "[1]"]
+NON_PARSING_ELEMENTS = ["Personnel section", "[2]", "[1]", "[3]"]
 
 def parse_persons(performers: list, persons: list, soup: BeautifulSoup):
     for person in persons:
