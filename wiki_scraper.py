@@ -3,20 +3,17 @@ import json
 import  requests
 from bs4 import BeautifulSoup
 
-from settings import HALL_OF_FAME_FILE_PATH, WIKI_ROCK_HALL_OF_FAME, WIKI_MAIN_URL
+from settings import (
+    HALL_OF_FAME_FILE_PATH,
+    WIKI_ROCK_HALL_OF_FAME,
+    WIKI_MAIN_URL,
+    BAND_NAME_VARIANTS,
+    NON_PARSING_ELEMENTS
+)
 
 # Needs to scrap all urls of the performers or members of band (including band name)
 
-BAND_NAME_VARIANTS =  {
-    "The Four Tops": "Four Tops",
-    "Cream": "Cream (band)",
-    "The Grateful Dead": "Grateful Dead",
-    "Eagles": "Eagles (band)",
-    "Santana": "Santana (band)",
-    "Queen": "Queen (band)",
-}
 
-NON_PARSING_ELEMENTS = ["Personnel section", "[2]", "[1]", "[3]", "Early members"]
 
 def parse_persons(performers: list, persons: list, soup: BeautifulSoup):
     for person in persons:
