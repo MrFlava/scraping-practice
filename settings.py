@@ -20,3 +20,15 @@ PRODUCT_SOURCES_URLS = {
 WIKI_MAIN_URL = os.getenv("WIKI_MAIN_URL")
 WIKI_ROCK_HALL_OF_FAME=os.getenv("WIKI_ROCK_HALL_OF_FAME")
 HALL_OF_FAME_FILE_PATH=os.getenv("HALL_OF_FAME_FILE_PATH")
+
+
+BAND_NAME_VARIANTS =  {
+    "The Four Tops": "Four Tops",
+    "Cream": "Cream (band)",
+    "The Grateful Dead": "Grateful Dead",
+    "Eagles": "Eagles (band)",
+    "Santana": "Santana (band)",
+    "Queen": "Queen (band)",
+}
+
+NON_PARSING_ELEMENTS = ["Personnel section", "[2]", "[1]", "[3]", "Early members"]
