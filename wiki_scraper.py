@@ -9,7 +9,9 @@ from settings import (
     WIKI_ROCK_HALL_OF_FAME,
     WIKI_MAIN_URL,
     BAND_NAME_VARIANTS,
-    NON_PARSING_ELEMENTS
+    NON_PARSING_ELEMENTS,
+    DB_HALL_OF_FAME_BANDS_COLLECTION,
+    DB_HALL_OF_FAME_PERFORMERS_COLLECTION,
 )
 
 # Needs to scrap all urls of the performers or members of band (including band names).
