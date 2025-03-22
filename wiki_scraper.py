@@ -1,4 +1,6 @@
 import json
+from traceback import print_tb
+from typing import Optional
 
 import  requests
 from bs4 import BeautifulSoup
@@ -10,6 +12,9 @@ from settings import (
     WIKI_MAIN_URL,
     BAND_NAME_VARIANTS,
     NON_PARSING_ELEMENTS,
+    DB_HOST,
+    DB_PORT,
+    DB_NAME,
     DB_HALL_OF_FAME_BANDS_COLLECTION,
     DB_HALL_OF_FAME_PERFORMERS_COLLECTION,
 )
@@ -53,7 +58,7 @@ def parse_band_members(band_performers: list, bands: list, soup: BeautifulSoup):
 
         band_performers.append({'band_name': band, 'members': members_main})
 
-def mine_urls():
+def mine_urls() -> tuple[list, list]:
     performers = []
     band_performers = []
 
@@ -72,14 +77,26 @@ def mine_urls():
 
     print('start to mine band members')
     parse_band_members(band_performers, bands, soup)
-    print(band_performers)
     print(f'mine band members finished, length: {len(band_performers)}')
+
+    return performers, band_performers
+
+def insert_performers_into_db(performers: list, db_collection: str):
+    db_utils = DbUtils(DB_HOST, DB_PORT, DB_NAME, db_collection)
+
+    collection = db_utils.get_collection()
+    collection.insert_many(performers)
+
+
 
 
 
 def main():
     print('start to mine')
-    mine_urls()
+    performers, band_performers = mine_urls()
+    print('start to insert into db')
+    insert_performers_into_db(performers, DB_HALL_OF_FAME_PERFORMERS_COLLECTION)
+    insert_performers_into_db(band_performers, DB_HALL_OF_FAME_BANDS_COLLECTION)
     print('done')
 
 if __name__ == '__main__':
