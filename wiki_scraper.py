@@ -3,6 +3,7 @@ import json
 import  requests
 from bs4 import BeautifulSoup
 
+from db_utils import DbUtils
 from settings import (
     HALL_OF_FAME_FILE_PATH,
     WIKI_ROCK_HALL_OF_FAME,
@@ -11,8 +12,8 @@ from settings import (
     NON_PARSING_ELEMENTS
 )
 
-# Needs to scrap all urls of the performers or members of band (including band name)
-
+# Needs to scrap all urls of the performers or members of band (including band names).
+# Then scrap all the info about performers and store it into Db
 
 
 def parse_persons(performers: list, persons: list, soup: BeautifulSoup):
@@ -69,6 +70,7 @@ def mine_urls():
 
     print('start to mine band members')
     parse_band_members(band_performers, bands, soup)
+    print(band_performers)
     print(f'mine band members finished, length: {len(band_performers)}')
 
 
