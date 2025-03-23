@@ -1,8 +1,7 @@
 import json
-from traceback import print_tb
-from typing import Optional
 
 import  requests
+from pymongo.collection import  Collection
 from bs4 import BeautifulSoup
 
 from db_utils import DbUtils
@@ -87,6 +86,13 @@ def insert_performers_into_db(performers: list, db_collection: str):
     collection = db_utils.get_collection()
     collection.insert_many(performers)
 
+
+def get_performers_wiki_pages(db_collection: str) -> Collection:
+    db_utils = DbUtils(DB_HOST, DB_PORT, DB_NAME, db_collection)
+
+    return db_utils.get_collection()
+
+def mine_performers_wiki_data(perfomers: ) -> list:
 
 
 
