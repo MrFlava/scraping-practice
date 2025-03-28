@@ -92,7 +92,10 @@ def get_performers_wiki_pages(db_collection: str) -> Collection:
 
     return db_utils.get_collection()
 
-def mine_performers_wiki_data(perfomers: ) -> list:
+def mine_performers_wiki_data(performers: list) -> list:
+    for performer in performers:
+        url = performer.get('url')
+
 
 
 
