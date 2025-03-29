@@ -3,7 +3,9 @@ import json
 import  requests
 from pymongo.collection import  Collection
 from bs4 import BeautifulSoup
+from typing_extensions import Optional
 
+import db_utils
 from db_utils import DbUtils
 from settings import (
     HALL_OF_FAME_FILE_PATH,
@@ -87,10 +89,14 @@ def insert_performers_into_db(performers: list, db_collection: str):
     collection.insert_many(performers)
 
 
-def get_performers_wiki_pages(db_collection: str) -> Collection:
+def get_performers_collection(db_collection: str) -> Collection:
     db_utils = DbUtils(DB_HOST, DB_PORT, DB_NAME, db_collection)
 
     return db_utils.get_collection()
+
+def get_performers_from_db(db_collection: Collection, query: Optional[str]) -> list:
+    performers = db_collection.find(query).to_list()
+    return performers
 
 def mine_performers_wiki_data(performers: list) -> list:
     for performer in performers:
