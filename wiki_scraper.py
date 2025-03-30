@@ -101,7 +101,10 @@ def get_performers_from_db(db_collection: Collection, query: Optional[str]) -> l
 def mine_performers_wiki_data(performers: list) -> list:
     for performer in performers:
         url = performer.get('url')
-        print(url)
+        soup = BeautifulSoup(requests.get(url).text)
+        table_soup = soup.find('table', attrs={'class': 'infobox biography vcard'})
+        print(table_soup)
+
 
 
 def hall_of_fame_links_miner():
@@ -118,7 +121,7 @@ def main():
     # hall_of_fame_links_miner()
     performers_collection =  get_performers_collection(DB_HALL_OF_FAME_PERFORMERS_COLLECTION)
     performers_list = get_performers_from_db(performers_collection, None)
-    # mine_performers_wiki_data(performers_list)
+    mine_performers_wiki_data(performers_list)
 
 
 if __name__ == '__main__':
