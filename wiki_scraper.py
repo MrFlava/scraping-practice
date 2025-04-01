@@ -109,8 +109,14 @@ def mine_performers_wiki_data(performers: list) -> list:
     url = 'https://en.wikipedia.org/wiki/Bob_Dylan'
     soup = BeautifulSoup(requests.get(url).text)
     table_soup = soup.find('table', attrs={'class': 'infobox biography vcard'})
-    birth_day = table_soup.find('span', class_='bday').text
-    print(birth_day)
+
+    personal_info = {
+        "birthplace": table_soup.find('div', class_='birthplace').text,
+        "birth_day": table_soup.find('span', class_='bday').text,
+        "nickname": table_soup.find('div', class_='nickname').text
+    }
+
+    print(personal_info)
 
 
 def hall_of_fame_links_miner():
