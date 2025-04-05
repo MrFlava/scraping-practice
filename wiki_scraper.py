@@ -98,26 +98,29 @@ def get_performers_from_db(db_collection: Collection, query: Optional[str]) -> l
     performers = db_collection.find(query).to_list()
     return performers
 
-def mine_performers_wiki_data(performers: list) -> list:
-    # https://en.wikipedia.org/wiki/Bob_Dylan
-    # for performer in performers:
-    #     url = performer.get('url')
-    #     soup = BeautifulSoup(requests.get(url).text)
-    #     table_soup = soup.find('table', attrs={'class': 'infobox biography vcard'})
-    #     print(table_soup)
-
-    url = 'https://en.wikipedia.org/wiki/Bob_Dylan'
-    soup = BeautifulSoup(requests.get(url).text)
+def get_table_soup(soup: BeautifulSoup) -> BeautifulSoup:
     table_soup = soup.find('table', attrs={'class': 'infobox biography vcard'})
 
-    personal_info = {
-        "birthplace": table_soup.find('div', class_='birthplace').text,
-        "birth_day": table_soup.find('span', class_='bday').text,
-        "nickname": table_soup.find('div', class_='nickname').text
-    }
+    if not table_soup:
+        return  soup.find('table', attrs={'class': 'infobox vcard plainlist'})
 
-    print(personal_info)
+    return table_soup
 
+def mine_performers_wiki_data(performers: list) -> list:
+
+    for performer in performers:
+        url = performer.get('url')
+        print(url)
+        soup = BeautifulSoup(requests.get(url).text)
+        table_soup = get_table_soup(soup)
+        print(table_soup)
+        personal_info = {
+            "birthplace": table_soup.find('div', class_='birthplace').text,
+            "birth_day": table_soup.find('span', class_='bday').text,
+            "nickname": table_soup.find('div', class_='nickname').text.replace('[a]', '')
+        }
+
+        print(personal_info)
 
 def hall_of_fame_links_miner():
     print('start to mine')
@@ -131,9 +134,9 @@ def hall_of_fame_links_miner():
 
 def main():
     # hall_of_fame_links_miner()
-    # performers_collection =  get_performers_collection(DB_HALL_OF_FAME_PERFORMERS_COLLECTION)
-    # performers_list = get_performers_from_db(performers_collection, None)
-    performers_list = []
+    performers_collection =  get_performers_collection(DB_HALL_OF_FAME_PERFORMERS_COLLECTION)
+    performers_list = get_performers_from_db(performers_collection, None)
+
     mine_performers_wiki_data(performers_list)
 
 
