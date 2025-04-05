@@ -98,17 +98,26 @@ def get_performers_from_db(db_collection: Collection, query: Optional[str]) -> l
     performers = db_collection.find(query).to_list()
     return performers
 
+def get_table_soup(soup: BeautifulSoup) -> BeautifulSoup:
+    table_soup = soup.find('table', attrs={'class': 'infobox biography vcard'})
+
+    if not table_soup:
+        return  soup.find('table', attrs={'class': 'infobox vcard plainlist'})
+
+    return table_soup
+
 def mine_performers_wiki_data(performers: list) -> list:
 
     for performer in performers:
         url = performer.get('url')
+        print(url)
         soup = BeautifulSoup(requests.get(url).text)
-        table_soup = soup.find('table', attrs={'class': 'infobox biography vcard'})
-
+        table_soup = get_table_soup(soup)
+        print(table_soup)
         personal_info = {
             "birthplace": table_soup.find('div', class_='birthplace').text,
             "birth_day": table_soup.find('span', class_='bday').text,
-            "nickname": table_soup.find('div', class_='nickname').text
+            "nickname": table_soup.find('div', class_='nickname').text.replace('[a]', '')
         }
 
         print(personal_info)
