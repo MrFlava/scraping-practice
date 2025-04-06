@@ -106,16 +106,31 @@ def get_table_soup(soup: BeautifulSoup) -> BeautifulSoup:
 
     return table_soup
 
+def get_birthplace(soup: BeautifulSoup, performer_url: Optional[str]) -> str:
+    birthplace = soup.find('div', class_='birthplace')
+
+    if not birthplace:
+        source_edit_soup = BeautifulSoup(requests.get(performer_url+'?action=edit&veswitched=1').text)
+        textarea_edit_soup = source_edit_soup.find(
+            'textarea',
+            attrs= {'id':'wpTextbox1'}
+        )
+        print(textarea_edit_soup)
+        return ''
+
+        # birthplace = soup.find('div', class_='birthplace')
+
+    return birthplace.text
+
 def mine_performers_wiki_data(performers: list) -> list:
 
     for performer in performers:
         url = performer.get('url')
-        print(url)
         soup = BeautifulSoup(requests.get(url).text)
         table_soup = get_table_soup(soup)
-        print(table_soup)
+        birthplace = get_birthplace(table_soup, url)
         personal_info = {
-            "birthplace": table_soup.find('div', class_='birthplace').text,
+            "birthplace": birthplace,
             "birth_day": table_soup.find('span', class_='bday').text,
             "nickname": table_soup.find('div', class_='nickname').text.replace('[a]', '')
         }
