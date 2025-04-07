@@ -1,3 +1,4 @@
+import re
 import json
 
 import  requests
@@ -115,12 +116,27 @@ def get_birthplace(soup: BeautifulSoup, performer_url: Optional[str]) -> str:
             'textarea',
             attrs= {'id':'wpTextbox1'}
         )
-        print(textarea_edit_soup)
-        return ''
+        textarea_edit_text = textarea_edit_soup.get_text()
+        birth_place_unparsed = re.search(r'birth_place (.*)', textarea_edit_text)
+        birth_place = birth_place_unparsed[0]\
+            .replace(' ', '')\
+            .replace('[', '')\
+            .replace(']', '')\
+            .replace('|', ',')\
+            .replace(',',', ')\
+            .replace('birth_place=', '')
 
-        # birthplace = soup.find('div', class_='birthplace')
+        return birth_place
 
     return birthplace.text
+
+def get_nickname(soup: BeautifulSoup) -> str:
+    nickname = soup.find('div', class_='nickname')
+
+    if not nickname:
+        return ''
+
+    return nickname.text.replace('[a]', '')
 
 def mine_performers_wiki_data(performers: list) -> list:
 
@@ -129,10 +145,11 @@ def mine_performers_wiki_data(performers: list) -> list:
         soup = BeautifulSoup(requests.get(url).text)
         table_soup = get_table_soup(soup)
         birthplace = get_birthplace(table_soup, url)
+        nickname = get_nickname(table_soup)
         personal_info = {
             "birthplace": birthplace,
             "birth_day": table_soup.find('span', class_='bday').text,
-            "nickname": table_soup.find('div', class_='nickname').text.replace('[a]', '')
+            "nickname": nickname
         }
 
         print(personal_info)
