@@ -138,6 +138,16 @@ def get_nickname(soup: BeautifulSoup, name: str) -> str:
 
     return nickname.text.replace('[a]', '')
 
+def get_birth_day(soup: BeautifulSoup, performer_url: str) -> str:
+    birth_day = soup.find('span', class_='bday')
+
+    if not birth_day:
+        source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1').text)
+        print(source_edit_soup)
+        return ''
+
+    return birth_day.text
+
 def mine_performers_wiki_data(performers: list) -> list:
 
     for performer in performers:
@@ -148,7 +158,7 @@ def mine_performers_wiki_data(performers: list) -> list:
         print(url)
         personal_info = {
             "birthplace": get_birthplace(table_soup, url),
-            "birth_day": table_soup.find('span', class_='bday').text,
+            "birth_day": get_birth_day(table_soup, url),
             "died": '',
             "nickname": get_nickname(table_soup, performer.get('performer'))
         }
