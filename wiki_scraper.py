@@ -165,6 +165,9 @@ def mine_performers_wiki_data(performers: list) -> list:
             "birthplace": get_birthplace(table_soup, url),
             "birth_day": get_birth_day(table_soup, url),
             "died": '',
+            "genres": [],
+            "years_active": '',
+            "occupations": '',
             "nickname": get_nickname(table_soup, performer.get('performer'))
         }
 
