@@ -143,9 +143,14 @@ def get_birth_day(soup: BeautifulSoup, performer_url: str) -> str:
 
     if not birth_day:
         source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1').text)
-        print(source_edit_soup)
-        return ''
+        textarea_edit_soup = source_edit_soup.find(
+            'textarea',
+            attrs= {'id':'wpTextbox1'}
+        )
+        textarea_edit_text = textarea_edit_soup.get_text()
+        birth_day_unparsed = re.search(r'birth_date (.*)', textarea_edit_text)
 
+        return birth_day_unparsed[0].replace('  ', '').replace('birth_date = ', '')
     return birth_day.text
 
 def mine_performers_wiki_data(performers: list) -> list:
