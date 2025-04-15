@@ -164,7 +164,8 @@ def get_died_date(performer_url: str) -> str:
     death_day_unparsed = re.search(r'death_date (.*)', textarea_edit_text)
 
     if death_day_unparsed:
-        print(death_day_unparsed)
+        # todo: need to develop regexp for death_day
+        print(death_day_unparsed[0].replace('  ', ''))
         return ''
     return ''
 
@@ -183,7 +184,7 @@ def mine_performers_wiki_data(performers: list) -> list:
             "birth_day": get_birth_day(table_soup, url),
             "genres": [],
             "years_active": '',
-            "occupations": '',
+            "occupations": [],
             "nickname": get_nickname(table_soup, performer.get('performer'))
         }
 
