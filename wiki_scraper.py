@@ -4,9 +4,8 @@ import json
 import  requests
 from pymongo.collection import  Collection
 from bs4 import BeautifulSoup
-from typing_extensions import Optional
+from typing_extensions import Optional, List
 
-import db_utils
 from db_utils import DbUtils
 from settings import (
     HALL_OF_FAME_FILE_PATH,
@@ -169,6 +168,18 @@ def get_died_date(performer_url: str) -> str:
         return ''
     return ''
 
+def get_occupations(performer_url: str) -> List[str]:
+    source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1').text)
+    textarea_edit_soup = source_edit_soup.find(
+        'textarea',
+        attrs={'id': 'wpTextbox1'}
+    )
+
+    textarea_edit_text = textarea_edit_soup.get_text()
+    occupations_unparsed = re.search(r'occupation (.*)', textarea_edit_text)
+    print(occupations_unparsed[0])
+    return []
+
 def mine_performers_wiki_data(performers: list) -> list:
 
     for performer in performers:
@@ -184,7 +195,7 @@ def mine_performers_wiki_data(performers: list) -> list:
             "birth_day": get_birth_day(table_soup, url),
             "genres": [],
             "years_active": '',
-            "occupations": [],
+            "occupations": get_occupations(url),
             "nickname": get_nickname(table_soup, performer.get('performer'))
         }
 
