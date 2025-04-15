@@ -153,23 +153,45 @@ def get_birth_day(soup: BeautifulSoup, performer_url: str) -> str:
         return birth_day_unparsed[0].replace('  ', '').replace('birth_date = ', '')
     return birth_day.text
 
+def get_died_date(performer_url: str) -> str:
+    source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1').text)
+    textarea_edit_soup = source_edit_soup.find(
+        'textarea',
+        attrs={'id': 'wpTextbox1'}
+    )
+
+    textarea_edit_text = textarea_edit_soup.get_text()
+    death_day_unparsed = re.search(r'death_date (.*)', textarea_edit_text)
+
+    if death_day_unparsed:
+        print(death_day_unparsed)
+        return ''
+    return ''
+
 def mine_performers_wiki_data(performers: list) -> list:
 
     for performer in performers:
         url = performer.get('url')
         soup = BeautifulSoup(requests.get(url).text)
         table_soup = get_table_soup(soup)
+        died_date = get_died_date(url),
+        died_place = ''
 
         print(url)
         personal_info = {
             "birthplace": get_birthplace(table_soup, url),
             "birth_day": get_birth_day(table_soup, url),
-            "died": '',
             "genres": [],
             "years_active": '',
             "occupations": '',
             "nickname": get_nickname(table_soup, performer.get('performer'))
         }
+
+        if died_date:
+            personal_info.update({'died_date': died_date})
+
+        if died_place:
+            personal_info.update({'died_place': died_place})
 
         print(personal_info)
 
