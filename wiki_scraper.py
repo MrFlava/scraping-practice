@@ -177,7 +177,21 @@ def get_occupations(performer_url: str) -> List[str]:
 
     textarea_edit_text = textarea_edit_soup.get_text()
     occupations_unparsed = re.search(r'occupation (.*)', textarea_edit_text)
-    print(occupations_unparsed[0])
+    if occupations_unparsed:
+        occupations_str = occupations_unparsed[0]\
+            .replace('  ', '')\
+            .replace('hlist', '')\
+            .replace(' ', '')\
+            .replace('occupation=', '')\
+            .replace('Flatlist', '')\
+            .replace('flatlist', '')\
+            .replace('{{', '')\
+            .replace('}}', '')\
+            .replace('<!--Pleasedonotaddtothislistwithoutfirstdiscussingyourproposalonthetalkpage.-->', '')\
+            .replace('[[Minister(Christianity)|minister]]', 'minister').replace('|', ',')
+        occupations_str = occupations_str[1:] if occupations_str[0] == ',' else occupations_str
+        if occupations_str != '':
+            return [occupation for occupation in occupations_str.split(',')]
     return []
 
 def mine_performers_wiki_data(performers: list) -> list:
