@@ -33,3 +33,26 @@ BAND_NAME_VARIANTS =  {
 }
 
 NON_PARSING_ELEMENTS = ["Personnel section", "[2]", "[1]", "[3]", "Early members"]
+
+REPLACE_BIRTH_PLACE_ELEMENTS = {
+    ' ': '',
+    '[': '',
+    ']': '',
+    '|': ',',
+    ',':', ',
+    'birth_place=': ''
+}
+
+REPLACE_OCCUPATION_ELEMENTS = {
+    '  ': '',
+    'hlist': '',
+    ' ': '',
+    'occupation=': '',
+    'Flatlist': '',
+    'flatlist': '',
+    '{{': '',
+    '}}': '',
+    '<!--Pleasedonotaddtothislistwithoutfirstdiscussingyourproposalonthetalkpage.-->': '',
+    '[[Minister(Christianity)|minister]]': 'minister',
+    '|': ','
+}
