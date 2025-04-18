@@ -18,6 +18,8 @@ from settings import (
     DB_NAME,
     DB_HALL_OF_FAME_BANDS_COLLECTION,
     DB_HALL_OF_FAME_PERFORMERS_COLLECTION,
+    REPLACE_BIRTH_PLACE_ELEMENTS,
+    REPLACE_OCCUPATION_ELEMENTS
 )
 
 # Needs to scrap all urls of the performers or members of band (including band names).
@@ -117,13 +119,10 @@ def get_birthplace(soup: BeautifulSoup, performer_url: Optional[str]) -> str:
         )
         textarea_edit_text = textarea_edit_soup.get_text()
         birth_place_unparsed = re.search(r'birth_place (.*)', textarea_edit_text)
-        birth_place = birth_place_unparsed[0]\
-            .replace(' ', '')\
-            .replace('[', '')\
-            .replace(']', '')\
-            .replace('|', ',')\
-            .replace(',',', ')\
-            .replace('birth_place=', '')
+        birth_place = birth_place_unparsed[0]
+
+        for k,v in REPLACE_BIRTH_PLACE_ELEMENTS.items():
+            birth_place = birth_place.replace(k, v)
 
         return birth_place
 
@@ -178,17 +177,11 @@ def get_occupations(performer_url: str) -> List[str]:
     textarea_edit_text = textarea_edit_soup.get_text()
     occupations_unparsed = re.search(r'occupation (.*)', textarea_edit_text)
     if occupations_unparsed:
-        occupations_str = occupations_unparsed[0]\
-            .replace('  ', '')\
-            .replace('hlist', '')\
-            .replace(' ', '')\
-            .replace('occupation=', '')\
-            .replace('Flatlist', '')\
-            .replace('flatlist', '')\
-            .replace('{{', '')\
-            .replace('}}', '')\
-            .replace('<!--Pleasedonotaddtothislistwithoutfirstdiscussingyourproposalonthetalkpage.-->', '')\
-            .replace('[[Minister(Christianity)|minister]]', 'minister').replace('|', ',')
+        occupations_str = occupations_unparsed[0]
+
+        for k, v in REPLACE_OCCUPATION_ELEMENTS.items():
+            occupations_str = occupations_str.replace(k, v)
+
         occupations_str = occupations_str[1:] if occupations_str[0] == ',' else occupations_str
         if occupations_str != '':
             return [occupation for occupation in occupations_str.split(',')]
