@@ -195,13 +195,14 @@ def mine_performers_wiki_data(performers: list) -> list:
         table_soup = get_table_soup(soup)
         died_date = get_died_date(url),
         died_place = ''
+        years_active = ''
 
         print(url)
         personal_info = {
             "birthplace": get_birthplace(table_soup, url),
             "birth_day": get_birth_day(table_soup, url),
             "genres": [],
-            "years_active": '',
+            "years_active": years_active,
             "occupations": get_occupations(url),
             "nickname": get_nickname(table_soup, performer.get('performer'))
         }
