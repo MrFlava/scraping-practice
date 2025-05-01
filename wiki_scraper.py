@@ -163,8 +163,12 @@ def get_died_date(performer_url: str) -> str:
 
     if death_day_unparsed:
         # todo: need to develop regexp for death_day
-        print(death_day_unparsed[0].replace('  ', ''))
-        return ''
+        death_str = death_day_unparsed[0].replace('  ', '').replace('death date and age', '')\
+              .replace('Death date and age', '').replace('death_date = ', '')\
+              .replace('death_date', '').replace('{{', '').replace('}}', '')\
+              .replace('|mf=yes', '')
+
+        return death_str
     return ''
 
 def get_occupations(performer_url: str) -> List[str]:
