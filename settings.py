@@ -56,3 +56,14 @@ REPLACE_OCCUPATION_ELEMENTS = {
     '[[Minister(Christianity)|minister]]': 'minister',
     '|': ','
 }
+
+DEATH_DATE_ELEMENTS = {
+    '  ': '',
+    'death date and age': '',
+    'Death date and age': '',
+    'death_date': '',
+    '=': '',
+    '{{': '',
+    '}}': '',
+    '|mf=yes': ''
+}
