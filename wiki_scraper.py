@@ -164,8 +164,8 @@ def get_died_date(performer_url: str) -> str:
     if death_day_unparsed:
         # todo: need to develop regexp for death_day
         death_str = death_day_unparsed[0].replace('  ', '').replace('death date and age', '')\
-              .replace('Death date and age', '').replace('death_date = ', '')\
-              .replace('death_date', '').replace('{{', '').replace('}}', '')\
+              .replace('Death date and age', '').replace('death_date', '')\
+              .replace('=', '').replace('{{', '').replace('}}', '')\
               .replace('|mf=yes', '')
 
         return death_str
@@ -197,7 +197,7 @@ def mine_performers_wiki_data(performers: list) -> list:
         url = performer.get('url')
         soup = BeautifulSoup(requests.get(url).text)
         table_soup = get_table_soup(soup)
-        died_date = get_died_date(url),
+        died_date = get_died_date(url)
         died_place = ''
         years_active = ''
 
