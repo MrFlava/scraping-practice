@@ -170,7 +170,13 @@ def get_died_date(performer_url: str) -> str:
         for k, v in DEATH_DATE_ELEMENTS.items():
             death_str = death_str.replace(k, v)
 
-        # return death_str
+        if death_str:
+            death_date_list = death_str.split('|')
+            death_date_list.pop(0)
+
+            death_str = '-'.join(death_date_list[0:3])
+
+        return death_str
 
     return ''
 
