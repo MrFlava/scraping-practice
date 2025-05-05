@@ -19,7 +19,8 @@ from settings import (
     DB_HALL_OF_FAME_BANDS_COLLECTION,
     DB_HALL_OF_FAME_PERFORMERS_COLLECTION,
     REPLACE_BIRTH_PLACE_ELEMENTS,
-    REPLACE_OCCUPATION_ELEMENTS
+    REPLACE_OCCUPATION_ELEMENTS,
+    DEATH_DATE_ELEMENTS,
 )
 
 # Needs to scrap all urls of the performers or members of band (including band names).
@@ -163,12 +164,14 @@ def get_died_date(performer_url: str) -> str:
 
     if death_day_unparsed:
         # todo: need to develop regexp for death_day
-        death_str = death_day_unparsed[0].replace('  ', '').replace('death date and age', '')\
-              .replace('Death date and age', '').replace('death_date', '')\
-              .replace('=', '').replace('{{', '').replace('}}', '')\
-              .replace('|mf=yes', '')
 
-        return death_str
+        death_str = death_day_unparsed[0]
+
+        for k, v in DEATH_DATE_ELEMENTS.items():
+            death_str = death_str.replace(k, v)
+
+        # return death_str
+
     return ''
 
 def get_occupations(performer_url: str) -> List[str]:
