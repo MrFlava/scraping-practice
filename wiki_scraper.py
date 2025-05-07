@@ -163,8 +163,6 @@ def get_died_date(performer_url: str) -> str:
     death_day_unparsed = re.search(r'death_date (.*)', textarea_edit_text)
 
     if death_day_unparsed:
-        # todo: need to develop regexp for death_day
-
         death_str = death_day_unparsed[0]
 
         for k, v in DEATH_DATE_ELEMENTS.items():
@@ -199,6 +197,15 @@ def get_occupations(performer_url: str) -> List[str]:
         if occupations_str != '':
             return [occupation for occupation in occupations_str.split(',')]
     return []
+
+def get_genres(performer_url: str) -> List[str]:
+    pass
+
+def get_death_place(performer_url: str) -> str:
+    pass
+
+def get_years_activity(performer_url: str) -> List[str]:
+    pass
 
 def mine_performers_wiki_data(performers: list) -> list:
 
