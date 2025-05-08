@@ -202,7 +202,7 @@ def get_genres(performer_url: str) -> List[str]:
     pass
 
 def get_death_place(performer_url: str) -> str:
-    pass
+    source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1').text)
 
 def get_years_activity(performer_url: str) -> List[str]:
     pass
