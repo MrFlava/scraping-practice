@@ -209,6 +209,10 @@ def get_death_place(performer_url: str) -> str:
     )
 
     textarea_edit_text = textarea_edit_soup.get_text()
+    death_place = re.search(r'death_place (.*)', textarea_edit_text)
+    print(death_place)
+
+    return ''
 
 def get_years_activity(performer_url: str) -> List[str]:
     pass
@@ -220,7 +224,7 @@ def mine_performers_wiki_data(performers: list) -> list:
         soup = BeautifulSoup(requests.get(url).text)
         table_soup = get_table_soup(soup)
         died_date = get_died_date(url)
-        died_place = ''
+        died_place = get_death_place(url)
         years_active = ''
 
         print(url)
