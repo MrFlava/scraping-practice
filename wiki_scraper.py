@@ -209,8 +209,8 @@ def get_death_place(performer_url: str) -> str:
     )
 
     textarea_edit_text = textarea_edit_soup.get_text()
-    death_place = re.search(r'death_place (.*)', textarea_edit_text)
-    print(death_place)
+    death_place_unparsed = re.search(r'death_place (.*)', textarea_edit_text)
+    print(death_place_unparsed)
 
     return ''
 
