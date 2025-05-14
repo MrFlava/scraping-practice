@@ -11,6 +11,8 @@ DB_ITEMS_COLLECTION = os.getenv("DB_ITEMS_COLLECTION")
 DB_HALL_OF_FAME_BANDS_COLLECTION=os.getenv("DB_HALL_OF_FAME_BANDS_COLLECTION")
 DB_HALL_OF_FAME_PERFORMERS_COLLECTION=os.getenv("DB_HALL_OF_FAME_PERFORMERS_COLLECTION")
 
+REPLACE_DEFAULT = ''
+
 # urls and categories
 PRODUCT_SOURCES_URLS = {
     'laptops': os.getenv("LAPTOP_URL"),
@@ -34,14 +36,16 @@ BAND_NAME_VARIANTS =  {
 
 NON_PARSING_ELEMENTS = ["Personnel section", "[2]", "[1]", "[3]", "Early members"]
 
-REPLACE_BIRTH_PLACE_ELEMENTS = {
-    ' ': '',
-    '[': '',
-    ']': '',
-    '|': ',',
-    ',':', ',
-    'birth_place=': ''
-}
+
+
+# REPLACE_BIRTH_PLACE_ELEMENTS = {
+#     ' ': '',
+#     '[': '',
+#     ']': '',
+#     '|': ',',
+#     ',':', ',
+#     'birth_place=': ''
+# }
 
 REPLACE_OCCUPATION_ELEMENTS = {
     '  ': '',
@@ -67,3 +71,7 @@ DEATH_DATE_ELEMENTS = {
     '}}': '',
     '|mf=yes': ''
 }
+
+# DEATH_PLACE_ELEMENTS = {
+#     'near': '',
+# }
