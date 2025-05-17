@@ -38,24 +38,33 @@ NON_PARSING_ELEMENTS = ["Personnel section", "[2]", "[1]", "[3]", "Early members
 
 REPLACE_BIRTH_PLACE_ELEMENTS_LIST = [' ', '[', ']', '|', ',']
 REPLACE_BIRTH_PLACE_ELEMENTS = dict()
+REPLACE_OCCUPATION_ELEMENTS_LIST = [
+    '  ',
+    'hlist',
+    ' ',
+    'occupation=',
+    'Flatlist',
+    'flatlist',
+    '{{',
+    '}}',
+    '<!--Pleasedonotaddtothislistwithoutfirstdiscussingyourproposalonthetalkpage.-->',
+    '[[Minister(Christianity)|minister]]',
+    '|',
+
+]
+REPLACE_OCCUPATION_ELEMENTS = dict()
 
 for element in REPLACE_BIRTH_PLACE_ELEMENTS_LIST:
-        REPLACE_BIRTH_PLACE_ELEMENTS[element] = ''
+        REPLACE_BIRTH_PLACE_ELEMENTS[element] = REPLACE_DEFAULT
 
+for element in REPLACE_OCCUPATION_ELEMENTS_LIST:
+    if element == '[[Minister(Christianity)|minister]]':
+        REPLACE_OCCUPATION_ELEMENTS[element] = 'minister'
+    elif element == '|':
+        REPLACE_OCCUPATION_ELEMENTS[element] = ','
 
-REPLACE_OCCUPATION_ELEMENTS = {
-    '  ': '',
-    'hlist': '',
-    ' ': '',
-    'occupation=': '',
-    'Flatlist': '',
-    'flatlist': '',
-    '{{': '',
-    '}}': '',
-    '<!--Pleasedonotaddtothislistwithoutfirstdiscussingyourproposalonthetalkpage.-->': '',
-    '[[Minister(Christianity)|minister]]': 'minister',
-    '|': ','
-}
+    else:
+        REPLACE_OCCUPATION_ELEMENTS[element] = REPLACE_DEFAULT
 
 DEATH_DATE_ELEMENTS = {
     '  ': '',
