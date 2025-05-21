@@ -53,6 +53,17 @@ REPLACE_OCCUPATION_ELEMENTS_LIST = [
 
 ]
 REPLACE_OCCUPATION_ELEMENTS = dict()
+DEATH_DATE_ELEMENTS_LIST = [
+    '  ',
+    'death date and age',
+    'Death date and age',
+    'death_date',
+    '=',
+    '{{',
+    '}}',
+    '|mf=yes'
+]
+DEATH_DATE_ELEMENTS = dict()
 
 for element in REPLACE_BIRTH_PLACE_ELEMENTS_LIST:
         REPLACE_BIRTH_PLACE_ELEMENTS[element] = REPLACE_DEFAULT
@@ -66,16 +77,9 @@ for element in REPLACE_OCCUPATION_ELEMENTS_LIST:
     else:
         REPLACE_OCCUPATION_ELEMENTS[element] = REPLACE_DEFAULT
 
-DEATH_DATE_ELEMENTS = {
-    '  ': '',
-    'death date and age': '',
-    'Death date and age': '',
-    'death_date': '',
-    '=': '',
-    '{{': '',
-    '}}': '',
-    '|mf=yes': ''
-}
+for element in DEATH_DATE_ELEMENTS_LIST:
+    DEATH_DATE_ELEMENTS[element] = REPLACE_DEFAULT
+
 
 # DEATH_PLACE_ELEMENTS = {
 #     'near': '',
