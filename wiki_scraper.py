@@ -18,10 +18,8 @@ from settings import (
     DB_NAME,
     DB_HALL_OF_FAME_BANDS_COLLECTION,
     DB_HALL_OF_FAME_PERFORMERS_COLLECTION,
-    REPLACE_BIRTH_PLACE_ELEMENTS,
-    REPLACE_OCCUPATION_ELEMENTS,
-    DEATH_DATE_ELEMENTS,
 )
+from replacers import REPLACE_BIRTH_PLACE_ELEMENTS, REPLACE_OCCUPATION_ELEMENTS, DEATH_DATE_ELEMENTS
 
 # Needs to scrap all urls of the performers or members of band (including band names).
 # Then scrap all the info about performers and store it into Db
