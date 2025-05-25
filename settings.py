@@ -82,7 +82,3 @@ for element in DEATH_DATE_ELEMENTS_LIST:
 
 DEATH_PLACE_ELEMENTS_LIST = ['near']
 DEATH_PLACE_ELEMENTS = dict()
-
-# DEATH_PLACE_ELEMENTS = {
-#     'near': '',
-# }
