@@ -45,3 +45,6 @@ for element in DEATH_DATE_ELEMENTS_LIST:
 
 DEATH_PLACE_ELEMENTS_LIST = ['near', 'death_place', '=',]
 DEATH_PLACE_ELEMENTS = dict()
+
+for element in DEATH_PLACE_ELEMENTS_LIST:
+    DEATH_PLACE_ELEMENTS[element] = REPLACE_DEFAULT
