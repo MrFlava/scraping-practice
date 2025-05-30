@@ -53,7 +53,9 @@ DEATH_PLACE_ELEMENTS_LIST = [
     '<!-- "US" does not take full stops/points in British English -->',
     '|',
     '<!-- No need to list boroughs -->',
-    ''
+    '<!-- DO NOT LINK this, see [[MOS:OVERLINK]]. -->',
+    '<!--Links not needed per MOS:OVERLINK-->',
+    '<ref>{{Cite web|url=http://historicplacesla.org/reports/302ad891-d563-49ee-a301-',
 ]
 DEATH_PLACE_ELEMENTS = dict()
 
