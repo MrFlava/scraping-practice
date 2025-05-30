@@ -43,7 +43,16 @@ for element in REPLACE_OCCUPATION_ELEMENTS_LIST:
 for element in DEATH_DATE_ELEMENTS_LIST:
     DEATH_DATE_ELEMENTS[element] = REPLACE_DEFAULT
 
-DEATH_PLACE_ELEMENTS_LIST = ['near', 'death_place', '=',]
+DEATH_PLACE_ELEMENTS_LIST = [
+    'near',
+    'death_place',
+    '=',
+    '[[',
+    ']]',
+    '<!-- Per MOS:U.S., "the use or non-use of periods (full stops) should also be consistent with ',
+    '<!-- "US" does not take full stops/points in British English -->',
+
+]
 DEATH_PLACE_ELEMENTS = dict()
 
 for element in DEATH_PLACE_ELEMENTS_LIST:
