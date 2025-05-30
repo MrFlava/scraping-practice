@@ -51,7 +51,9 @@ DEATH_PLACE_ELEMENTS_LIST = [
     ']]',
     '<!-- Per MOS:U.S., "the use or non-use of periods (full stops) should also be consistent with ',
     '<!-- "US" does not take full stops/points in British English -->',
-
+    '|',
+    '<!-- No need to list boroughs -->',
+    ''
 ]
 DEATH_PLACE_ELEMENTS = dict()
 
