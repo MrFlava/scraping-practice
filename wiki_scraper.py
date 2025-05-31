@@ -212,8 +212,12 @@ def get_death_place(performer_url: str) -> str:
     if death_place_unparsed:
         death_place_str = death_place_unparsed[0]
 
-        for k, v in DEATH_PLACE_ELEMENTS:
+        for k, v in DEATH_PLACE_ELEMENTS.items():
+            print(k, v)
             death_place_str = death_place_str.replace(k, v)
+            print(death_place_str)
+
+        return death_place_str
 
     return ''
 
