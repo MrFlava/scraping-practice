@@ -208,7 +208,12 @@ def get_death_place(performer_url: str) -> str:
 
     textarea_edit_text = textarea_edit_soup.get_text()
     death_place_unparsed = re.search(r'death_place (.*)', textarea_edit_text)
-    print(death_place_unparsed)
+
+    if death_place_unparsed:
+        death_place_str = death_place_unparsed[0]
+
+        for k, v in DEATH_PLACE_ELEMENTS:
+            death_place_str = death_place_str.replace(k, v)
 
     return ''
 
