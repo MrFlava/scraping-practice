@@ -44,7 +44,7 @@ for element in DEATH_DATE_ELEMENTS_LIST:
     DEATH_DATE_ELEMENTS[element] = REPLACE_DEFAULT
 
 DEATH_PLACE_ELEMENTS_LIST = [
-    ' '
+    ' ',
     'near',
     'death_place',
     '=',
@@ -55,9 +55,13 @@ DEATH_PLACE_ELEMENTS_LIST = [
     '|',
     '<!-- No need to list boroughs -->',
     '<!-- DO NOT LINK this, see [[MOS:OVERLINK]]. -->',
+    '<!-- DO NOT LINK this, see MOS:OVERLINK. -->',
     '<!--Links not needed per MOS:OVERLINK-->',
     '<ref>{{Cite web|url=http://historicplacesla.org/reports/302ad891-d563-49ee-a301-',
     '<!--Links not needed per MOS:OVERLINK--> ',
+    '<ref>{{Cite weburlhttp://historicplacesla.org/reports/302ad891-d563-49ee-a301-3a8ec8d687cdtitleReport – HPLA}}</ref>',
+    'Georgia (U.S. state)',
+    'Georgia(U.S.state)'
 ]
 DEATH_PLACE_ELEMENTS = dict()
 
