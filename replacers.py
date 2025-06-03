@@ -61,7 +61,15 @@ DEATH_PLACE_ELEMENTS_LIST = [
     '<!--Links not needed per MOS:OVERLINK--> ',
     '<ref>{{Cite weburlhttp://historicplacesla.org/reports/302ad891-d563-49ee-a301-3a8ec8d687cdtitleReport – HPLA}}</ref>',
     'Georgia (U.S. state)',
-    'Georgia(U.S.state)'
+    'Georgia(U.S.state)',
+    '<ref>{{Citeweburlhttp://historicplacesla.org/reports/302ad891-d563-49ee-a301-3a8ec8d687cdtitleReport–HPLA}}</ref>',
+    '<!--LinksnotneededperMOS:OVERLINK-->',
+    '<!--DONOTLINKthis,seeMOS:OVERLINK.-->',
+    '<!--Noneedtolistboroughs-->',
+    '<!--"US"doesnottakefullstops/pointsinBritishEnglish-->',
+    "theuseornon-useofperiods(fullstops)shouldalsobeconsistentwithothercountryabbreviationsinthesamearticle(thus\'theUS,UK,andUSSR\',not\'theU.S.,UK,andUSSR\').",
+    '<!--LinksnotneededperMOS:OVERLINK-->'
+
 ]
 DEATH_PLACE_ELEMENTS = dict()
 
