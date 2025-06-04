@@ -219,8 +219,17 @@ def get_death_place(performer_url: str) -> str:
 
     return ''
 
-def get_years_activity(performer_url: str) -> List[str]:
-    pass
+def get_years_activity(performer_url: str) -> str:
+    source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1').text)
+    textarea_edit_soup = source_edit_soup.find(
+        'textarea',
+        attrs={'id': 'wpTextbox1'}
+    )
+
+    textarea_edit_text = textarea_edit_soup.get_text()
+    years_active_unparsed = re.search(r'years_active (.*)', textarea_edit_text)
+
+    return ''
 
 def mine_performers_wiki_data(performers: list) -> list:
 
@@ -230,7 +239,7 @@ def mine_performers_wiki_data(performers: list) -> list:
         table_soup = get_table_soup(soup)
         died_date = get_died_date(url)
         died_place = get_death_place(url)
-        years_active = ''
+        years_active = get_years_activity(url)
 
         print(url)
         personal_info = {
