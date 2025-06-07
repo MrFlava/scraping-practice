@@ -228,6 +228,7 @@ def get_years_activity(performer_url: str) -> str:
 
     textarea_edit_text = textarea_edit_soup.get_text()
     years_active_unparsed = re.search(r'years_active (.*)', textarea_edit_text)
+    print(years_active_unparsed)
 
     return ''
 
