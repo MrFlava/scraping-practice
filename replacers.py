@@ -80,5 +80,6 @@ YEARS_ACTIVE_ELEMENTS_LIST = [
     ' '
     "<ref>{{cite web| url = https://www.allmusic.com/artist/bob-dylan-mn0000066915/biography| title = Bob Dylan biography| author = Erlewine, Stephen Thomas| author-link=Stephen Thomas Erlewine|date = December 12, 2019| access-date = January 6, 2020| website=[[AllMusic]]}}</ref>",
     '|',
-    '='
+    '=',
+    'years_active',
 ]
