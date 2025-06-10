@@ -83,3 +83,7 @@ YEARS_ACTIVE_ELEMENTS_LIST = [
     '=',
     'years_active',
 ]
+YEARS_ACTIVE_ELEMENTS = dict()
+
+for element in YEARS_ACTIVE_ELEMENTS_LIST:
+    YEARS_ACTIVE_ELEMENTS[element] = REPLACE_DEFAULT
