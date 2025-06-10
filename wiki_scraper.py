@@ -19,7 +19,13 @@ from settings import (
     DB_HALL_OF_FAME_BANDS_COLLECTION,
     DB_HALL_OF_FAME_PERFORMERS_COLLECTION,
 )
-from replacers import REPLACE_BIRTH_PLACE_ELEMENTS, REPLACE_OCCUPATION_ELEMENTS, DEATH_DATE_ELEMENTS, DEATH_PLACE_ELEMENTS
+from replacers import (
+    REPLACE_BIRTH_PLACE_ELEMENTS,
+    REPLACE_OCCUPATION_ELEMENTS,
+    DEATH_DATE_ELEMENTS,
+    DEATH_PLACE_ELEMENTS,
+    YEARS_ACTIVE_ELEMENTS
+)
 
 # Needs to scrap all urls of the performers or members of band (including band names).
 # Then scrap all the info about performers and store it into Db
@@ -228,7 +234,14 @@ def get_years_activity(performer_url: str) -> str:
 
     textarea_edit_text = textarea_edit_soup.get_text()
     years_active_unparsed = re.search(r'years_active (.*)', textarea_edit_text)
-    print(years_active_unparsed)
+
+    if years_active_unparsed:
+        years_active_str = years_active_unparsed[0]
+
+        for k, v in YEARS_ACTIVE_ELEMENTS.items():
+            years_active_str = years_active_str.replace(k, v)
+
+        return years_active_str
 
     return ''
 
