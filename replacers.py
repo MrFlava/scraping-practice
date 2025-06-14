@@ -77,11 +77,13 @@ for element in DEATH_PLACE_ELEMENTS_LIST:
     DEATH_PLACE_ELEMENTS[element] = REPLACE_DEFAULT
 
 YEARS_ACTIVE_ELEMENTS_LIST = [
-    ' '
+    ' ',
     "<ref>{{cite web| url = https://www.allmusic.com/artist/bob-dylan-mn0000066915/biography| title = Bob Dylan biography| author = Erlewine, Stephen Thomas| author-link=Stephen Thomas Erlewine|date = December 12, 2019| access-date = January 6, 2020| website=[[AllMusic]]}}</ref>",
     '|',
     '=',
     'years_active',
+    '<ref>{{Cite web lastDaley firstLauren dateAugust 2, 2007 titleLast Man Standing: Jerry Lee at the Z urlhttps://www.southcoasttoday.com/article/20070802/entertain/708020326 access-dateSeptember 30, 2020 quote"He made his public debut in 1949 at 14, sitting in with a local country/western band in a Ford dealership parking lot." newspaperSouth Coast Today archive-dateOctober 11, 2020 archive-urlhttps://web.archive.org/web/20201011020956/https://www.southcoasttoday.com/article/20070802/entertain/708020326 url-statuslive }}</ref>',
+    '<ref name"songsofsamcooke.com" />',
 ]
 YEARS_ACTIVE_ELEMENTS = dict()
 
