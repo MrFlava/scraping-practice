@@ -241,6 +241,9 @@ def get_years_activity(performer_url: str) -> str:
         for k, v in YEARS_ACTIVE_ELEMENTS.items():
             years_active_str = years_active_str.replace(k, v)
 
+        # todo: idk why it's not replaced, remove this stuff later
+        years_active_str = years_active_str.replace('  ', '')
+
         return years_active_str
 
     return ''
