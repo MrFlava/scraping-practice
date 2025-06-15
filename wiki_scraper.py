@@ -203,7 +203,13 @@ def get_occupations(performer_url: str) -> List[str]:
     return []
 
 def get_genres(performer_url: str) -> List[str]:
-    pass
+    source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1').text)
+    textarea_edit_soup = source_edit_soup.find(
+        'textarea',
+        attrs={'id': 'wpTextbox1'}
+    )
+
+    textarea_edit_text = textarea_edit_soup.get_text()
 
 def get_death_place(performer_url: str) -> str:
     source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1').text)
