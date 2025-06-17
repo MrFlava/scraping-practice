@@ -211,6 +211,8 @@ def get_genres(performer_url: str) -> List[str]:
 
     textarea_edit_text = textarea_edit_soup.get_text()
 
+    # TODO: Try splitlines for scrap
+
 def get_death_place(performer_url: str) -> str:
     source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1').text)
     textarea_edit_soup = source_edit_soup.find(
