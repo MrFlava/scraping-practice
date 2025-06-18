@@ -211,7 +211,11 @@ def get_genres(performer_url: str) -> List[str]:
 
     textarea_edit_text = textarea_edit_soup.get_text()
 
-    # TODO: Try splitlines for scrap
+    genre_unparsed = re.search(r'genre (.*) \n}}', textarea_edit_text)
+
+    print(genre_unparsed)
+
+    return []
 
 def get_death_place(performer_url: str) -> str:
     source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1').text)
@@ -265,12 +269,12 @@ def mine_performers_wiki_data(performers: list) -> list:
         died_date = get_died_date(url)
         died_place = get_death_place(url)
         years_active = get_years_activity(url)
+        genres = get_genres(url)
 
         print(url)
         personal_info = {
             "birthplace": get_birthplace(table_soup, url),
             "birth_day": get_birth_day(table_soup, url),
-            "genres": [],
             "years_active": years_active,
             "occupations": get_occupations(url),
             "nickname": get_nickname(table_soup, performer.get('performer'))
@@ -281,6 +285,9 @@ def mine_performers_wiki_data(performers: list) -> list:
 
         if died_place:
             personal_info.update({'died_place': died_place})
+
+        if genres:
+            personal_info.update({'genres': genres})
 
         print(personal_info)
 
