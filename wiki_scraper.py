@@ -210,11 +210,12 @@ def get_genres(performer_url: str) -> List[str]:
     )
 
     textarea_edit_text = textarea_edit_soup.get_text()
-
-    genre_unparsed = re.search(r'genre (.*?)}}', textarea_edit_text)
+     # todo: think about to update pattern
+    genre_unparsed = re.findall(r' genre (.*?)}}', textarea_edit_text)
 
     if genre_unparsed:
-        genre_unparsed_list = genre_unparsed[1].splitlines()
+        print(genre_unparsed)
+        genre_unparsed_list = genre_unparsed[0].splitlines()
         print(genre_unparsed_list)
 
 
