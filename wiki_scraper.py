@@ -24,7 +24,8 @@ from replacers import (
     REPLACE_OCCUPATION_ELEMENTS,
     DEATH_DATE_ELEMENTS,
     DEATH_PLACE_ELEMENTS,
-    YEARS_ACTIVE_ELEMENTS
+    YEARS_ACTIVE_ELEMENTS,
+    GENRES_ELEMENTS
 )
 
 # Needs to scrap all urls of the performers or members of band (including band names).
