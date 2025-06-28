@@ -93,6 +93,7 @@ for element in YEARS_ACTIVE_ELEMENTS_LIST:
 
 GENRES_ELEMENTS_LIST = [
     ' ',
+    'Flatlist'
 ]
 GENRES_ELEMENTS = dict()
 
