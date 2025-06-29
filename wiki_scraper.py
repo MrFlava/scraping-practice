@@ -212,9 +212,15 @@ def get_genres(performer_url: str) -> List[str]:
 
     textarea_edit_text = textarea_edit_soup.get_text()
      # todo: think about to update pattern
-    genre_unparsed = re.findall(r'genre(.*?)}}', textarea_edit_text)
+    genre_unparsed = re.search(r'genre\s*=\s*\{\{Flatlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL)
 
     if genre_unparsed:
+        print(genre_unparsed)
+        genre_unparsed_list = genre_unparsed[0].splitlines()
+        print(genre_unparsed_list)
+
+    else:
+        genre_unparsed =  re.search(r'genre\s*=\s*\{\{flatlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL)
         print(genre_unparsed)
         genre_unparsed_list = genre_unparsed[0].splitlines()
         print(genre_unparsed_list)
