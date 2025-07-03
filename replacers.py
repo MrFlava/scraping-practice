@@ -101,7 +101,9 @@ GENRES_ELEMENTS_LIST = [
     'genre',
     '=',
     '{',
-    '}'
+    '}',
+    'hlist',
+    'Hlist'
 ]
 GENRES_ELEMENTS = dict()
 
