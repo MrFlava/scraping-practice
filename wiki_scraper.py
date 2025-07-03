@@ -209,6 +209,7 @@ def get_genres(performer_url: str) -> List[str]:
         'textarea',
         attrs={'id': 'wpTextbox1'}
     )
+    genre_list = []
 
     textarea_edit_text = textarea_edit_soup.get_text()
 
@@ -224,25 +225,14 @@ def get_genres(performer_url: str) -> List[str]:
         genre_unparsed_Hlist
     ] if v is not None), None)
 
-    print(genre_unparsed)
-    # if genre_unparsed:
-    #     print(genre_unparsed)
-    #     genre_unparsed_list = genre_unparsed[0].splitlines()
-    #     print(genre_unparsed_list)
-    #
-    # else:
-    #     genre_unparsed =
-    #     print(genre_unparsed)
-    #
-    #     if genre_unparsed:
-    #         genre_unparsed_list = genre_unparsed[0].splitlines()
-    #         print(genre_unparsed_list)
-    #
-    #     else:
-    #         genre_unparsed = re.search(r'genre\s*=\s*\{\{hlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL)
+    if genre_unparsed:
+        genre_unparsed_list = genre_unparsed[0].splitlines()
 
+        for genre_unparsed in genre_unparsed_list:
+            for k, v in GENRES_ELEMENTS.items():
+                genre_str = genre_unparsed.replace(k, v)
+                print(genre_str)
 
-    # print(genre_unparsed)
 
     return []
 
