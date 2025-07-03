@@ -212,28 +212,37 @@ def get_genres(performer_url: str) -> List[str]:
 
     textarea_edit_text = textarea_edit_soup.get_text()
 
-    genre_unparsed = re.search(r'genre\s*=\s*\{\{Flatlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL)
+    genre_unparsed_Flist = re.search(r'genre\s*=\s*\{\{Flatlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL)
+    genre_unparsed_flist = re.search(r'genre\s*=\s*\{\{flatlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL)
+    genre_unparsed_hlist = re.search(r'genre\s*=\s*\{\{hlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL)
+    genre_unparsed_Hlist = re.search(r'genre\s*=\s*\{\{Hlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL)
 
-    if genre_unparsed:
-        print(genre_unparsed)
-        genre_unparsed_list = genre_unparsed[0].splitlines()
-        print(genre_unparsed_list)
-
-    else:
-        genre_unparsed =  re.search(r'genre\s*=\s*\{\{flatlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL)
-        print(genre_unparsed)
-
-        if genre_unparsed:
-            genre_unparsed_list = genre_unparsed[0].splitlines()
-            print(genre_unparsed_list)
-
-        else:
-            # todo: cuz hlist
-            print(textarea_edit_text)
-
-
+    genre_unparsed = next((v for v in [
+        genre_unparsed_Flist,
+        genre_unparsed_flist,
+        genre_unparsed_hlist,
+        genre_unparsed_Hlist
+    ] if v is not None), None)
 
     print(genre_unparsed)
+    # if genre_unparsed:
+    #     print(genre_unparsed)
+    #     genre_unparsed_list = genre_unparsed[0].splitlines()
+    #     print(genre_unparsed_list)
+    #
+    # else:
+    #     genre_unparsed =
+    #     print(genre_unparsed)
+    #
+    #     if genre_unparsed:
+    #         genre_unparsed_list = genre_unparsed[0].splitlines()
+    #         print(genre_unparsed_list)
+    #
+    #     else:
+    #         genre_unparsed = re.search(r'genre\s*=\s*\{\{hlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL)
+
+
+    # print(genre_unparsed)
 
     return []
 
