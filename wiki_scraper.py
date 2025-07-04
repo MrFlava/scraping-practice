@@ -229,12 +229,13 @@ def get_genres(performer_url: str) -> List[str]:
         genre_unparsed_list = genre_unparsed[0].splitlines()
 
         for genre_unparsed in genre_unparsed_list:
+            # todo wrong logic to parse this genre, need to think about it
             for k, v in GENRES_ELEMENTS.items():
                 genre_str = genre_unparsed.replace(k, v)
-                print(genre_str)
+                genre_list.append(genre_str)
 
 
-    return []
+    return genre_list
 
 def get_death_place(performer_url: str) -> str:
     source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1').text)
