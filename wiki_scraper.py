@@ -232,7 +232,7 @@ def get_genres(performer_url: str) -> List[str]:
             # todo wrong logic to parse this genre, need to think about it
             # print(genre_unparsed)
             genre_str = (genre_unparsed
-                         .replace('blues', '')
+                         .replace('Flatlist', '')
                          .replace('flatlist', '')
                          .replace('Hlist', '')
                          .replace('hlist', '')
