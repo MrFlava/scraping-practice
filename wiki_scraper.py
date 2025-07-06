@@ -230,9 +230,30 @@ def get_genres(performer_url: str) -> List[str]:
 
         for genre_unparsed in genre_unparsed_list:
             # todo wrong logic to parse this genre, need to think about it
-            for k, v in GENRES_ELEMENTS.items():
-                genre_str = genre_unparsed.replace(k, v)
-                genre_list.append(genre_str)
+            # print(genre_unparsed)
+            genre_str = (genre_unparsed
+                         .replace('Flatlist', '')
+                         .replace('flatlist', '')
+                         .replace('Hlist', '')
+                         .replace('hlist', '')
+                         .replace('genre', '')
+                         .replace('=', '')
+                         .replace('*', '')
+                         .replace('[', '')
+                         .replace(']', '')
+                         .replace('{', '')
+                         .replace('}', '')
+                         .replace('|', '')
+                         .replace(' ', '')
+                         )
+            print(genre_str)
+            # for k, v in GENRES_ELEMENTS.items():
+            #     genre_str = genre_unparsed.replace(k, v)
+            #
+            #     if v not in genre_str:
+            #         print(genre_str)
+            #         print(GENRES_ELEMENTS)
+            # genre_list.append(genre_str)
 
 
     return genre_list
