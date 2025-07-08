@@ -91,21 +91,10 @@ for element in YEARS_ACTIVE_ELEMENTS_LIST:
     YEARS_ACTIVE_ELEMENTS[element] = REPLACE_DEFAULT
 
 
-GENRES_ELEMENTS_LIST = [
-    ' ',
-    'Flatlist',
-    '*',
-    '[',
-    ']',
-    'flatlist',
-    'genre',
-    '=',
-    '{',
-    '}',
-    'hlist',
-    'Hlist'
-]
-GENRES_ELEMENTS = dict()
-
-for element in GENRES_ELEMENTS_LIST:
-    GENRES_ELEMENTS[element] = REPLACE_DEFAULT
+GENRES_ELEMENTS = {
+    "ContemporaryfolkmusicFolk": "Contemporary folk music",
+    "rockmusic": "Rock music",
+    "Gospelmusicgospel": "Gospel music",
+    "Countrymusiccountry": "Country music",
+    "traditionalpop": "Traditional pop",
+}
