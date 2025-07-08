@@ -247,6 +247,7 @@ def get_genres(performer_url: str) -> List[str]:
                          )
 
             # todo: rename genres right (spacing)
+            print(genre_str)
             # if genre_str:
             #     for k, v in GENRES_ELEMENTS.items():
             #         genre_str = genre_unparsed.replace(k, v)
