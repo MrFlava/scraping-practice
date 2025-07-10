@@ -246,16 +246,12 @@ def get_genres(performer_url: str) -> List[str]:
                          .replace(' ', '')
                          )
 
-            # todo: rename genres right (spacing)
             print(genre_str)
-            # if genre_str:
-            #     for k, v in GENRES_ELEMENTS.items():
-            #         genre_str = genre_unparsed.replace(k, v)
-            #
-            #     if v not in genre_str:
-            #         print(genre_str)
-            #         print(GENRES_ELEMENTS)
-            # genre_list.append(genre_str)
+            genre_str = GENRES_ELEMENTS.get(genre_str)
+            print(genre_str)
+
+            if genre_str:
+                genre_list.append(genre_str)
 
 
     return genre_list
