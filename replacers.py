@@ -97,4 +97,13 @@ GENRES_ELEMENTS = {
     "Gospelmusicgospel": "Gospel music",
     "Countrymusiccountry": "Country music",
     "traditionalpop": "Traditional pop",
+    "blues": "Blues",
+    "rockmusicrock": "Rock music",
+    "Rockandroll": "Rock & Roll",
+    "Artrock": "Art rock",
+    "glamrock": "Glam rock",
+    "popmusicpop": "Pop music",
+    "Electronicmusicelectronic": "Electronic music",
+    "classicalmusicclassical": "Classical music",
+    "SoulmusicSoul": "Soul music",
 }
