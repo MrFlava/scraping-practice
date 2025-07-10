@@ -106,4 +106,9 @@ GENRES_ELEMENTS = {
     "Electronicmusicelectronic": "Electronic music",
     "classicalmusicclassical": "Classical music",
     "SoulmusicSoul": "Soul music",
+    "rockabilly": "Rockabilly",
+    "R&B": "R&B",
+    "Blue-eyedsoulsoul": "Blue-eyed soul",
+    "nowrapNewOrleansR&B": "New Orleans R&B",
+    "rhythmandblues": "Rhythm and blues",
 }
