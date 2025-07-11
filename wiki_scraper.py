@@ -1,5 +1,6 @@
 import re
 import json
+from gc import get_referents
 
 import  requests
 from pymongo.collection import  Collection
@@ -250,7 +251,9 @@ def get_genres(performer_url: str) -> List[str]:
             genre_str = GENRES_ELEMENTS.get(genre_str)
             print(genre_str)
 
-            if genre_str:
+            if genre_str and  "," in genre_str:
+                genre_list += genre_str.split(',')
+            elif genre_str:
                 genre_list.append(genre_str)
 
 
