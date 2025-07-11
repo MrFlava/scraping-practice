@@ -111,4 +111,6 @@ GENRES_ELEMENTS = {
     "Blue-eyedsoulsoul": "Blue-eyed soul",
     "nowrapNewOrleansR&B": "New Orleans R&B",
     "rhythmandblues": "Rhythm and blues",
+    "SoulmusicSoulrhythmandbluesR&Bfunk": "Soul, R&B, Funk",
+    "SoulmusicSoulRhythmandbluesR&BGospelmusicgospel": "Soul, R&B, Gospel",
 }
