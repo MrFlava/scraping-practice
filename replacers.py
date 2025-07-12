@@ -132,4 +132,7 @@ GENRES_ELEMENTS = {
     "RockandrollrockabillyWesternswing": "Rock and roll, Rockabilly, Western swing",
     "SoulmusicSoulRhythmandbluesR&BGospelmusicgospelfunk": "Soul music, R&B, Gospel, Funk",
     "Rockandrollrockabillypopmusicpop": "Rock and roll, Rockabilly, Pop music",
+    "RockmusicRockpopmusicpopCountrymusiccountryrockandrollrockabilly": "Rock music, Pop, Country, Rock and Roll, Rockabilly",
+    "Psychedelicrockbluesrocksoulmusicsoulblues": "Psychedelic rock, Blues rock, Soul music, Blues",
+    "RockmusicRockPopmusicpopExperimentalmusicexperimental": "Rock music, Pop music, Experimental music",
 }
