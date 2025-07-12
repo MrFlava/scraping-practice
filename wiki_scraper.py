@@ -245,8 +245,9 @@ def get_genres(performer_url: str) -> List[str]:
                          .replace('}', '')
                          .replace('|', ' ')
                          .replace(' ', '')
+                         .replace('<ref>CitewebtitleJerryLeeLewisurlhttps://www.rockhall.com/inductees/jerry-lee-lewisaccess-dateSeptember4,2016websiteRockandRollHallofFameandMuseumarchive-dateOctober1,2021archive-urlhttps://web.archive.org/web/20211001212832/https://www.rockhall.com/inductees/jerry-lee-lewisurl-statuslive', '')
+                         .replace('<ref>citeweblastSilvafirstCarlytitleRodStewartAnnouncesHe"sSwitchingMusicGenresurlhttps://www.msn.com/en-us/entertainment/news/rod-stewart-announces-he-s-switching-music-s/ar-AA1cB3el?liBBnb2ghwebsiteParadedate15June2023access-date9July2023viaMSN', '')
                          )
-
             print(genre_str)
             genre_str = GENRES_ELEMENTS.get(genre_str)
             print(genre_str)
