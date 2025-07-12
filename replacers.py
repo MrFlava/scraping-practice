@@ -113,4 +113,7 @@ GENRES_ELEMENTS = {
     "rhythmandblues": "Rhythm and blues",
     "SoulmusicSoulrhythmandbluesR&Bfunk": "Soul, R&B, Funk",
     "SoulmusicSoulRhythmandbluesR&BGospelmusicgospel": "Soul, R&B, Gospel",
+    "Rockandrollrhythmandbluessoulmusicsoulpopmusicpop": "Rock and roll,R&B, Soul, Pop music",
+    "RockabillyrockandrollPopmusicpopcountryrock": "Rokabilly, Rock and roll, Pop music, Country rock",
+    "jazz": "Jazz",
 }
