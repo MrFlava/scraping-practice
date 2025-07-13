@@ -338,6 +338,7 @@ def mine_performers_wiki_data(performers: list) -> list:
         if genres:
             personal_info.update({'genres': genres})
 
+        # todo: try to save those
         print(personal_info)
 
 def hall_of_fame_links_miner():
@@ -354,8 +355,15 @@ def main():
     # hall_of_fame_links_miner()
     performers_collection =  get_performers_collection(DB_HALL_OF_FAME_PERFORMERS_COLLECTION)
     performers_list = get_performers_from_db(performers_collection, None)
-
     mine_performers_wiki_data(performers_list)
+
+    # todo: get from db
+    band_members_collection = {}
+    band_members_list = []
+    # mine_performers_wiki_data(band_members_collection)
+
+
+
 
 
 if __name__ == '__main__':
