@@ -230,7 +230,7 @@ def get_genres(performer_url: str) -> List[str]:
         genre_unparsed_list = genre_unparsed[0].splitlines()
 
         for genre_unparsed in genre_unparsed_list:
-
+            # todo: move them somehow
             genre_str = (genre_unparsed
                          .replace('Flatlist', '')
                          .replace('flatlist', '')
