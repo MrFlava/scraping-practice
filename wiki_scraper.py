@@ -231,6 +231,7 @@ def get_genres(performer_url: str) -> List[str]:
 
         for genre_unparsed in genre_unparsed_list:
             # todo: move them somehow
+            # todo: handle the last cases
             genre_str = (genre_unparsed
                          .replace('Flatlist', '')
                          .replace('flatlist', '')
