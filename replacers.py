@@ -99,6 +99,8 @@ GENRES_ELEMENTS = {
     "traditionalpop": "Traditional pop",
     "blues": "Blues",
     "rockmusicrock": "Rock music",
+    "RockmusicRock": "Rock music",
+    "Popmusicpop": "Pop music",
     "RockMusicRock": "Rock music",
     "Rockandroll": "Rock & Roll",
     "Artrock": "Art rock",
