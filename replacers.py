@@ -112,6 +112,7 @@ GENRES_ELEMENTS = {
     "SoulmusicSoul": "Soul music",
     "rockabilly": "Rockabilly",
     "R&B": "R&B",
+    "RhythmandbluesR&B": "R&B",
     "Blue-eyedsoulsoul": "Blue-eyed soul",
     "nowrapNewOrleansR&B": "New Orleans R&B",
     "rhythmandblues": "Rhythm and blues",
