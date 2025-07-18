@@ -231,7 +231,7 @@ def get_genres(performer_url: str) -> List[str]:
 
         for genre_unparsed in genre_unparsed_list:
             # todo: move them somehow
-            # todo: handle the last cases
+            # todo: handle <!--Donotaddslikeart/prog/
             genre_str = (genre_unparsed
                          .replace('Flatlist', '')
                          .replace('flatlist', '')
@@ -256,6 +256,10 @@ def get_genres(performer_url: str) -> List[str]:
                          .replace('<refname"Snapes-2019">citeweburlhttps://www.theguardian.com/music/2019/jul/08/stevie-wonder-kidney-transplant-british-summertime-festival-hyde-park-londontitleStevieWondertoundergokidneytransplantworkTheGuardianlocationLondonlastSnapesfirstLauradateJuly8,2019access-dateJuly26,2020', '')
                          )
             print(genre_str)
+            if genre_str.startswith('Rockmusicrock<refname"bio-allmusic1"'):
+                genre_str = re.sub(r"['\"]","" ,genre_str)
+                genre_str = genre_str.replace('<refnamebio-allmusic1/><refnameconcertarchives>citeweburlhttps://www.concertarchives.org/bands/billy-joel--5workConcertArchivestitleBillyJoelsConcertHistoryaccess-dateOctober18,2020archive-dateNovember8,2020archive-urlhttps://web.archive.org/web/20201108053223/https://www.concertarchives.org/bands/billy-joel--5url-statuslive', "")
+
             genre_str = GENRES_ELEMENTS.get(genre_str)
             print(genre_str)
 
