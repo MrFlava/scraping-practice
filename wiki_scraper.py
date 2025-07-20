@@ -231,7 +231,6 @@ def get_genres(performer_url: str) -> List[str]:
 
         for genre_unparsed in genre_unparsed_list:
             # todo: move them somehow
-            # todo: handle <!--Donotaddslikeart/prog/
             genre_str = (genre_unparsed
                          .replace('Flatlist', '')
                          .replace('flatlist', '')
@@ -260,6 +259,10 @@ def get_genres(performer_url: str) -> List[str]:
                 genre_str = re.sub(r"['\"]","" ,genre_str)
                 genre_str = genre_str.replace('<refnamebio-allmusic1/><refnameconcertarchives>citeweburlhttps://www.concertarchives.org/bands/billy-joel--5workConcertArchivestitleBillyJoelsConcertHistoryaccess-dateOctober18,2020archive-dateNovember8,2020archive-urlhttps://web.archive.org/web/20201108053223/https://www.concertarchives.org/bands/billy-joel--5url-statuslive', "")
 
+            if genre_str.startswith('<!--Donotaddslikeart/prog/jazz/experimental/symphonicrock.'):
+                genre_str = genre_str.replace('<!--Donotaddslikeart/prog/jazz/experimental/symphonicrock.ThisinfoboxwouldbeenormousifeverystyleZappaeverplayedwasincluded.-->', '')
+
+            print(genre_str)
             genre_str = GENRES_ELEMENTS.get(genre_str)
             print(genre_str)
 
@@ -317,7 +320,7 @@ def get_years_activity(performer_url: str) -> str:
 def mine_performers_wiki_data(performers: list) -> list:
 
     for performer in performers:
-        url = performer.get('url')
+        url = "https://en.wikipedia.org/wiki/Frank_Zappa"
         soup = BeautifulSoup(requests.get(url).text)
         table_soup = get_table_soup(soup)
         died_date = get_died_date(url)
