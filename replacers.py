@@ -142,4 +142,5 @@ GENRES_ELEMENTS = {
     "Psychedelicrockbluesrocksoulmusicsoulblues": "Psychedelic rock, Blues rock, Soul music, Blues",
     "RockmusicRockPopmusicpopExperimentalmusicexperimental": "Rock music, Pop music, Experimental music",
     "Rockandrollrhythmandbluesgospelmusicgospelsoulmusicsoul": "Rock and roll, R&B, Gospel, Soul",
+    "RockmusicRockprogressiverockbluesexperimentalmusicexperimentaljazzjazzfusionfusionclassicalmusicclassicalPopmusicpopavant-gardemusicavant-gardedoo-wopcomedymusiccomedyelectronicmusicelectronicmusiqueconcrète": "Rock, Progressive rock, Blues, Experimental music, Experimental jazz, Jazz fuzion, Classical music",
 }
