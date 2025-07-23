@@ -97,6 +97,17 @@ def insert_performers_into_db(performers: list, db_collection: str):
     collection = db_utils.get_collection()
     collection.insert_many(performers)
 
+def update_db_performers_info(performer_data: dict, db_collection: str):
+    db_utils = DbUtils(DB_HOST, DB_PORT, DB_NAME, db_collection)
+
+    collection = db_utils.get_collection()
+    updated_doc = collection.find_one_and_update(
+        {"url": performer_data['url']},
+        {"$set": performer_data.get("personal_info")}
+    )
+
+    return f"Updated document: {updated_doc}"
+
 
 def get_performers_collection(db_collection: str) -> Collection:
     db_utils = DbUtils(DB_HOST, DB_PORT, DB_NAME, db_collection)
@@ -254,7 +265,7 @@ def get_genres(performer_url: str) -> List[str]:
                          .replace('<refname"auto2">Citeweburlhttps://www.allmusic.com/artist/johnny-cash-mn0000816890titleJohnnyCash&#124;Biography,Albums,StreamingLinkswebsiteAllMusic', '')
                          .replace('<refname"Snapes-2019">citeweburlhttps://www.theguardian.com/music/2019/jul/08/stevie-wonder-kidney-transplant-british-summertime-festival-hyde-park-londontitleStevieWondertoundergokidneytransplantworkTheGuardianlocationLondonlastSnapesfirstLauradateJuly8,2019access-dateJuly26,2020', '')
                          )
-            print(genre_str)
+
             if genre_str.startswith('Rockmusicrock<refname"bio-allmusic1"'):
                 genre_str = re.sub(r"['\"]","" ,genre_str)
                 genre_str = genre_str.replace('<refnamebio-allmusic1/><refnameconcertarchives>citeweburlhttps://www.concertarchives.org/bands/billy-joel--5workConcertArchivestitleBillyJoelsConcertHistoryaccess-dateOctober18,2020archive-dateNovember8,2020archive-urlhttps://web.archive.org/web/20201108053223/https://www.concertarchives.org/bands/billy-joel--5url-statuslive', "")
@@ -262,9 +273,7 @@ def get_genres(performer_url: str) -> List[str]:
             if genre_str.startswith('<!--Donotaddslikeart/prog/jazz/experimental/symphonicrock.'):
                 genre_str = genre_str.replace('<!--Donotaddslikeart/prog/jazz/experimental/symphonicrock.ThisinfoboxwouldbeenormousifeverystyleZappaeverplayedwasincluded.-->', '')
 
-            print(genre_str)
             genre_str = GENRES_ELEMENTS.get(genre_str)
-            print(genre_str)
 
             if genre_str and  "," in genre_str:
                 genre_list += genre_str.split(',')
@@ -317,8 +326,7 @@ def get_years_activity(performer_url: str) -> str:
 
     return ''
 
-def mine_performers_wiki_data(performers: list) -> list:
-
+def mine_performers_wiki_data(performers: list) -> str:
     for performer in performers:
         url = performer.get('url')
         soup = BeautifulSoup(requests.get(url).text)
@@ -328,7 +336,6 @@ def mine_performers_wiki_data(performers: list) -> list:
         years_active = get_years_activity(url)
         genres = get_genres(url)
 
-        print(url)
         personal_info = {
             "birthplace": get_birthplace(table_soup, url),
             "birth_day": get_birth_day(table_soup, url),
@@ -346,8 +353,11 @@ def mine_performers_wiki_data(performers: list) -> list:
         if genres:
             personal_info.update({'genres': genres})
 
-        # todo: try to save those
-        print(personal_info)
+        performer.update({"personal_info": personal_info})
+
+        update_db_performers_info(performer, DB_HALL_OF_FAME_PERFORMERS_COLLECTION)
+
+    return "All performers are updated"
 
 def hall_of_fame_links_miner():
     print('start to mine')
@@ -363,7 +373,7 @@ def main():
     # hall_of_fame_links_miner()
     performers_collection =  get_performers_collection(DB_HALL_OF_FAME_PERFORMERS_COLLECTION)
     performers_list = get_performers_from_db(performers_collection, None)
-    mine_performers_wiki_data(performers_list)
+    print(mine_performers_wiki_data(performers_list))
 
     # todo: get from db
     band_members_collection = {}
