@@ -320,6 +320,7 @@ def get_years_activity(performer_url: str) -> str:
 def mine_performers_wiki_data(performers: list) -> list:
 
     for performer in performers:
+        url = performer.get('url')
         soup = BeautifulSoup(requests.get(url).text)
         table_soup = get_table_soup(soup)
         died_date = get_died_date(url)
