@@ -371,13 +371,14 @@ def hall_of_fame_links_miner():
 
 def main():
     # hall_of_fame_links_miner()
-    performers_collection =  get_performers_collection(DB_HALL_OF_FAME_PERFORMERS_COLLECTION)
-    performers_list = get_performers_from_db(performers_collection, None)
-    print(mine_performers_wiki_data(performers_list))
+    # performers_collection =  get_performers_collection(DB_HALL_OF_FAME_PERFORMERS_COLLECTION)
+    # performers_list = get_performers_from_db(performers_collection, None)
+    # print(mine_performers_wiki_data(performers_list))
 
     # todo: get from db
-    band_members_collection = {}
-    band_members_list = []
+    band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
+    print(band_members_collection)
+    # band_members_list = get_performers_collection()
     # mine_performers_wiki_data(band_members_collection)
 
 
