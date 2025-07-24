@@ -375,7 +375,7 @@ def main():
     # performers_list = get_performers_from_db(performers_collection, None)
     # print(mine_performers_wiki_data(performers_list))
 
-    # todo: get from db
+
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     print(band_members_collection)
     # band_members_list = get_performers_collection()
