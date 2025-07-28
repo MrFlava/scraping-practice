@@ -366,7 +366,21 @@ def mine_bands_wiki_data(bands: list) -> str:
         for member in members:
             url = member.get('url')
             soup = BeautifulSoup(requests.get(url).text)
-            print(soup)
+            table_soup = get_table_soup(soup)
+            died_date = get_died_date(url)
+            died_place = get_death_place(url)
+            years_active = get_years_activity(url)
+            genres = get_genres(url)
+
+            personal_info = {
+                "birthplace": get_birthplace(table_soup, url),
+                "birth_day": get_birth_day(table_soup, url),
+                "years_active": years_active,
+                "occupations": get_occupations(url),
+                "nickname": get_nickname(table_soup, member.get('performer'))
+            }
+
+            print(personal_info)
 
 def hall_of_fame_links_miner():
     print('start to mine')
