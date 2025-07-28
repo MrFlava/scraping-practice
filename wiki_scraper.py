@@ -359,6 +359,15 @@ def mine_performers_wiki_data(performers: list) -> str:
 
     return "All performers are updated"
 
+def mine_bands_wiki_data(bands: list) -> str:
+    for band in bands:
+        members  = band.get('members')
+
+        for member in members:
+            url = member.get('url')
+            soup = BeautifulSoup(requests.get(url).text)
+            print(soup)
+
 def hall_of_fame_links_miner():
     print('start to mine')
     performers, band_performers = mine_urls()
@@ -378,8 +387,7 @@ def main():
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
-    print(band_members_list)
-    # mine_performers_wiki_data(band_members_collection)
+    mine_performers_wiki_data(band_members_list)
 
 
 
