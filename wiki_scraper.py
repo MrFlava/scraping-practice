@@ -387,7 +387,7 @@ def main():
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
-    mine_performers_wiki_data(band_members_list)
+    mine_bands_wiki_data(band_members_list)
 
 
 
