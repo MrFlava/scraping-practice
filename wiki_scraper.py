@@ -380,6 +380,15 @@ def mine_bands_wiki_data(bands: list) -> str:
                 "nickname": get_nickname(table_soup, member.get('performer'))
             }
 
+            if died_date:
+                personal_info.update({"died_place": died_place})
+
+            if died_place:
+                personal_info.update({"died_date": died_date})
+
+            if genres:
+                personal_info.update({"genres": genres})
+
             print(personal_info)
 
 def hall_of_fame_links_miner():
