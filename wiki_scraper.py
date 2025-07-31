@@ -127,24 +127,28 @@ def get_table_soup(soup: BeautifulSoup) -> BeautifulSoup:
     return table_soup
 
 def get_birthplace(soup: BeautifulSoup, performer_url: Optional[str]) -> str:
-    birthplace = soup.find('div', class_='birthplace')
+    if soup:
+        birthplace = soup.find('div', class_='birthplace')
 
-    if not birthplace:
-        source_edit_soup = BeautifulSoup(requests.get(performer_url+'?action=edit&veswitched=1').text)
-        textarea_edit_soup = source_edit_soup.find(
-            'textarea',
-            attrs= {'id':'wpTextbox1'}
-        )
-        textarea_edit_text = textarea_edit_soup.get_text()
-        birth_place_unparsed = re.search(r'birth_place (.*)', textarea_edit_text)
-        birth_place = birth_place_unparsed[0]
+        if not birthplace:
+            source_edit_soup = BeautifulSoup(requests.get(performer_url+'?action=edit&veswitched=1').text)
+            textarea_edit_soup = source_edit_soup.find(
+                'textarea',
+                attrs= {'id':'wpTextbox1'}
+            )
+            textarea_edit_text = textarea_edit_soup.get_text()
+            birth_place_unparsed = re.search(r'birth_place (.*)', textarea_edit_text)
+            birth_place = birth_place_unparsed[0]
 
-        for k,v in REPLACE_BIRTH_PLACE_ELEMENTS.items():
-            birth_place = birth_place.replace(k, v)
+            for k,v in REPLACE_BIRTH_PLACE_ELEMENTS.items():
+                birth_place = birth_place.replace(k, v)
 
-        return birth_place
+            return birth_place
 
-    return birthplace.text
+        return birthplace.text
+
+    else:
+        return ''
 
 def get_nickname(soup: BeautifulSoup, name: str) -> str:
     nickname = soup.find('div', class_='nickname')
