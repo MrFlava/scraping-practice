@@ -159,19 +159,23 @@ def get_nickname(soup: BeautifulSoup, name: str) -> str:
     return nickname.text.replace('[a]', '')
 
 def get_birth_day(soup: BeautifulSoup, performer_url: str) -> str:
-    birth_day = soup.find('span', class_='bday')
+    if soup:
+        birth_day = soup.find('span', class_='bday')
 
-    if not birth_day:
-        source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1').text)
-        textarea_edit_soup = source_edit_soup.find(
-            'textarea',
-            attrs= {'id':'wpTextbox1'}
-        )
-        textarea_edit_text = textarea_edit_soup.get_text()
-        birth_day_unparsed = re.search(r'birth_date (.*)', textarea_edit_text)
+        if not birth_day:
+            source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1').text)
+            textarea_edit_soup = source_edit_soup.find(
+                'textarea',
+                attrs= {'id':'wpTextbox1'}
+            )
+            textarea_edit_text = textarea_edit_soup.get_text()
+            birth_day_unparsed = re.search(r'birth_date (.*)', textarea_edit_text)
 
-        return birth_day_unparsed[0].replace('  ', '').replace('birth_date = ', '')
-    return birth_day.text
+            return birth_day_unparsed[0].replace('  ', '').replace('birth_date = ', '')
+        return birth_day.text
+
+    else:
+        return ''
 
 def get_died_date(performer_url: str) -> str:
     source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1').text)
