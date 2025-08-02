@@ -151,12 +151,15 @@ def get_birthplace(soup: BeautifulSoup, performer_url: Optional[str]) -> str:
         return ''
 
 def get_nickname(soup: BeautifulSoup, name: str) -> str:
-    nickname = soup.find('div', class_='nickname')
+    if soup:
+        nickname = soup.find('div', class_='nickname')
 
-    if not nickname:
-        return name
+        if not nickname:
+            return name
 
-    return nickname.text.replace('[a]', '')
+        return nickname.text.replace('[a]', '')
+    else:
+        return ''
 
 def get_birth_day(soup: BeautifulSoup, performer_url: str) -> str:
     if soup:
