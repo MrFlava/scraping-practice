@@ -376,6 +376,7 @@ def mine_bands_wiki_data(bands: list) -> str:
 
         for member in members:
             url = member.get('url')
+            print(url)
             soup = BeautifulSoup(requests.get(url).text)
             table_soup = get_table_soup(soup)
             died_date = get_died_date(url)
@@ -422,6 +423,10 @@ def main():
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
     # todo find a method to parse not only tables
+    # for cases (
+    # https://en.wikipedia.org/wiki/Adolph_Jacobs,
+    # https://en.wikipedia.org/wiki/Bobby_Nunn_(doo-wop_musician)
+    # )
     mine_bands_wiki_data(band_members_list)
 
 
