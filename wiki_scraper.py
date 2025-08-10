@@ -129,7 +129,7 @@ def get_table_soup(soup: BeautifulSoup) -> BeautifulSoup:
 def get_birthplace(soup: BeautifulSoup, performer_url: Optional[str]) -> str:
     if soup:
         birthplace = soup.find('div', class_='birthplace')
-
+        # todo fix this url https://en.wikipedia.org/wiki/Dub_Jones_(singer)
         if not birthplace:
             source_edit_soup = BeautifulSoup(requests.get(performer_url+'?action=edit&veswitched=1').text)
             textarea_edit_soup = source_edit_soup.find(
@@ -137,13 +137,17 @@ def get_birthplace(soup: BeautifulSoup, performer_url: Optional[str]) -> str:
                 attrs= {'id':'wpTextbox1'}
             )
             textarea_edit_text = textarea_edit_soup.get_text()
+
             birth_place_unparsed = re.search(r'birth_place (.*)', textarea_edit_text)
-            birth_place = birth_place_unparsed[0]
+            if birth_place_unparsed:
+                birth_place = birth_place_unparsed[0]
 
-            for k,v in REPLACE_BIRTH_PLACE_ELEMENTS.items():
-                birth_place = birth_place.replace(k, v)
+                for k,v in REPLACE_BIRTH_PLACE_ELEMENTS.items():
+                    birth_place = birth_place.replace(k, v)
 
-            return birth_place
+                return birth_place
+            else:
+                return ''
 
         return birthplace.text
 
