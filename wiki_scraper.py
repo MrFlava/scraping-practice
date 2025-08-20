@@ -319,6 +319,8 @@ def get_death_place(performer_url: str) -> str:
     return ''
 
 def get_years_activity(performer_url: str) -> str:
+    print(performer_url + '?action=edit&veswitched=1')
+    #todo: investigate why there's a none if we get text area
     source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1').text)
     textarea_edit_soup = source_edit_soup.find(
         'textarea',
