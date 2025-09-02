@@ -381,6 +381,7 @@ def mine_bands_wiki_data(bands: list) -> str:
         members  = band.get('members')
 
         for member in members:
+            print(member)
             url = member.get('url')
             print(url)
             soup = BeautifulSoup(requests.get(url).text)
