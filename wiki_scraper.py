@@ -371,7 +371,7 @@ def mine_performers_wiki_data(performers: list) -> str:
             personal_info.update({'genres': genres})
 
         performer.update({"personal_info": personal_info})
-
+        # todo check the logic
         update_db_performers_info(performer, DB_HALL_OF_FAME_PERFORMERS_COLLECTION)
 
     return "All performers are updated"
