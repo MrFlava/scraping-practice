@@ -192,7 +192,7 @@ def get_died_date(performer_url: str) -> str:
         'textarea',
         attrs={'id': 'wpTextbox1'}
     )
-    print(textarea_edit_soup)
+    print(textarea_edit_soup) # no textarea
     textarea_edit_text = textarea_edit_soup.get_text()
     death_day_unparsed = re.search(r'death_date (.*)', textarea_edit_text)
 
