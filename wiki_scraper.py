@@ -186,13 +186,16 @@ def get_birth_day(soup: BeautifulSoup, performer_url: str) -> str:
 
 def get_died_date(performer_url: str) -> str:
     print(performer_url + '?action=edit&veswitched=1')
-    #todo: investigate why there's a none if we get text area
-    source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1').text)
+    custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
+                         " Chrome/123.0.0.0 Safari/537.36")
+    headers = {
+        'User-Agent': custom_user_agent
+    }
+    source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1', headers=headers).text)
     textarea_edit_soup = source_edit_soup.find(
         'textarea',
         attrs={'id': 'wpTextbox1'}
     )
-    print(textarea_edit_soup) # no textarea
     textarea_edit_text = textarea_edit_soup.get_text()
     death_day_unparsed = re.search(r'death_date (.*)', textarea_edit_text)
 
@@ -213,7 +216,12 @@ def get_died_date(performer_url: str) -> str:
     return ''
 
 def get_occupations(performer_url: str) -> List[str]:
-    source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1').text)
+    custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
+                         " Chrome/123.0.0.0 Safari/537.36")
+    headers = {
+        'User-Agent': custom_user_agent
+    }
+    source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1', headers=headers).text)
     textarea_edit_soup = source_edit_soup.find(
         'textarea',
         attrs={'id': 'wpTextbox1'}
@@ -233,7 +241,12 @@ def get_occupations(performer_url: str) -> List[str]:
     return []
 
 def get_genres(performer_url: str) -> List[str]:
-    source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1').text)
+    custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
+                         " Chrome/123.0.0.0 Safari/537.36")
+    headers = {
+        'User-Agent': custom_user_agent
+    }
+    source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1', headers=headers).text)
     textarea_edit_soup = source_edit_soup.find(
         'textarea',
         attrs={'id': 'wpTextbox1'}
@@ -301,7 +314,12 @@ def get_genres(performer_url: str) -> List[str]:
     return genre_list
 
 def get_death_place(performer_url: str) -> str:
-    source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1').text)
+    custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
+                         " Chrome/123.0.0.0 Safari/537.36")
+    headers = {
+        'User-Agent': custom_user_agent
+    }
+    source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1', headers=headers).text)
     textarea_edit_soup = source_edit_soup.find(
         'textarea',
         attrs={'id': 'wpTextbox1'}
@@ -321,7 +339,12 @@ def get_death_place(performer_url: str) -> str:
     return ''
 
 def get_years_activity(performer_url: str) -> str:
-    source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1').text)
+    custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
+                         " Chrome/123.0.0.0 Safari/537.36")
+    headers = {
+        'User-Agent': custom_user_agent
+    }
+    source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1', headers=headers).text)
     textarea_edit_soup = source_edit_soup.find(
         'textarea',
         attrs={'id': 'wpTextbox1'}
