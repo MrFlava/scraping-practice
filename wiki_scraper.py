@@ -229,12 +229,15 @@ def get_occupations(performer_url: str) -> List[str]:
 
     textarea_edit_text = textarea_edit_soup.get_text()
     occupations_unparsed = re.search(r'occupation (.*)', textarea_edit_text)
+
     if occupations_unparsed:
         occupations_str = occupations_unparsed[0]
 
         for k, v in REPLACE_OCCUPATION_ELEMENTS.items():
             occupations_str = occupations_str.replace(k, v)
 
+        if occupations_str == '':
+            return []
         occupations_str = occupations_str[1:] if occupations_str[0] == ',' else occupations_str
         if occupations_str != '':
             return [occupation for occupation in occupations_str.split(',')]
