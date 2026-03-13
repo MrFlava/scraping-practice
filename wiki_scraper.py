@@ -196,6 +196,9 @@ def get_died_date(performer_url: str) -> str:
         'textarea',
         attrs={'id': 'wpTextbox1'}
     )
+    if not textarea_edit_soup:
+        # todo beachbodys problem needs to resolve it https://en.wikipedia.org/wiki/The_Beach_Boys_live_performances#Touring_members?action=edit&veswitched=1
+        print(performer_url + '?action=edit&veswitched=1')
     textarea_edit_text = textarea_edit_soup.get_text()
     death_day_unparsed = re.search(r'death_date (.*)', textarea_edit_text)
 
