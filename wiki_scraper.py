@@ -435,7 +435,8 @@ def mine_bands_wiki_data(bands: list) -> str:
             if genres:
                 personal_info.update({"genres": genres})
 
-            print(personal_info)
+            member.update({"personal_info": personal_info})
+            print(member)
 
 def hall_of_fame_links_miner():
     print('start to mine')
