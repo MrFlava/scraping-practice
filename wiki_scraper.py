@@ -459,7 +459,8 @@ def main():
     # todo find a method to parse not only tables
     # for cases (
     # https://en.wikipedia.org/wiki/Adolph_Jacobs,
-    # https://en.wikipedia.org/wiki/Bobby_Nunn_(doo-wop_musician)
+    # https://en.wikipedia.org/wiki/Bobby_Nunn_(doo-wop_musician),
+    # https://en.wikipedia.org/wiki/Sonny_Forriest,
     # )
     mine_bands_wiki_data(band_members_list)
 
