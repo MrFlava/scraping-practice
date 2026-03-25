@@ -126,9 +126,11 @@ def get_table_soup(soup: BeautifulSoup) -> BeautifulSoup:
     return table_soup
 
 def get_birthplace(soup: BeautifulSoup, performer_url: Optional[str]) -> str:
+    print(soup)
     if soup:
         birthplace = soup.find('div', class_='birthplace')
         # todo fix this url https://en.wikipedia.org/wiki/Dub_Jones_(singer)
+        print(birthplace)
         if not birthplace:
             source_edit_soup = BeautifulSoup(requests.get(performer_url+'?action=edit&veswitched=1').text)
             textarea_edit_soup = source_edit_soup.find(
@@ -138,6 +140,7 @@ def get_birthplace(soup: BeautifulSoup, performer_url: Optional[str]) -> str:
             textarea_edit_text = textarea_edit_soup.get_text()
 
             birth_place_unparsed = re.search(r'birth_place (.*)', textarea_edit_text)
+            print(birth_place_unparsed)
             if birth_place_unparsed:
                 birth_place = birth_place_unparsed[0]
 
@@ -412,12 +415,14 @@ def mine_bands_wiki_data(bands: list) -> str:
             url = member.get('url')
             print(url)
             soup = BeautifulSoup(requests.get(url).text)
+            print(soup)
+            # TODO Robot policy, needs to check, it's important for fields
             table_soup = get_table_soup(soup)
             died_date = get_died_date(url)
             died_place = get_death_place(url)
             years_active = get_years_activity(url)
             genres = get_genres(url)
-
+            print(table_soup)
             personal_info = {
                 "birthplace": get_birthplace(table_soup, url),
                 "birth_day": get_birth_day(table_soup, url),
