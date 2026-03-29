@@ -129,14 +129,18 @@ def get_birthplace(soup: BeautifulSoup, performer_url: Optional[str]) -> str:
     if soup:
         birthplace = soup.find('div', class_='birthplace')
         # todo fix this url https://en.wikipedia.org/wiki/Dub_Jones_(singer)
-        # todo fix this url https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist)?action=edit&veswitched=1
+        custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
+                             " Chrome/123.0.0.0 Safari/537.36")
+        headers = {
+            'User-Agent': custom_user_agent
+        }
         if not birthplace:
-            source_edit_soup = BeautifulSoup(requests.get(performer_url+'?action=edit&veswitched=1').text)
+            source_edit_soup = BeautifulSoup(requests.get(performer_url+'?action=edit&veswitched=1', headers=headers).text)
+            print(source_edit_soup)
             textarea_edit_soup = source_edit_soup.find(
                 'textarea',
                 attrs= {'id':'wpTextbox1'}
             )
-
             textarea_edit_text = textarea_edit_soup.get_text()
 
             birth_place_unparsed = re.search(r'birth_place (.*)', textarea_edit_text)
@@ -170,8 +174,14 @@ def get_birth_day(soup: BeautifulSoup, performer_url: str) -> str:
     if soup:
         birth_day = soup.find('span', class_='bday')
 
+        custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
+                             " Chrome/123.0.0.0 Safari/537.36")
+        headers = {
+            'User-Agent': custom_user_agent
+        }
+
         if not birth_day:
-            source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1').text)
+            source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1', headers=headers).text)
             textarea_edit_soup = source_edit_soup.find(
                 'textarea',
                 attrs= {'id':'wpTextbox1'}
