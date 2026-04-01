@@ -188,7 +188,7 @@ def get_birth_day(soup: BeautifulSoup, performer_url: str) -> str:
             )
             textarea_edit_text = textarea_edit_soup.get_text()
             birth_day_unparsed = re.search(r'birth_date (.*)', textarea_edit_text)
-
+            # todo not working: https://en.wikipedia.org/wiki/The_Crests?action=edit&veswitched=1
             return birth_day_unparsed[0].replace('  ', '').replace('birth_date = ', '')
         return birth_day.text
 
@@ -430,7 +430,6 @@ def mine_bands_wiki_data(bands: list) -> str:
             url = member.get('url')
             print(url)
             soup = BeautifulSoup(requests.get(url, headers=headers).text)
-            # TODO Robot policy, needs to check, it's important for fields
             table_soup = get_table_soup(soup)
             died_date = get_died_date(url)
             died_place = get_death_place(url)
