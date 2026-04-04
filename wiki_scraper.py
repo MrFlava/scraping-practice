@@ -136,7 +136,6 @@ def get_birthplace(soup: BeautifulSoup, performer_url: Optional[str]) -> str:
         }
         if not birthplace:
             source_edit_soup = BeautifulSoup(requests.get(performer_url+'?action=edit&veswitched=1', headers=headers).text)
-            print(source_edit_soup)
             textarea_edit_soup = source_edit_soup.find(
                 'textarea',
                 attrs= {'id':'wpTextbox1'}
@@ -187,6 +186,7 @@ def get_birth_day(soup: BeautifulSoup, performer_url: str) -> str:
                 attrs= {'id':'wpTextbox1'}
             )
             textarea_edit_text = textarea_edit_soup.get_text()
+            print(textarea_edit_text)
             birth_day_unparsed = re.search(r'birth_date (.*)', textarea_edit_text)
             # todo not working: https://en.wikipedia.org/wiki/The_Crests?action=edit&veswitched=1
             return birth_day_unparsed[0].replace('  ', '').replace('birth_date = ', '')
@@ -424,6 +424,7 @@ def mine_bands_wiki_data(bands: list) -> str:
 
     for band in bands:
         members  = band.get('members')
+        print(members)
 
         for member in members:
             print(member)
