@@ -475,6 +475,7 @@ def main():
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
+    # todo bug somehow when https://en.wikipedia.org/wiki/Peter_Green_(musician) appears the parser stops working need to investigate
     # todo find a method to parse not only tables
     # for cases (
     # https://en.wikipedia.org/wiki/Adolph_Jacobs,
