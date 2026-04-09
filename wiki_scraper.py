@@ -491,17 +491,16 @@ def main():
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
-    # todo dead date not parsed for https://en.wikipedia.org/wiki/Leon_Hughes (investigate)
-    # todo dead date not parsed for https://en.wikipedia.org/wiki/Young_Jessie and occupations with [[]] (investigate)
-    # todo dead date not parsed for https://en.wikipedia.org/wiki/Will_%22Dub%22_Jones (investigate)
-    # todo dead date not full for https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist) and occupations with [[]] (investigate)
+
+    # todo dead date not parsed for https://en.wikipedia.org/wiki/Young_Jessie and occupations with [[]] (investigate) (fixed, but only date)
+    # todo dead date not full for https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist) and occupations with [[]] (investigate) (fixed, but only date)
     # todo find a method to parse not only tables
     # for cases (
     # https://en.wikipedia.org/wiki/Adolph_Jacobs,
     # https://en.wikipedia.org/wiki/Bobby_Nunn_(doo-wop_musician),
     # https://en.wikipedia.org/wiki/Sonny_Forriest,
     # )
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Will_%22Dub%22_Jones")
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Young_Jessie")
     print(died_date)
     # mine_bands_wiki_data(band_members_list)
 
