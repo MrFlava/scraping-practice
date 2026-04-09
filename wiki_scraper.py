@@ -210,10 +210,26 @@ def get_died_date(performer_url: str) -> str:
     if not textarea_edit_soup:
         print(performer_url + '?action=edit&veswitched=1')
     textarea_edit_text = textarea_edit_soup.get_text()
+    print(textarea_edit_text)
     death_day_unparsed = re.search(r'death_date (.*)', textarea_edit_text)
+    death_day_unparsed_v2 = re.search(r'death_date=(.*)', textarea_edit_text)
 
     if death_day_unparsed:
         death_str = death_day_unparsed[0]
+
+        for k, v in DEATH_DATE_ELEMENTS.items():
+            death_str = death_str.replace(k, v)
+
+        if death_str:
+            death_date_list = death_str.split('|')
+            death_date_list.pop(0)
+
+            death_str = '-'.join(death_date_list[0:3])
+
+        return death_str
+
+    elif death_day_unparsed_v2:
+        death_str = death_day_unparsed_v2[0]
 
         for k, v in DEATH_DATE_ELEMENTS.items():
             death_str = death_str.replace(k, v)
@@ -475,17 +491,18 @@ def main():
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
-    # todo dead date not parsed for https://en.wikipedia.org/wiki/Leon_Hughes (investigate)
-    # todo dead date not parsed for https://en.wikipedia.org/wiki/Young_Jessie and occupations with [[]] (investigate)
-    # todo dead date not parsed for https://en.wikipedia.org/wiki/Will_%22Dub%22_Jones (investigate)
-    # todo dead date not full for https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist) and occupations with [[]] (investigate)
+
+    # todo dead date not parsed for https://en.wikipedia.org/wiki/Young_Jessie and occupations with [[]] (investigate) (fixed, but only date)
+    # todo dead date not full for https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist) and occupations with [[]] (investigate) (fixed, but only date)
     # todo find a method to parse not only tables
     # for cases (
     # https://en.wikipedia.org/wiki/Adolph_Jacobs,
     # https://en.wikipedia.org/wiki/Bobby_Nunn_(doo-wop_musician),
     # https://en.wikipedia.org/wiki/Sonny_Forriest,
     # )
-    mine_bands_wiki_data(band_members_list)
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Young_Jessie")
+    print(died_date)
+    # mine_bands_wiki_data(band_members_list)
 
 
 
