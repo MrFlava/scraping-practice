@@ -13,7 +13,9 @@ REPLACE_OCCUPATION_ELEMENTS_LIST = [
     '<!--Pleasedonotaddtothislistwithoutfirstdiscussingyourproposalonthetalkpage.-->',
     '[[Minister(Christianity)|minister]]',
     '|',
-    '<!--Pleasedonotaddanymoreoccupationstothelist', 'itislongenoughalready-->'
+    '<!--Pleasedonotaddanymoreoccupationstothelist', 'itislongenoughalready-->',
+    '[[',
+    ']]',
 ]
 REPLACE_OCCUPATION_ELEMENTS = dict()
 DEATH_DATE_ELEMENTS_LIST = [
@@ -24,7 +26,7 @@ DEATH_DATE_ELEMENTS_LIST = [
     '=',
     '{{',
     '}}',
-    '|mf=yes'
+    '|mf=yes',
 ]
 DEATH_DATE_ELEMENTS = dict()
 
