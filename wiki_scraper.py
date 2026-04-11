@@ -261,7 +261,7 @@ def get_occupations(performer_url: str) -> List[str]:
 
     if occupations_unparsed:
         occupations_str = occupations_unparsed[0]
-
+        print(REPLACE_OCCUPATION_ELEMENTS)
         for k, v in REPLACE_OCCUPATION_ELEMENTS.items():
             occupations_str = occupations_str.replace(k, v)
 
@@ -492,16 +492,17 @@ def main():
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
 
-    # todo dead date not parsed for https://en.wikipedia.org/wiki/Young_Jessie and occupations with [[]] (investigate) (fixed, but only date)
-    # todo dead date not full for https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist) and occupations with [[]] (investigate) (fixed, but only date)
+    # todo dead date not full for https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist) and occupations with [[]] (investigate) (fixed, but only occupations)
     # todo find a method to parse not only tables
     # for cases (
     # https://en.wikipedia.org/wiki/Adolph_Jacobs,
     # https://en.wikipedia.org/wiki/Bobby_Nunn_(doo-wop_musician),
     # https://en.wikipedia.org/wiki/Sonny_Forriest,
     # )
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Young_Jessie")
-    print(died_date)
+    # died_date = get_died_date("https://en.wikipedia.org/wiki/Young_Jessie")
+    ocups = get_occupations("https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist)")
+    # print(died_date)
+    print(ocups)
     # mine_bands_wiki_data(band_members_list)
 
 
