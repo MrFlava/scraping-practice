@@ -26,7 +26,7 @@ DEATH_DATE_ELEMENTS_LIST = [
     '=',
     '{{',
     '}}',
-    '|mf=yes'
+    '|mf=yes',
 ]
 DEATH_DATE_ELEMENTS = dict()
 
