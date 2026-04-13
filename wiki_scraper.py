@@ -496,14 +496,19 @@ def main():
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
-
+    # todo https://en.wikipedia.org/wiki/Jimmy_Norman exception in died_date
+    # todo https://en.wikipedia.org/wiki/Mike_Love no occupations
+    # todo https://en.wikipedia.org/wiki/Carl_Wilson incorrect died date
+    # todo https://en.wikipedia.org/wiki/Dennis_Wilson incorrect died place
+    # todo https://en.wikipedia.org/wiki/Ricky_Fataar incorrect occupations
     # todo find a method to parse not only tables
     # for cases (
+    # https://en.wikipedia.org/wiki/Vernon_Harrell
     # https://en.wikipedia.org/wiki/Adolph_Jacobs,
     # https://en.wikipedia.org/wiki/Bobby_Nunn_(doo-wop_musician),
     # https://en.wikipedia.org/wiki/Sonny_Forriest,
     # )
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist)")
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Carl_Wilson")
     print(died_date)
 
     # mine_bands_wiki_data(band_members_list)
