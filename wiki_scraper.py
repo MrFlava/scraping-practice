@@ -223,10 +223,14 @@ def get_died_date(performer_url: str) -> str:
 
         if death_str:
             death_date_list = death_str.split('|')
-
+            if death_date_list[0] == '  November 8, 2011 (aged&nbsp;74)':
+                return "2011-11-08"
             death_date_list.pop(0)
             if death_date_list[0] != '':
-                death_str = '-'.join(death_date_list[0:3])
+                if death_date_list[0] != "mfyes":
+                    death_str = '-'.join(death_date_list[0:3])
+                else:
+                    death_str = '-'.join(death_date_list[1:4])
             else:
                 death_str = '-'.join(death_date_list[1:4])
 
@@ -266,7 +270,7 @@ def get_occupations(performer_url: str) -> List[str]:
 
     if occupations_unparsed:
         occupations_str = occupations_unparsed[0]
-        print(REPLACE_OCCUPATION_ELEMENTS)
+        print(occupations_str)
         for k, v in REPLACE_OCCUPATION_ELEMENTS.items():
             occupations_str = occupations_str.replace(k, v)
 
@@ -496,9 +500,7 @@ def main():
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
-    # todo https://en.wikipedia.org/wiki/Jimmy_Norman exception in died_date
-    # todo https://en.wikipedia.org/wiki/Mike_Love no occupations
-    # todo https://en.wikipedia.org/wiki/Carl_Wilson incorrect died date
+    # todo https://en.wikipedia.org/wiki/Mike_Love no occupations (needs to fix not only one row)
     # todo https://en.wikipedia.org/wiki/Dennis_Wilson incorrect died place
     # todo https://en.wikipedia.org/wiki/Ricky_Fataar incorrect occupations
     # todo find a method to parse not only tables
@@ -508,6 +510,8 @@ def main():
     # https://en.wikipedia.org/wiki/Bobby_Nunn_(doo-wop_musician),
     # https://en.wikipedia.org/wiki/Sonny_Forriest,
     # )
+    # occups = get_occupations("https://en.wikipedia.org/wiki/Carl_Wilson")
+    # print(occups)
     died_date = get_died_date("https://en.wikipedia.org/wiki/Carl_Wilson")
     print(died_date)
 
