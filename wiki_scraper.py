@@ -270,7 +270,6 @@ def get_occupations(performer_url: str) -> List[str]:
 
     if occupations_unparsed:
         occupations_str = occupations_unparsed[0]
-        print(occupations_str)
         for k, v in REPLACE_OCCUPATION_ELEMENTS.items():
             occupations_str = occupations_str.replace(k, v)
 
@@ -278,7 +277,13 @@ def get_occupations(performer_url: str) -> List[str]:
             return []
         occupations_str = occupations_str[1:] if occupations_str[0] == ',' else occupations_str
         if occupations_str != '':
-            return [occupation for occupation in occupations_str.split(',')]
+            occups = []
+            for occupation in occupations_str.split(','):
+                if occupation == "recordproducer":
+                    occupation = "record producer"
+                occups.append(occupation)
+
+            return occups
     return []
 
 def get_genres(performer_url: str) -> List[str]:
@@ -501,8 +506,6 @@ def main():
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
     # todo https://en.wikipedia.org/wiki/Mike_Love no occupations (needs to fix not only one row)
-
-    # todo https://en.wikipedia.org/wiki/Ricky_Fataar incorrect occupations
     # todo find a method to parse not only tables
     # for cases (
     # https://en.wikipedia.org/wiki/Vernon_Harrell
@@ -510,13 +513,13 @@ def main():
     # https://en.wikipedia.org/wiki/Bobby_Nunn_(doo-wop_musician),
     # https://en.wikipedia.org/wiki/Sonny_Forriest,
     # )
-    # occups = get_occupations("https://en.wikipedia.org/wiki/Carl_Wilson")
-    # print(occups)
+    occups = get_occupations("https://en.wikipedia.org/wiki/Ricky_Fataar")
+    print(occups)
     # died_date = get_died_date("https://en.wikipedia.org/wiki/Carl_Wilson")
     # print(died_date)
 
-    died_place = get_death_place("https://en.wikipedia.org/wiki/Dennis_Wilson")
-    print(died_place)
+    # died_place = get_death_place("https://en.wikipedia.org/wiki/Dennis_Wilson")
+    # print(died_place)
 
     # mine_bands_wiki_data(band_members_list)
 
