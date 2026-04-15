@@ -501,7 +501,7 @@ def main():
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
     # todo https://en.wikipedia.org/wiki/Mike_Love no occupations (needs to fix not only one row)
-    # todo https://en.wikipedia.org/wiki/Dennis_Wilson incorrect died place
+
     # todo https://en.wikipedia.org/wiki/Ricky_Fataar incorrect occupations
     # todo find a method to parse not only tables
     # for cases (
@@ -512,8 +512,11 @@ def main():
     # )
     # occups = get_occupations("https://en.wikipedia.org/wiki/Carl_Wilson")
     # print(occups)
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Carl_Wilson")
-    print(died_date)
+    # died_date = get_died_date("https://en.wikipedia.org/wiki/Carl_Wilson")
+    # print(died_date)
+
+    died_place = get_death_place("https://en.wikipedia.org/wiki/Dennis_Wilson")
+    print(died_place)
 
     # mine_bands_wiki_data(band_members_list)
 

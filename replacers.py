@@ -70,7 +70,8 @@ DEATH_PLACE_ELEMENTS_LIST = [
     '<!--Noneedtolistboroughs-->',
     '<!--"US"doesnottakefullstops/pointsinBritishEnglish-->',
     "theuseornon-useofperiods(fullstops)shouldalsobeconsistentwithothercountryabbreviationsinthesamearticle(thus\'theUS,UK,andUSSR\',not\'theU.S.,UK,andUSSR\').",
-    '<!--LinksnotneededperMOS:OVERLINK-->'
+    '<!--LinksnotneededperMOS:OVERLINK-->',
+    'Atseaoffthecoastof',
 
 ]
 DEATH_PLACE_ELEMENTS = dict()
