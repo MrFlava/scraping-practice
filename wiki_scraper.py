@@ -277,13 +277,7 @@ def get_occupations(performer_url: str) -> List[str]:
             return []
         occupations_str = occupations_str[1:] if occupations_str[0] == ',' else occupations_str
         if occupations_str != '':
-            occups = []
-            for occupation in occupations_str.split(','):
-                if occupation == "recordproducer":
-                    occupation = "record producer"
-                occups.append(occupation)
-
-            return occups
+            return [occupation for occupation in occupations_str.split(',') if occupation]
     return []
 
 def get_genres(performer_url: str) -> List[str]:
@@ -513,8 +507,10 @@ def main():
     # https://en.wikipedia.org/wiki/Bobby_Nunn_(doo-wop_musician),
     # https://en.wikipedia.org/wiki/Sonny_Forriest,
     # )
-    occups = get_occupations("https://en.wikipedia.org/wiki/Ricky_Fataar")
+    occups = get_occupations("https://en.wikipedia.org/wiki/John_Lennon")
     print(occups)
+    years_active = get_years_activity("https://en.wikipedia.org/wiki/John_Lennon")
+    print(years_active)
     # died_date = get_died_date("https://en.wikipedia.org/wiki/Carl_Wilson")
     # print(died_date)
 

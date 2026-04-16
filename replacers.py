@@ -16,6 +16,25 @@ REPLACE_OCCUPATION_ELEMENTS_LIST = [
     '<!--Pleasedonotaddanymoreoccupationstothelist', 'itislongenoughalready-->',
     '[[',
     ']]',
+    'recordproducer',
+    'artist<ref>Citeweb',
+    'first=Robert',
+    'author-link=RobertChristgau',
+    'title=JohnLennon!Biography',
+    'Songs',
+    'Albums',
+    'Death',
+    'Facts',
+    'url=https://www.britannica.com/biography/John-Lennon',
+    'access-date=18February2024',
+    'website=Britannica',
+    'archive-date=19January2024',
+    'archive-url=https://web.archive.org/web/20240119065307/https://www.britannica.com/biography/John-Lennon',
+    'url-status=live</ref>',
+    'peaceactivist',
+    'last=Christgau',
+    '&'
+
 ]
 REPLACE_OCCUPATION_ELEMENTS = dict()
 DEATH_DATE_ELEMENTS_LIST = [
@@ -38,7 +57,12 @@ for element in REPLACE_OCCUPATION_ELEMENTS_LIST:
         REPLACE_OCCUPATION_ELEMENTS[element] = 'minister'
     elif element == '|':
         REPLACE_OCCUPATION_ELEMENTS[element] = ','
-
+    elif element == 'recordproducer':
+        REPLACE_OCCUPATION_ELEMENTS[element] = 'record producer'
+    elif element == 'artist<ref>Citeweb':
+        REPLACE_OCCUPATION_ELEMENTS[element] = 'artist'
+    elif element == 'peaceactivist':
+        REPLACE_OCCUPATION_ELEMENTS[element] = 'peace activist'
     else:
         REPLACE_OCCUPATION_ELEMENTS[element] = REPLACE_DEFAULT
 
@@ -87,12 +111,19 @@ YEARS_ACTIVE_ELEMENTS_LIST = [
     'years_active',
     '<ref>{{Cite web lastDaley firstLauren dateAugust 2, 2007 titleLast Man Standing: Jerry Lee at the Z urlhttps://www.southcoasttoday.com/article/20070802/entertain/708020326 access-dateSeptember 30, 2020 quote"He made his public debut in 1949 at 14, sitting in with a local country/western band in a Ford dealership parking lot." newspaperSouth Coast Today archive-dateOctober 11, 2020 archive-urlhttps://web.archive.org/web/20201011020956/https://www.southcoasttoday.com/article/20070802/entertain/708020326 url-statuslive }}</ref>',
     '<ref name"songsofsamcooke.com" />',
-    '<!-- YYYY–YYYY (or –present) -->'
+    '<!-- YYYY–YYYY (or –present) -->',
+    '{{',
+    '}}',
+    'hlist',
+    '19751980',
 ]
 YEARS_ACTIVE_ELEMENTS = dict()
 
 for element in YEARS_ACTIVE_ELEMENTS_LIST:
-    YEARS_ACTIVE_ELEMENTS[element] = REPLACE_DEFAULT
+    if element == '19751980':
+        YEARS_ACTIVE_ELEMENTS[element] = '1980'
+    else:
+        YEARS_ACTIVE_ELEMENTS[element] = REPLACE_DEFAULT
 
 
 GENRES_ELEMENTS = {
