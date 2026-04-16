@@ -33,7 +33,8 @@ REPLACE_OCCUPATION_ELEMENTS_LIST = [
     'url-status=live</ref>',
     'peaceactivist',
     'last=Christgau',
-    '&'
+    '&',
+    'musicandfilmproducer'
 
 ]
 REPLACE_OCCUPATION_ELEMENTS = dict()
@@ -46,6 +47,7 @@ DEATH_DATE_ELEMENTS_LIST = [
     '{{',
     '}}',
     '|mf=yes',
+    'dfyes',
 ]
 DEATH_DATE_ELEMENTS = dict()
 
@@ -63,6 +65,8 @@ for element in REPLACE_OCCUPATION_ELEMENTS_LIST:
         REPLACE_OCCUPATION_ELEMENTS[element] = 'artist'
     elif element == 'peaceactivist':
         REPLACE_OCCUPATION_ELEMENTS[element] = 'peace activist'
+    elif element == 'musicandfilmproducer':
+        REPLACE_OCCUPATION_ELEMENTS[element] = 'music and film producer'
     else:
         REPLACE_OCCUPATION_ELEMENTS[element] = REPLACE_DEFAULT
 
@@ -96,6 +100,7 @@ DEATH_PLACE_ELEMENTS_LIST = [
     "theuseornon-useofperiods(fullstops)shouldalsobeconsistentwithothercountryabbreviationsinthesamearticle(thus\'theUS,UK,andUSSR\',not\'theU.S.,UK,andUSSR\').",
     '<!--LinksnotneededperMOS:OVERLINK-->',
     'Atseaoffthecoastof',
+    '<!--"US"doesnottakefullstops/pointsinBritishEnglish;Harrison\'shousewasjustinsideLAcitylimits-->'
 
 ]
 DEATH_PLACE_ELEMENTS = dict()
