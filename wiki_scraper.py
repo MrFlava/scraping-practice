@@ -499,11 +499,16 @@ def main():
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
+    # todo https://en.wikipedia.org/wiki/Jimmy_Lewis_(musician) wrong died_place
+    # todo https://en.wikipedia.org/wiki/Diana_Ross wrong years_active
+    # todo https://en.wikipedia.org/wiki/Betty_McGlown wrong birth_date format
+    # todo https://en.wikipedia.org/wiki/Scherrie_Payne wrong nickname
     # todo no occupations (needs to fix not only one row)
     # for cases (
     # https://en.wikipedia.org/wiki/Mike_Love
     # https://en.wikipedia.org/wiki/Paul_McCartney
     # https://en.wikipedia.org/wiki/Ringo_Starr
+    # https://en.wikipedia.org/wiki/Mick_Jagger
     # )
     # todo find a method to parse not only tables
     # for cases (
@@ -512,15 +517,14 @@ def main():
     # https://en.wikipedia.org/wiki/Bobby_Nunn_(doo-wop_musician),
     # https://en.wikipedia.org/wiki/Sonny_Forriest,
     # )
-    occups = get_occupations("https://en.wikipedia.org/wiki/George_Harrison")
+    occups = get_occupations("https://en.wikipedia.org/wiki/Lynda_Laurence")
     print(occups)
-    # years_active = get_years_activity("https://en.wikipedia.org/wiki/John_Lennon")
-    # print(years_active)
-    died_date = get_died_date("https://en.wikipedia.org/wiki/George_Harrison")
-    print(died_date)
 
-    died_place = get_death_place("https://en.wikipedia.org/wiki/George_Harrison")
-    print(died_place)
+    # died_date = get_died_date("https://en.wikipedia.org/wiki/Mary_Wilson_(singer)")
+    # print(died_date)
+    # #
+    # died_place = get_death_place("https://en.wikipedia.org/wiki/Jimmy_Lewis_(musician)")
+    # print(died_place)
 
     # mine_bands_wiki_data(band_members_list)
 

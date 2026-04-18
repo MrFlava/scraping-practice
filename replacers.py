@@ -34,7 +34,8 @@ REPLACE_OCCUPATION_ELEMENTS_LIST = [
     'peaceactivist',
     'last=Christgau',
     '&',
-    'musicandfilmproducer'
+    'musicandfilmproducer',
+    'Hlist'
 
 ]
 REPLACE_OCCUPATION_ELEMENTS = dict()
