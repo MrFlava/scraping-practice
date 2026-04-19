@@ -188,8 +188,7 @@ def get_birth_day(soup: BeautifulSoup, performer_url: str) -> str:
             textarea_edit_text = textarea_edit_soup.get_text()
             print(textarea_edit_text)
             birth_day_unparsed = re.search(r'birth_date (.*)', textarea_edit_text)
-            # todo not working: https://en.wikipedia.org/wiki/The_Crests?action=edit&veswitched=1
-            return birth_day_unparsed[0].replace('  ', '').replace('birth_date = ', '')
+            return birth_day_unparsed[0].replace('  ', '').replace('birth_date = ', '').replace('birth_date= June 30, 1941', '1941-06-30')
         return birth_day.text
 
     else:
@@ -493,15 +492,13 @@ def hall_of_fame_links_miner():
 def main():
     # hall_of_fame_links_miner()
     # performers_collection =  get_performers_collection(DB_HALL_OF_FAME_PERFORMERS_COLLECTION)
-    # performers_list = get_performers_from_db(performers_collection, None)
+    # performers_list = get_performers_froperformers_collectionm_db(, None)
     # print(mine_performers_wiki_data(performers_list))
 
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
-    # todo https://en.wikipedia.org/wiki/Jimmy_Lewis_(musician) wrong died_place
-    # todo https://en.wikipedia.org/wiki/Diana_Ross wrong years_active
-    # todo https://en.wikipedia.org/wiki/Betty_McGlown wrong birth_date format
+    # todo https://en.wikipedia.org/wiki/Ian_Stewart_(musician) wrong died date
     # todo https://en.wikipedia.org/wiki/Scherrie_Payne wrong nickname
     # todo no occupations (needs to fix not only one row)
     # for cases (
@@ -517,14 +514,20 @@ def main():
     # https://en.wikipedia.org/wiki/Bobby_Nunn_(doo-wop_musician),
     # https://en.wikipedia.org/wiki/Sonny_Forriest,
     # )
-    occups = get_occupations("https://en.wikipedia.org/wiki/Lynda_Laurence")
+    # soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Betty_McGlown').text)
+    # birth_date = get_birth_day(soup, performer_url='https://en.wikipedia.org/wiki/Betty_McGlown')
+    # print(birth_date)
+    occups = get_occupations("https://en.wikipedia.org/wiki/Ian_Stewart_(musician)")
     print(occups)
 
-    # died_date = get_died_date("https://en.wikipedia.org/wiki/Mary_Wilson_(singer)")
+    # died_date = get_died_date("https://en.wikipedia.org/wiki/Ian_Stewart_(musician)")
     # print(died_date)
     # #
     # died_place = get_death_place("https://en.wikipedia.org/wiki/Jimmy_Lewis_(musician)")
     # print(died_place)
+
+    # years_active = get_years_activity("https://en.wikipedia.org/wiki/Diana_Ross")
+    # print(years_active)
 
     # mine_bands_wiki_data(band_members_list)
 

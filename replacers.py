@@ -35,7 +35,9 @@ REPLACE_OCCUPATION_ELEMENTS_LIST = [
     'last=Christgau',
     '&',
     'musicandfilmproducer',
-    'Hlist'
+    'Hlist',
+    'radiopersonality',
+    'tourmanager',
 
 ]
 REPLACE_OCCUPATION_ELEMENTS = dict()
@@ -68,6 +70,10 @@ for element in REPLACE_OCCUPATION_ELEMENTS_LIST:
         REPLACE_OCCUPATION_ELEMENTS[element] = 'peace activist'
     elif element == 'musicandfilmproducer':
         REPLACE_OCCUPATION_ELEMENTS[element] = 'music and film producer'
+    elif element == 'radiopersonality':
+        REPLACE_OCCUPATION_ELEMENTS[element] = 'radio personality'
+    elif element == 'tourmanager':
+        REPLACE_OCCUPATION_ELEMENTS[element] = 'tour manager'
     else:
         REPLACE_OCCUPATION_ELEMENTS[element] = REPLACE_DEFAULT
 
@@ -101,7 +107,8 @@ DEATH_PLACE_ELEMENTS_LIST = [
     "theuseornon-useofperiods(fullstops)shouldalsobeconsistentwithothercountryabbreviationsinthesamearticle(thus\'theUS,UK,andUSSR\',not\'theU.S.,UK,andUSSR\').",
     '<!--LinksnotneededperMOS:OVERLINK-->',
     'Atseaoffthecoastof',
-    '<!--"US"doesnottakefullstops/pointsinBritishEnglish;Harrison\'shousewasjustinsideLAcitylimits-->'
+    '<!--"US"doesnottakefullstops/pointsinBritishEnglish;Harrison\'shousewasjustinsideLAcitylimits-->',
+    '<ref>LosAngelesSentinel,September29,2004ObituaryofJamesLewis</ref>',
 
 ]
 DEATH_PLACE_ELEMENTS = dict()
@@ -122,6 +129,7 @@ YEARS_ACTIVE_ELEMENTS_LIST = [
     '}}',
     'hlist',
     '19751980',
+    '<ref name"Muse">cite book first1François last1Allard first2Richardlast2LecocqtitleMichael Jackson: All the Songs: The Story Behind Every Track year2018chapterDiana Ross: Godmother and Musepublisher[[Octopus Books]] isbn9781788401234 chapter-urlhttps://books.google.com/books?id4qJfDwAAQBAJ&pgPT378access-dateNovember 11, 2019 archive-dateAugust 1, 2020archive-urlhttps://web.archive.org/web/20200801014854/https://books.google.com/books?id4qJfDwAAQBAJ&pgPT378 url-statuslive</ref>',
 ]
 YEARS_ACTIVE_ELEMENTS = dict()
 
