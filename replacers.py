@@ -38,6 +38,7 @@ REPLACE_OCCUPATION_ELEMENTS_LIST = [
     'Hlist',
     'radiopersonality',
     'tourmanager',
+    'Recordingartist',
 
 ]
 REPLACE_OCCUPATION_ELEMENTS = dict()
@@ -74,6 +75,8 @@ for element in REPLACE_OCCUPATION_ELEMENTS_LIST:
         REPLACE_OCCUPATION_ELEMENTS[element] = 'radio personality'
     elif element == 'tourmanager':
         REPLACE_OCCUPATION_ELEMENTS[element] = 'tour manager'
+    elif element == 'Recordingartist':
+        REPLACE_OCCUPATION_ELEMENTS[element] = 'Recording artist'
     else:
         REPLACE_OCCUPATION_ELEMENTS[element] = REPLACE_DEFAULT
 
@@ -109,7 +112,9 @@ DEATH_PLACE_ELEMENTS_LIST = [
     'Atseaoffthecoastof',
     '<!--"US"doesnottakefullstops/pointsinBritishEnglish;Harrison\'shousewasjustinsideLAcitylimits-->',
     '<ref>LosAngelesSentinel,September29,2004ObituaryofJamesLewis</ref>',
-
+    '{{',
+    '}}',
+    'nowrap',
 ]
 DEATH_PLACE_ELEMENTS = dict()
 
@@ -130,12 +135,19 @@ YEARS_ACTIVE_ELEMENTS_LIST = [
     'hlist',
     '19751980',
     '<ref name"Muse">cite book first1François last1Allard first2Richardlast2LecocqtitleMichael Jackson: All the Songs: The Story Behind Every Track year2018chapterDiana Ross: Godmother and Musepublisher[[Octopus Books]] isbn9781788401234 chapter-urlhttps://books.google.com/books?id4qJfDwAAQBAJ&pgPT378access-dateNovember 11, 2019 archive-dateAugust 1, 2020archive-urlhttps://web.archive.org/web/20200801014854/https://books.google.com/books?id4qJfDwAAQBAJ&pgPT378 url-statuslive</ref>',
+    '1959–19931997–present',
+    '&ndash;',
+    'c. '
 ]
 YEARS_ACTIVE_ELEMENTS = dict()
 
 for element in YEARS_ACTIVE_ELEMENTS_LIST:
     if element == '19751980':
         YEARS_ACTIVE_ELEMENTS[element] = '1980'
+    elif element == '1959–19931997–present':
+        YEARS_ACTIVE_ELEMENTS[element] = '1959–1993 1997–present'
+    elif element == '&ndash;':
+        YEARS_ACTIVE_ELEMENTS[element] = '-'
     else:
         YEARS_ACTIVE_ELEMENTS[element] = REPLACE_DEFAULT
 

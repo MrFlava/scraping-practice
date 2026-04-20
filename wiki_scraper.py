@@ -499,9 +499,17 @@ def main():
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
     # todo https://en.wikipedia.org/wiki/Ian_Stewart_(musician) wrong died date
+    # todo https://en.wikipedia.org/wiki/Mick_Taylor no occupations
     # todo https://en.wikipedia.org/wiki/Scherrie_Payne wrong nickname
+    # todo https://en.wikipedia.org/wiki/Abdul_%22Duke%22_Fakir no years active and no occupations
+    # todo https://en.wikipedia.org/wiki/Renaldo_%22Obie%22_Benson no years active and no occupations
+    # todo https://en.wikipedia.org/wiki/David_Ruffin wrong nickname
+    # todo https://en.wikipedia.org/wiki/Ray_Davies no occupations
     # todo no occupations (needs to fix not only one row)
     # for cases (
+    # https://en.wikipedia.org/wiki/Paul_Williams_(The_Temptations_singer)
+    # https://en.wikipedia.org/wiki/Eddie_Kendricks
+    # https://en.wikipedia.org/wiki/Otis_Williams
     # https://en.wikipedia.org/wiki/Mike_Love
     # https://en.wikipedia.org/wiki/Paul_McCartney
     # https://en.wikipedia.org/wiki/Ringo_Starr
@@ -510,6 +518,8 @@ def main():
     # todo find a method to parse not only tables
     # for cases (
     # https://en.wikipedia.org/wiki/Vernon_Harrell
+    # https://en.wikipedia.org/wiki/Harry_McGilberry
+    # https://en.wikipedia.org/wiki/Ray_Davis_(musician)
     # https://en.wikipedia.org/wiki/Adolph_Jacobs,
     # https://en.wikipedia.org/wiki/Bobby_Nunn_(doo-wop_musician),
     # https://en.wikipedia.org/wiki/Sonny_Forriest,
@@ -517,16 +527,16 @@ def main():
     # soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Betty_McGlown').text)
     # birth_date = get_birth_day(soup, performer_url='https://en.wikipedia.org/wiki/Betty_McGlown')
     # print(birth_date)
-    occups = get_occupations("https://en.wikipedia.org/wiki/Ian_Stewart_(musician)")
+    occups = get_occupations("https://en.wikipedia.org/wiki/Lawrence_Payton")
     print(occups)
 
-    # died_date = get_died_date("https://en.wikipedia.org/wiki/Ian_Stewart_(musician)")
+    # died_date = get_died_date("https://en.wikipedia.org/wiki/Bruce_Williamson_(singer)")
     # print(died_date)
-    # #
-    # died_place = get_death_place("https://en.wikipedia.org/wiki/Jimmy_Lewis_(musician)")
+
+    # died_place = get_death_place("https://en.wikipedia.org/wiki/Bruce_Williamson_(singer)")
     # print(died_place)
 
-    # years_active = get_years_activity("https://en.wikipedia.org/wiki/Diana_Ross")
+    # years_active = get_years_activity("https://en.wikipedia.org/wiki/Abdul_%22Duke%22_Fakir")
     # print(years_active)
 
     # mine_bands_wiki_data(band_members_list)
