@@ -507,6 +507,9 @@ def main():
     # todo https://en.wikipedia.org/wiki/Ray_Davies no occupations
     # todo https://en.wikipedia.org/wiki/Clarence_White wrong birth day format
     # todo https://en.wikipedia.org/wiki/Skip_Battin wrong occupation format and death place date
+    # todo https://en.wikipedia.org/wiki/Robby_Krieger no occupations
+    # todo https://en.wikipedia.org/wiki/John_Weider death date not full
+    # todo https://en.wikipedia.org/wiki/Bob_Weir no occupations
     # todo no occupations (needs to fix not only one row)
     # for cases (
     # https://en.wikipedia.org/wiki/Paul_Williams_(The_Temptations_singer)
@@ -522,6 +525,7 @@ def main():
     # https://en.wikipedia.org/wiki/Curtis_Mayfield
     # https://en.wikipedia.org/wiki/Jack_Bruce
     # https://en.wikipedia.org/wiki/Eric_Clapton
+    # https://en.wikipedia.org/wiki/John_Fogerty
     # )
     # todo find a method to parse not only tables
     # for cases (
@@ -538,11 +542,11 @@ def main():
     # print(birth_place)
     # birth_date = get_birth_day(soup, performer_url='https://en.wikipedia.org/wiki/Betty_McGlown')
     # print(birth_date)
-    occups = get_occupations("https://en.wikipedia.org/wiki/Leroy_Hutson")
+    occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     print(occups)
 
-    # died_date = get_died_date("https://en.wikipedia.org/wiki/Sam_Gooden")
-    # print(died_date)
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Bob_Weir")
+    print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/Bruce_Williamson_(singer)")
     # print(died_place)
