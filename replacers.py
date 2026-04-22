@@ -39,6 +39,7 @@ REPLACE_OCCUPATION_ELEMENTS_LIST = [
     'radiopersonality',
     'tourmanager',
     'Recordingartist',
+    'filmproducer',
 
 ]
 REPLACE_OCCUPATION_ELEMENTS = dict()
@@ -77,6 +78,8 @@ for element in REPLACE_OCCUPATION_ELEMENTS_LIST:
         REPLACE_OCCUPATION_ELEMENTS[element] = 'tour manager'
     elif element == 'Recordingartist':
         REPLACE_OCCUPATION_ELEMENTS[element] = 'Recording artist'
+    elif element == 'filmproducer':
+        REPLACE_OCCUPATION_ELEMENTS[element] = 'Film producer'
     else:
         REPLACE_OCCUPATION_ELEMENTS[element] = REPLACE_DEFAULT
 
