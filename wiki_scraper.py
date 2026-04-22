@@ -518,6 +518,10 @@ def main():
     # https://en.wikipedia.org/wiki/Mick_Jagger
     # https://en.wikipedia.org/wiki/Paul_Simon
     # https://en.wikipedia.org/wiki/Art_Garfunkel
+    # https://en.wikipedia.org/wiki/Jerry_Butler
+    # https://en.wikipedia.org/wiki/Curtis_Mayfield
+    # https://en.wikipedia.org/wiki/Jack_Bruce
+    # https://en.wikipedia.org/wiki/Eric_Clapton
     # )
     # todo find a method to parse not only tables
     # for cases (
@@ -534,11 +538,11 @@ def main():
     # print(birth_place)
     # birth_date = get_birth_day(soup, performer_url='https://en.wikipedia.org/wiki/Betty_McGlown')
     # print(birth_date)
-    # occups = get_occupations("https://en.wikipedia.org/wiki/John_Entwistle")
-    # print(occups)
+    occups = get_occupations("https://en.wikipedia.org/wiki/Leroy_Hutson")
+    print(occups)
 
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Keith_Moon")
-    print(died_date)
+    # died_date = get_died_date("https://en.wikipedia.org/wiki/Sam_Gooden")
+    # print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/Bruce_Williamson_(singer)")
     # print(died_place)
