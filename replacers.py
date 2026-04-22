@@ -39,6 +39,15 @@ REPLACE_OCCUPATION_ELEMENTS_LIST = [
     'radiopersonality',
     'tourmanager',
     'Recordingartist',
+    'filmproducer',
+    'musicalarranger',
+    'Artistsandrepertoire',
+    'ARrepresentative',
+    'occupationhadbeenastheownerofLukesGuitars',
+    'aguitarshopin[[Ramsgate]]', 'England',
+    "sellingnewandusedmusicalinstruments.<ref>[http://lukes-guitar-shop.tripod.com/WebsiteofLukesGuitars].''Lukes-guitar-shop.tripod.com''",
+    'Retrieved10March2017.</ref>',
+    'aguitarshopinRamsgate'
 
 ]
 REPLACE_OCCUPATION_ELEMENTS = dict()
@@ -77,6 +86,14 @@ for element in REPLACE_OCCUPATION_ELEMENTS_LIST:
         REPLACE_OCCUPATION_ELEMENTS[element] = 'tour manager'
     elif element == 'Recordingartist':
         REPLACE_OCCUPATION_ELEMENTS[element] = 'Recording artist'
+    elif element == 'filmproducer':
+        REPLACE_OCCUPATION_ELEMENTS[element] = 'Film producer'
+    elif element == 'musicalarranger':
+        REPLACE_OCCUPATION_ELEMENTS[element] = 'musical arranger'
+    elif element == 'Artistsandrepertoire':
+        REPLACE_OCCUPATION_ELEMENTS[element] = 'Artists and repertoire'
+    elif element == 'ARrepresentative':
+        REPLACE_OCCUPATION_ELEMENTS[element] = 'AR representative'
     else:
         REPLACE_OCCUPATION_ELEMENTS[element] = REPLACE_DEFAULT
 
