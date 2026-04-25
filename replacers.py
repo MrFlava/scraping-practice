@@ -132,6 +132,7 @@ DEATH_PLACE_ELEMENTS_LIST = [
     '{{',
     '}}',
     'nowrap',
+    'sfnStanton2003p102'
 ]
 DEATH_PLACE_ELEMENTS = dict()
 

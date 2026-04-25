@@ -510,6 +510,7 @@ def main():
     # todo https://en.wikipedia.org/wiki/Robby_Krieger no occupations
     # todo https://en.wikipedia.org/wiki/John_Weider death date not full
     # todo https://en.wikipedia.org/wiki/Bob_Weir no occupations
+    # todo https://en.wikipedia.org/wiki/Phil_Lesh no death_date
     # todo no occupations (needs to fix not only one row)
     # for cases (
     # https://en.wikipedia.org/wiki/Paul_Williams_(The_Temptations_singer)
@@ -548,8 +549,8 @@ def main():
     died_date = get_died_date("https://en.wikipedia.org/wiki/Bob_Weir")
     print(died_date)
 
-    # died_place = get_death_place("https://en.wikipedia.org/wiki/Bruce_Williamson_(singer)")
-    # print(died_place)
+    died_place = get_death_place("https://en.wikipedia.org/wiki/Ron_%22Pigpen%22_McKernan")
+    print(died_place)
 
     # years_active = get_years_activity("https://en.wikipedia.org/wiki/Abdul_%22Duke%22_Fakir")
     # print(years_active)
