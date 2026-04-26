@@ -47,8 +47,8 @@ REPLACE_OCCUPATION_ELEMENTS_LIST = [
     'aguitarshopin[[Ramsgate]]', 'England',
     "sellingnewandusedmusicalinstruments.<ref>[http://lukes-guitar-shop.tripod.com/WebsiteofLukesGuitars].''Lukes-guitar-shop.tripod.com''",
     'Retrieved10March2017.</ref>',
-    'aguitarshopinRamsgate'
-
+    'aguitarshopinRamsgate',
+    'Cityworker',
 ]
 REPLACE_OCCUPATION_ELEMENTS = dict()
 DEATH_DATE_ELEMENTS_LIST = [
@@ -94,6 +94,8 @@ for element in REPLACE_OCCUPATION_ELEMENTS_LIST:
         REPLACE_OCCUPATION_ELEMENTS[element] = 'Artists and repertoire'
     elif element == 'ARrepresentative':
         REPLACE_OCCUPATION_ELEMENTS[element] = 'AR representative'
+    elif element == 'Cityworker':
+        REPLACE_OCCUPATION_ELEMENTS[element] = 'City worker'
     else:
         REPLACE_OCCUPATION_ELEMENTS[element] = REPLACE_DEFAULT
 
@@ -132,7 +134,8 @@ DEATH_PLACE_ELEMENTS_LIST = [
     '{{',
     '}}',
     'nowrap',
-    'sfnStanton2003p102'
+    'sfnStanton2003p102',
+    '<refname"Obit"/><refname"Obit3"/>'
 ]
 DEATH_PLACE_ELEMENTS = dict()
 
@@ -155,7 +158,8 @@ YEARS_ACTIVE_ELEMENTS_LIST = [
     '<ref name"Muse">cite book first1François last1Allard first2Richardlast2LecocqtitleMichael Jackson: All the Songs: The Story Behind Every Track year2018chapterDiana Ross: Godmother and Musepublisher[[Octopus Books]] isbn9781788401234 chapter-urlhttps://books.google.com/books?id4qJfDwAAQBAJ&pgPT378access-dateNovember 11, 2019 archive-dateAugust 1, 2020archive-urlhttps://web.archive.org/web/20200801014854/https://books.google.com/books?id4qJfDwAAQBAJ&pgPT378 url-statuslive</ref>',
     '1959–19931997–present',
     '&ndash;',
-    'c. '
+    'c. ',
+    '(music career)<br />',
 ]
 YEARS_ACTIVE_ELEMENTS = dict()
 
