@@ -49,6 +49,9 @@ REPLACE_OCCUPATION_ELEMENTS_LIST = [
     'Retrieved10March2017.</ref>',
     'aguitarshopinRamsgate',
     'Cityworker',
+    'autoracer',
+    'Christianminister',
+    'filmdirector',
 ]
 REPLACE_OCCUPATION_ELEMENTS = dict()
 DEATH_DATE_ELEMENTS_LIST = [
@@ -61,6 +64,7 @@ DEATH_DATE_ELEMENTS_LIST = [
     '}}',
     '|mf=yes',
     'dfyes',
+    '[[PhilanthropyofMichaelJackson', 'philanthropist]]'
 ]
 DEATH_DATE_ELEMENTS = dict()
 
@@ -96,6 +100,14 @@ for element in REPLACE_OCCUPATION_ELEMENTS_LIST:
         REPLACE_OCCUPATION_ELEMENTS[element] = 'AR representative'
     elif element == 'Cityworker':
         REPLACE_OCCUPATION_ELEMENTS[element] = 'City worker'
+    elif element == 'autoracer':
+        REPLACE_OCCUPATION_ELEMENTS[element] = 'auto racer'
+    elif element == 'Christianminister':
+        REPLACE_OCCUPATION_ELEMENTS[element] = 'Christian minister'
+    elif element == 'filmdirector':
+        REPLACE_OCCUPATION_ELEMENTS[element] = 'film director'
+    elif element == "[[PhilanthropyofMichaelJackson', 'philanthropist]]":
+        REPLACE_OCCUPATION_ELEMENTS[element] = 'philanthropist'
     else:
         REPLACE_OCCUPATION_ELEMENTS[element] = REPLACE_DEFAULT
 
@@ -135,7 +147,8 @@ DEATH_PLACE_ELEMENTS_LIST = [
     '}}',
     'nowrap',
     'sfnStanton2003p102',
-    '<refname"Obit"/><refname"Obit3"/>'
+    '<refname"Obit"/><refname"Obit3"/>',
+    '<!--InBritishEnglish,"US"ispreferredover"U.S."-->'
 ]
 DEATH_PLACE_ELEMENTS = dict()
 
@@ -160,6 +173,11 @@ YEARS_ACTIVE_ELEMENTS_LIST = [
     '&ndash;',
     'c. ',
     '(music career)<br />',
+    'sfnMason2004p17',
+    ' 1965–19771997–present',
+    '<ref name"GQ">cite webauthorCharlie Burtonurlhttps://www.gq-magazine.co.uk/article/jacksons-legacy-jackson-5titleInside the Jackson machinedateFebruary 7, 2018access-dateOctober 24, 2019</ref>',
+    '<ref name"GQ">cite webauthorCharlie Burtonurlhttps://www.gq-magazine.co.uk/article/jacksons-legacy-jackson-5titleInside the Jackson machinedateFebruary 7, 2018access-dateOctober 24, 2019archive-dateOctober 7, 2022archive-urlhttps://web.archive.org/web/20221007005527/https://www.gq-magazine.co.uk/article/jacksons-legacy-jackson-5url-statuslive</ref>',
+    'ndash',
 ]
 YEARS_ACTIVE_ELEMENTS = dict()
 
@@ -169,6 +187,10 @@ for element in YEARS_ACTIVE_ELEMENTS_LIST:
     elif element == '1959–19931997–present':
         YEARS_ACTIVE_ELEMENTS[element] = '1959–1993 1997–present'
     elif element == '&ndash;':
+        YEARS_ACTIVE_ELEMENTS[element] = '-'
+    elif element == ' 1965–19771997–present':
+        YEARS_ACTIVE_ELEMENTS[element] = '1965-1977 1997-present'
+    elif element == 'ndash':
         YEARS_ACTIVE_ELEMENTS[element] = '-'
     else:
         YEARS_ACTIVE_ELEMENTS[element] = REPLACE_DEFAULT
