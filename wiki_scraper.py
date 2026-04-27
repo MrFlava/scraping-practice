@@ -511,6 +511,9 @@ def main():
     # todo https://en.wikipedia.org/wiki/John_Weider death date not full
     # todo https://en.wikipedia.org/wiki/Bob_Weir no occupations
     # todo https://en.wikipedia.org/wiki/Phil_Lesh no death_date
+    # todo https://en.wikipedia.org/wiki/Moe_Tucker no occupations and years_active
+    # todo https://en.wikipedia.org/wiki/Robin_Gibb wrong died_date
+    # todo https://en.wikipedia.org/wiki/Maurice_Gibb wrong died_date
     # todo no occupations (needs to fix not only one row)
     # for cases (
     # https://en.wikipedia.org/wiki/Paul_Williams_(The_Temptations_singer)
@@ -527,6 +530,10 @@ def main():
     # https://en.wikipedia.org/wiki/Jack_Bruce
     # https://en.wikipedia.org/wiki/Eric_Clapton
     # https://en.wikipedia.org/wiki/John_Fogerty
+    # https://en.wikipedia.org/wiki/Jimmy_Page
+    # https://en.wikipedia.org/wiki/John_Paul_Jones_(musician),
+    # https://en.wikipedia.org/wiki/Richard_Wright_(musician),
+    # https://en.wikipedia.org/wiki/Syd_Barrett
     # )
     # todo find a method to parse not only tables
     # for cases (
@@ -536,6 +543,9 @@ def main():
     # https://en.wikipedia.org/wiki/Adolph_Jacobs,
     # https://en.wikipedia.org/wiki/Bobby_Nunn_(doo-wop_musician),
     # https://en.wikipedia.org/wiki/Sonny_Forriest,
+    # https://en.wikipedia.org/wiki/Billy_Yule,
+    # https://en.wikipedia.org/wiki/Ken_Koblun,
+    # https://en.wikipedia.org/wiki/Jim_Fielder
     # )
     # soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/John_Entwistle').text)
     #
@@ -543,17 +553,17 @@ def main():
     # print(birth_place)
     # birth_date = get_birth_day(soup, performer_url='https://en.wikipedia.org/wiki/Betty_McGlown')
     # print(birth_date)
-    occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
-    print(occups)
+    # occups = get_occupations("https://en.wikipedia.org/wiki/Michael_Jackson")
+    # print(occups)
+    #
+    # died_date = get_died_date("https://en.wikipedia.org/wiki/Jermaine_Jackson")
+    # print(died_date)
 
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Bob_Weir")
-    print(died_date)
+    # died_place = get_death_place("https://en.wikipedia.org/wiki/Maurice_Gibb")
+    # print(died_place)
 
-    died_place = get_death_place("https://en.wikipedia.org/wiki/Ron_%22Pigpen%22_McKernan")
-    print(died_place)
-
-    # years_active = get_years_activity("https://en.wikipedia.org/wiki/Abdul_%22Duke%22_Fakir")
-    # print(years_active)
+    years_active = get_years_activity("https://en.wikipedia.org/wiki/Bernie_Leadon")
+    print(years_active)
 
     # mine_bands_wiki_data(band_members_list)
 
