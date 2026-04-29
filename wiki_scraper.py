@@ -514,6 +514,11 @@ def main():
     # todo https://en.wikipedia.org/wiki/Moe_Tucker no occupations and years_active
     # todo https://en.wikipedia.org/wiki/Robin_Gibb wrong died_date
     # todo https://en.wikipedia.org/wiki/Maurice_Gibb wrong died_date
+    # todo https://en.wikipedia.org/wiki/Randy_Meisner no occupations and year_active
+    # todo https://en.wikipedia.org/wiki/Danny_Kirwan wrong death_date
+    # todo https://en.wikipedia.org/wiki/Christine_McVie wrong death_date
+    # todo https://en.wikipedia.org/wiki/Bekka_Bramlett no occupations
+    # todo https://en.wikipedia.org/wiki/David_Brown_(American_musician) no death_date
     # todo no occupations (needs to fix not only one row)
     # for cases (
     # https://en.wikipedia.org/wiki/Paul_Williams_(The_Temptations_singer)
@@ -534,6 +539,16 @@ def main():
     # https://en.wikipedia.org/wiki/John_Paul_Jones_(musician),
     # https://en.wikipedia.org/wiki/Richard_Wright_(musician),
     # https://en.wikipedia.org/wiki/Syd_Barrett
+    # https://en.wikipedia.org/wiki/Peter_Green_(musician)
+    # https://en.wikipedia.org/wiki/Mick_Fleetwood
+    # https://en.wikipedia.org/wiki/Stevie_Nicks
+    # https://en.wikipedia.org/wiki/Cindy_Blackman_Santana
+    # https://en.wikipedia.org/wiki/Neal_Schon
+    # https://en.wikipedia.org/wiki/Gregg_Rolie
+    # https://en.wikipedia.org/wiki/Steven_Tyler
+    # https://en.wikipedia.org/wiki/Brian_May
+    # https://en.wikipedia.org/wiki/Roger_Taylor_(Queen_drummer)
+    # https://en.wikipedia.org/wiki/Freddie_Mercury
     # )
     # todo find a method to parse not only tables
     # for cases (
@@ -553,16 +568,16 @@ def main():
     # print(birth_place)
     # birth_date = get_birth_day(soup, performer_url='https://en.wikipedia.org/wiki/Betty_McGlown')
     # print(birth_date)
-    # occups = get_occupations("https://en.wikipedia.org/wiki/Michael_Jackson")
+    # occups = get_occupations("https://en.wikipedia.org/wiki/Carlos_Santana")
     # print(occups)
     #
-    # died_date = get_died_date("https://en.wikipedia.org/wiki/Jermaine_Jackson")
+    # died_date = get_died_date("https://en.wikipedia.org/wiki/Bob_Weston_(guitarist)")
     # print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/Maurice_Gibb")
     # print(died_place)
 
-    years_active = get_years_activity("https://en.wikipedia.org/wiki/Bernie_Leadon")
+    years_active = get_years_activity("https://en.wikipedia.org/wiki/Carlos_Santana")
     print(years_active)
 
     # mine_bands_wiki_data(band_members_list)
