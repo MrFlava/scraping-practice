@@ -178,6 +178,10 @@ YEARS_ACTIVE_ELEMENTS_LIST = [
     '<ref name"GQ">cite webauthorCharlie Burtonurlhttps://www.gq-magazine.co.uk/article/jacksons-legacy-jackson-5titleInside the Jackson machinedateFebruary 7, 2018access-dateOctober 24, 2019</ref>',
     '<ref name"GQ">cite webauthorCharlie Burtonurlhttps://www.gq-magazine.co.uk/article/jacksons-legacy-jackson-5titleInside the Jackson machinedateFebruary 7, 2018access-dateOctober 24, 2019archive-dateOctober 7, 2022archive-urlhttps://web.archive.org/web/20221007005527/https://www.gq-magazine.co.uk/article/jacksons-legacy-jackson-5url-statuslive</ref>',
     'ndash',
+    '1966–19982003–20042013–2022',
+    '1960–19791986–present',
+    "<!--STOP editing this without a reliable source; Phillips's professional career began with Mamas and Papas in 1965 by all accounts. She was 13 years old in 1957, and living in Mexico at that time-->",
+    '1965–as of2015altpresent',
 ]
 YEARS_ACTIVE_ELEMENTS = dict()
 
@@ -192,6 +196,12 @@ for element in YEARS_ACTIVE_ELEMENTS_LIST:
         YEARS_ACTIVE_ELEMENTS[element] = '1965-1977 1997-present'
     elif element == 'ndash':
         YEARS_ACTIVE_ELEMENTS[element] = '-'
+    elif element == '1960–19791986–present':
+        YEARS_ACTIVE_ELEMENTS[element] = '1960–1979 1986–present'
+    elif element == '1966–19982003–20042013–2022':
+        YEARS_ACTIVE_ELEMENTS[element] = '1966–1998 2003–2004 2013–2022'
+    elif element == '1965–as of2015altpresent':
+        YEARS_ACTIVE_ELEMENTS[element] = '1965-present'
     else:
         YEARS_ACTIVE_ELEMENTS[element] = REPLACE_DEFAULT
 
