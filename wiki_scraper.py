@@ -219,7 +219,7 @@ def get_died_date(performer_url: str) -> str:
         for k, v in DEATH_DATE_ELEMENTS.items():
             death_str = death_str.replace(k, v)
 
-
+        print(death_str)
         if death_str:
             death_date_list = death_str.split('|')
             if death_date_list[0] == '  November 8, 2011 (aged&nbsp;74)':
@@ -231,7 +231,10 @@ def get_died_date(performer_url: str) -> str:
                 else:
                     death_str = '-'.join(death_date_list[1:4])
             else:
-                death_str = '-'.join(death_date_list[1:4])
+                if death_date_list[0] == '' and death_date_list[1] == '':
+                    death_str = '-'.join(death_date_list[2:5])
+                else:
+                    death_str = '-'.join(death_date_list[1:4])
 
         return death_str
 
@@ -571,14 +574,14 @@ def main():
     # occups = get_occupations("https://en.wikipedia.org/wiki/Carlos_Santana")
     # print(occups)
     #
-    # died_date = get_died_date("https://en.wikipedia.org/wiki/Bob_Weston_(guitarist)")
-    # print(died_date)
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Ian_Stewart_(musician)")
+    print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/Maurice_Gibb")
     # print(died_place)
 
-    years_active = get_years_activity("https://en.wikipedia.org/wiki/Carlos_Santana")
-    print(years_active)
+    # years_active = get_years_activity("https://en.wikipedia.org/wiki/Carlos_Santana")
+    # print(years_active)
 
     # mine_bands_wiki_data(band_members_list)
 
