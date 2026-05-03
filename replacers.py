@@ -52,6 +52,7 @@ REPLACE_OCCUPATION_ELEMENTS_LIST = [
     'autoracer',
     'Christianminister',
     'filmdirector',
+    'occupations='
 ]
 REPLACE_OCCUPATION_ELEMENTS = dict()
 DEATH_DATE_ELEMENTS_LIST = [

@@ -165,7 +165,7 @@ def get_nickname(soup: BeautifulSoup, name: str) -> str:
         if not nickname:
             return name
 
-        return nickname.text.replace('[a]', '')
+        return nickname.text.replace('[a]', '').replace('[citation needed]', '')
     else:
         return ''
 
@@ -268,10 +268,23 @@ def get_occupations(performer_url: str) -> List[str]:
     )
 
     textarea_edit_text = textarea_edit_soup.get_text()
+    print(textarea_edit_text)
     occupations_unparsed = re.search(r'occupation (.*)', textarea_edit_text)
+    # print(occupations_unparsed)
+    occupations_unparsed_v2 = re.search(r'occupations (.*)', textarea_edit_text)
 
     if occupations_unparsed:
         occupations_str = occupations_unparsed[0]
+        for k, v in REPLACE_OCCUPATION_ELEMENTS.items():
+            occupations_str = occupations_str.replace(k, v)
+
+        if occupations_str == '':
+            return []
+        occupations_str = occupations_str[1:] if occupations_str[0] == ',' else occupations_str
+        if occupations_str != '':
+            return [occupation for occupation in occupations_str.split(',') if occupation]
+    elif occupations_unparsed_v2:
+        occupations_str = occupations_unparsed_v2[0]
         for k, v in REPLACE_OCCUPATION_ELEMENTS.items():
             occupations_str = occupations_str.replace(k, v)
 
@@ -501,11 +514,6 @@ def main():
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
-    # todo https://en.wikipedia.org/wiki/Ian_Stewart_(musician) wrong died date
-    # todo https://en.wikipedia.org/wiki/Mick_Taylor no occupations
-    # todo https://en.wikipedia.org/wiki/Scherrie_Payne wrong nickname
-    # todo https://en.wikipedia.org/wiki/Abdul_%22Duke%22_Fakir no years active and no occupations
-    # todo https://en.wikipedia.org/wiki/Renaldo_%22Obie%22_Benson no years active and no occupations
     # todo https://en.wikipedia.org/wiki/David_Ruffin wrong nickname
     # todo https://en.wikipedia.org/wiki/Ray_Davies no occupations
     # todo https://en.wikipedia.org/wiki/Clarence_White wrong birth day format
@@ -565,24 +573,32 @@ def main():
     # https://en.wikipedia.org/wiki/Ken_Koblun,
     # https://en.wikipedia.org/wiki/Jim_Fielder
     # )
-    # soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/John_Entwistle').text)
+    custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
+                         " Chrome/123.0.0.0 Safari/537.36")
+    headers = {
+        'User-Agent': custom_user_agent
+    }
+    soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Scherrie_Payne', headers=headers).text)
+    # print(soup)
     #
     # birth_place = get_birthplace(soup, performer_url="https://en.wikipedia.org/wiki/John_Entwistle")
     # print(birth_place)
     # birth_date = get_birth_day(soup, performer_url='https://en.wikipedia.org/wiki/Betty_McGlown')
     # print(birth_date)
-    # occups = get_occupations("https://en.wikipedia.org/wiki/Carlos_Santana")
-    # print(occups)
+    occups = get_occupations("https://en.wikipedia.org/wiki/Renaldo_Benson")
+    print(occups)
     #
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Ian_Stewart_(musician)")
-    print(died_date)
+    # died_date = get_died_date("https://en.wikipedia.org/wiki/Ian_Stewart_(musician)")
+    # print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/Maurice_Gibb")
     # print(died_place)
 
-    # years_active = get_years_activity("https://en.wikipedia.org/wiki/Carlos_Santana")
-    # print(years_active)
+    years_active = get_years_activity("https://en.wikipedia.org/wiki/Renaldo_Benson")
+    print(years_active)
 
+    # nickame = get_nickname(soup, 'https://en.wikipedia.org/wiki/Scherrie_Payne')
+    # print(nickame)
     # mine_bands_wiki_data(band_members_list)
 
 
