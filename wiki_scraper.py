@@ -219,7 +219,6 @@ def get_died_date(performer_url: str) -> str:
         for k, v in DEATH_DATE_ELEMENTS.items():
             death_str = death_str.replace(k, v)
 
-        print(death_str)
         if death_str:
             death_date_list = death_str.split('|')
             if death_date_list[0] == '  November 8, 2011 (aged&nbsp;74)':
@@ -227,8 +226,12 @@ def get_died_date(performer_url: str) -> str:
             death_date_list.pop(0)
             if death_date_list[0] != '':
                 if death_date_list[0] != "mfyes":
-                    death_str = '-'.join(death_date_list[0:3])
+                    if death_date_list[0] == "dfy":
+                        death_str = '-'.join(death_date_list[1:4])
+                    else:
+                        death_str = '-'.join(death_date_list[0:3])
                 else:
+
                     death_str = '-'.join(death_date_list[1:4])
             else:
                 if death_date_list[0] == '' and death_date_list[1] == '':
@@ -410,6 +413,7 @@ def get_years_activity(performer_url: str) -> str:
     years_active_unparsed = re.search(r'years_active (.*)', textarea_edit_text)
 
     if years_active_unparsed:
+        print(years_active_unparsed)
         years_active_str = years_active_unparsed[0]
 
         for k, v in YEARS_ACTIVE_ELEMENTS.items():
@@ -515,11 +519,6 @@ def main():
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
-
-    # todo https://en.wikipedia.org/wiki/Phil_Lesh no death_date
-    # todo https://en.wikipedia.org/wiki/Moe_Tucker no occupations and years_active
-    # todo https://en.wikipedia.org/wiki/Robin_Gibb wrong died_date
-    # todo https://en.wikipedia.org/wiki/Maurice_Gibb wrong died_date
     # todo https://en.wikipedia.org/wiki/Randy_Meisner no occupations and year_active
     # todo https://en.wikipedia.org/wiki/Danny_Kirwan wrong death_date
     # todo https://en.wikipedia.org/wiki/Christine_McVie wrong death_date
@@ -556,6 +555,11 @@ def main():
     # https://en.wikipedia.org/wiki/Roger_Taylor_(Queen_drummer)
     # https://en.wikipedia.org/wiki/Freddie_Mercury
     # https://en.wikipedia.org/wiki/Bob_Weir
+    # https://en.wikipedia.org/wiki/Moe_Tucker
+    # )
+    # todo find a way to parse years active flatlist
+    #(
+    # https://en.wikipedia.org/wiki/Moe_Tucker
     # )
     # todo find a method to parse not only tables
     # for cases (
@@ -581,16 +585,16 @@ def main():
     # print(birth_place)
     # birth_date = get_birth_day(soup, performer_url='https://en.wikipedia.org/wiki/Clarence_White')
     # print(birth_date)
-    occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
-    print(occups)
+    # occups = get_occupations("https://en.wikipedia.org/wiki/Moe_Tucker")
+    # print(occups)
     #
-    # died_date = get_died_date("https://en.wikipedia.org/wiki/John_Weider")
-    # print(died_date)
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Maurice_Gibb")
+    print(died_date)
     #
     # died_place = get_death_place("https://en.wikipedia.org/wiki/John_Weider")
     # print(died_place)
 
-    # years_active = get_years_activity("https://en.wikipedia.org/wiki/Renaldo_Benson")
+    # years_active = get_years_activity("https://en.wikipedia.org/wiki/Moe_Tucker")
     # print(years_active)
 
     # nickame = get_nickname(soup, 'https://en.wikipedia.org/wiki/David_Ruffin')
