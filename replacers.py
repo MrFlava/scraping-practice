@@ -52,6 +52,8 @@ REPLACE_OCCUPATION_ELEMENTS_LIST = [
     'autoracer',
     'Christianminister',
     'filmdirector',
+    'occupations=',
+    'Musician;songwriter'
 ]
 REPLACE_OCCUPATION_ELEMENTS = dict()
 DEATH_DATE_ELEMENTS_LIST = [
@@ -108,6 +110,8 @@ for element in REPLACE_OCCUPATION_ELEMENTS_LIST:
         REPLACE_OCCUPATION_ELEMENTS[element] = 'film director'
     elif element == "[[PhilanthropyofMichaelJackson', 'philanthropist]]":
         REPLACE_OCCUPATION_ELEMENTS[element] = 'philanthropist'
+    elif element == "Musician;songwriter":
+        REPLACE_OCCUPATION_ELEMENTS[element] = 'Musician-songwriter'
     else:
         REPLACE_OCCUPATION_ELEMENTS[element] = REPLACE_DEFAULT
 

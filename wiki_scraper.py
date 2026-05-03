@@ -165,7 +165,7 @@ def get_nickname(soup: BeautifulSoup, name: str) -> str:
         if not nickname:
             return name
 
-        return nickname.text.replace('[a]', '')
+        return nickname.text.replace('[a]', '').replace('[citation needed]', '').replace('[1]', '')
     else:
         return ''
 
@@ -188,7 +188,7 @@ def get_birth_day(soup: BeautifulSoup, performer_url: str) -> str:
             textarea_edit_text = textarea_edit_soup.get_text()
             print(textarea_edit_text)
             birth_day_unparsed = re.search(r'birth_date (.*)', textarea_edit_text)
-            return birth_day_unparsed[0].replace('  ', '').replace('birth_date = ', '').replace('birth_date= June 30, 1941', '1941-06-30')
+            return birth_day_unparsed[0].replace('  ', '').replace('birth_date = ', '').replace('birth_date= June 30, 1941', '1941-06-30').replace('birth_date= June 7, 1944', '1944-07-30')
         return birth_day.text
 
     else:
@@ -219,7 +219,6 @@ def get_died_date(performer_url: str) -> str:
         for k, v in DEATH_DATE_ELEMENTS.items():
             death_str = death_str.replace(k, v)
 
-
         if death_str:
             death_date_list = death_str.split('|')
             if death_date_list[0] == '  November 8, 2011 (aged&nbsp;74)':
@@ -227,11 +226,18 @@ def get_died_date(performer_url: str) -> str:
             death_date_list.pop(0)
             if death_date_list[0] != '':
                 if death_date_list[0] != "mfyes":
-                    death_str = '-'.join(death_date_list[0:3])
+                    if death_date_list[0] == "dfy":
+                        death_str = '-'.join(death_date_list[1:4])
+                    else:
+                        death_str = '-'.join(death_date_list[0:3])
                 else:
+
                     death_str = '-'.join(death_date_list[1:4])
             else:
-                death_str = '-'.join(death_date_list[1:4])
+                if death_date_list[0] == '' and death_date_list[1] == '':
+                    death_str = '-'.join(death_date_list[2:5])
+                else:
+                    death_str = '-'.join(death_date_list[1:4])
 
         return death_str
 
@@ -265,10 +271,23 @@ def get_occupations(performer_url: str) -> List[str]:
     )
 
     textarea_edit_text = textarea_edit_soup.get_text()
+    print(textarea_edit_text)
     occupations_unparsed = re.search(r'occupation (.*)', textarea_edit_text)
+    # print(occupations_unparsed)
+    occupations_unparsed_v2 = re.search(r'occupations (.*)', textarea_edit_text)
 
     if occupations_unparsed:
         occupations_str = occupations_unparsed[0]
+        for k, v in REPLACE_OCCUPATION_ELEMENTS.items():
+            occupations_str = occupations_str.replace(k, v)
+
+        if occupations_str == '':
+            return []
+        occupations_str = occupations_str[1:] if occupations_str[0] == ',' else occupations_str
+        if occupations_str != '':
+            return [occupation for occupation in occupations_str.split(',') if occupation]
+    elif occupations_unparsed_v2:
+        occupations_str = occupations_unparsed_v2[0]
         for k, v in REPLACE_OCCUPATION_ELEMENTS.items():
             occupations_str = occupations_str.replace(k, v)
 
@@ -366,6 +385,7 @@ def get_death_place(performer_url: str) -> str:
 
     textarea_edit_text = textarea_edit_soup.get_text()
     death_place_unparsed = re.search(r'death_place (.*)', textarea_edit_text)
+    print(death_place_unparsed)
 
     if death_place_unparsed:
         death_place_str = death_place_unparsed[0]
@@ -393,6 +413,7 @@ def get_years_activity(performer_url: str) -> str:
     years_active_unparsed = re.search(r'years_active (.*)', textarea_edit_text)
 
     if years_active_unparsed:
+        print(years_active_unparsed)
         years_active_str = years_active_unparsed[0]
 
         for k, v in YEARS_ACTIVE_ELEMENTS.items():
@@ -498,22 +519,6 @@ def main():
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
-    # todo https://en.wikipedia.org/wiki/Ian_Stewart_(musician) wrong died date
-    # todo https://en.wikipedia.org/wiki/Mick_Taylor no occupations
-    # todo https://en.wikipedia.org/wiki/Scherrie_Payne wrong nickname
-    # todo https://en.wikipedia.org/wiki/Abdul_%22Duke%22_Fakir no years active and no occupations
-    # todo https://en.wikipedia.org/wiki/Renaldo_%22Obie%22_Benson no years active and no occupations
-    # todo https://en.wikipedia.org/wiki/David_Ruffin wrong nickname
-    # todo https://en.wikipedia.org/wiki/Ray_Davies no occupations
-    # todo https://en.wikipedia.org/wiki/Clarence_White wrong birth day format
-    # todo https://en.wikipedia.org/wiki/Skip_Battin wrong occupation format and death place date
-    # todo https://en.wikipedia.org/wiki/Robby_Krieger no occupations
-    # todo https://en.wikipedia.org/wiki/John_Weider death date not full
-    # todo https://en.wikipedia.org/wiki/Bob_Weir no occupations
-    # todo https://en.wikipedia.org/wiki/Phil_Lesh no death_date
-    # todo https://en.wikipedia.org/wiki/Moe_Tucker no occupations and years_active
-    # todo https://en.wikipedia.org/wiki/Robin_Gibb wrong died_date
-    # todo https://en.wikipedia.org/wiki/Maurice_Gibb wrong died_date
     # todo https://en.wikipedia.org/wiki/Randy_Meisner no occupations and year_active
     # todo https://en.wikipedia.org/wiki/Danny_Kirwan wrong death_date
     # todo https://en.wikipedia.org/wiki/Christine_McVie wrong death_date
@@ -549,6 +554,12 @@ def main():
     # https://en.wikipedia.org/wiki/Brian_May
     # https://en.wikipedia.org/wiki/Roger_Taylor_(Queen_drummer)
     # https://en.wikipedia.org/wiki/Freddie_Mercury
+    # https://en.wikipedia.org/wiki/Bob_Weir
+    # https://en.wikipedia.org/wiki/Moe_Tucker
+    # )
+    # todo find a way to parse years active flatlist
+    #(
+    # https://en.wikipedia.org/wiki/Moe_Tucker
     # )
     # todo find a method to parse not only tables
     # for cases (
@@ -562,24 +573,32 @@ def main():
     # https://en.wikipedia.org/wiki/Ken_Koblun,
     # https://en.wikipedia.org/wiki/Jim_Fielder
     # )
-    # soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/John_Entwistle').text)
+    custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
+                         " Chrome/123.0.0.0 Safari/537.36")
+    headers = {
+        'User-Agent': custom_user_agent
+    }
+    # soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Clarence_White', headers=headers).text)
+    # print(soup)
     #
     # birth_place = get_birthplace(soup, performer_url="https://en.wikipedia.org/wiki/John_Entwistle")
     # print(birth_place)
-    # birth_date = get_birth_day(soup, performer_url='https://en.wikipedia.org/wiki/Betty_McGlown')
+    # birth_date = get_birth_day(soup, performer_url='https://en.wikipedia.org/wiki/Clarence_White')
     # print(birth_date)
-    # occups = get_occupations("https://en.wikipedia.org/wiki/Carlos_Santana")
+    # occups = get_occupations("https://en.wikipedia.org/wiki/Moe_Tucker")
     # print(occups)
     #
-    # died_date = get_died_date("https://en.wikipedia.org/wiki/Bob_Weston_(guitarist)")
-    # print(died_date)
-
-    # died_place = get_death_place("https://en.wikipedia.org/wiki/Maurice_Gibb")
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Maurice_Gibb")
+    print(died_date)
+    #
+    # died_place = get_death_place("https://en.wikipedia.org/wiki/John_Weider")
     # print(died_place)
 
-    years_active = get_years_activity("https://en.wikipedia.org/wiki/Carlos_Santana")
-    print(years_active)
+    # years_active = get_years_activity("https://en.wikipedia.org/wiki/Moe_Tucker")
+    # print(years_active)
 
+    # nickame = get_nickname(soup, 'https://en.wikipedia.org/wiki/David_Ruffin')
+    # print(nickame)
     # mine_bands_wiki_data(band_members_list)
 
 
