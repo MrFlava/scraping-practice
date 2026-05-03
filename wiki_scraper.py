@@ -165,7 +165,7 @@ def get_nickname(soup: BeautifulSoup, name: str) -> str:
         if not nickname:
             return name
 
-        return nickname.text.replace('[a]', '').replace('[citation needed]', '')
+        return nickname.text.replace('[a]', '').replace('[citation needed]', '').replace('[1]', '')
     else:
         return ''
 
@@ -188,7 +188,7 @@ def get_birth_day(soup: BeautifulSoup, performer_url: str) -> str:
             textarea_edit_text = textarea_edit_soup.get_text()
             print(textarea_edit_text)
             birth_day_unparsed = re.search(r'birth_date (.*)', textarea_edit_text)
-            return birth_day_unparsed[0].replace('  ', '').replace('birth_date = ', '').replace('birth_date= June 30, 1941', '1941-06-30')
+            return birth_day_unparsed[0].replace('  ', '').replace('birth_date = ', '').replace('birth_date= June 30, 1941', '1941-06-30').replace('birth_date= June 7, 1944', '1944-07-30')
         return birth_day.text
 
     else:
@@ -382,6 +382,7 @@ def get_death_place(performer_url: str) -> str:
 
     textarea_edit_text = textarea_edit_soup.get_text()
     death_place_unparsed = re.search(r'death_place (.*)', textarea_edit_text)
+    print(death_place_unparsed)
 
     if death_place_unparsed:
         death_place_str = death_place_unparsed[0]
@@ -514,13 +515,7 @@ def main():
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
-    # todo https://en.wikipedia.org/wiki/David_Ruffin wrong nickname
-    # todo https://en.wikipedia.org/wiki/Ray_Davies no occupations
-    # todo https://en.wikipedia.org/wiki/Clarence_White wrong birth day format
-    # todo https://en.wikipedia.org/wiki/Skip_Battin wrong occupation format and death place date
-    # todo https://en.wikipedia.org/wiki/Robby_Krieger no occupations
-    # todo https://en.wikipedia.org/wiki/John_Weider death date not full
-    # todo https://en.wikipedia.org/wiki/Bob_Weir no occupations
+
     # todo https://en.wikipedia.org/wiki/Phil_Lesh no death_date
     # todo https://en.wikipedia.org/wiki/Moe_Tucker no occupations and years_active
     # todo https://en.wikipedia.org/wiki/Robin_Gibb wrong died_date
@@ -560,6 +555,7 @@ def main():
     # https://en.wikipedia.org/wiki/Brian_May
     # https://en.wikipedia.org/wiki/Roger_Taylor_(Queen_drummer)
     # https://en.wikipedia.org/wiki/Freddie_Mercury
+    # https://en.wikipedia.org/wiki/Bob_Weir
     # )
     # todo find a method to parse not only tables
     # for cases (
@@ -578,26 +574,26 @@ def main():
     headers = {
         'User-Agent': custom_user_agent
     }
-    soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Scherrie_Payne', headers=headers).text)
+    # soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Clarence_White', headers=headers).text)
     # print(soup)
     #
     # birth_place = get_birthplace(soup, performer_url="https://en.wikipedia.org/wiki/John_Entwistle")
     # print(birth_place)
-    # birth_date = get_birth_day(soup, performer_url='https://en.wikipedia.org/wiki/Betty_McGlown')
+    # birth_date = get_birth_day(soup, performer_url='https://en.wikipedia.org/wiki/Clarence_White')
     # print(birth_date)
-    occups = get_occupations("https://en.wikipedia.org/wiki/Renaldo_Benson")
+    occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     print(occups)
     #
-    # died_date = get_died_date("https://en.wikipedia.org/wiki/Ian_Stewart_(musician)")
+    # died_date = get_died_date("https://en.wikipedia.org/wiki/John_Weider")
     # print(died_date)
-
-    # died_place = get_death_place("https://en.wikipedia.org/wiki/Maurice_Gibb")
+    #
+    # died_place = get_death_place("https://en.wikipedia.org/wiki/John_Weider")
     # print(died_place)
 
-    years_active = get_years_activity("https://en.wikipedia.org/wiki/Renaldo_Benson")
-    print(years_active)
+    # years_active = get_years_activity("https://en.wikipedia.org/wiki/Renaldo_Benson")
+    # print(years_active)
 
-    # nickame = get_nickname(soup, 'https://en.wikipedia.org/wiki/Scherrie_Payne')
+    # nickame = get_nickname(soup, 'https://en.wikipedia.org/wiki/David_Ruffin')
     # print(nickame)
     # mine_bands_wiki_data(band_members_list)
 
