@@ -519,11 +519,6 @@ def main():
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
-    # todo https://en.wikipedia.org/wiki/Randy_Meisner no occupations and year_active
-    # todo https://en.wikipedia.org/wiki/Danny_Kirwan wrong death_date
-    # todo https://en.wikipedia.org/wiki/Christine_McVie wrong death_date
-    # todo https://en.wikipedia.org/wiki/Bekka_Bramlett no occupations
-    # todo https://en.wikipedia.org/wiki/David_Brown_(American_musician) no death_date
     # todo no occupations (needs to fix not only one row)
     # for cases (
     # https://en.wikipedia.org/wiki/Paul_Williams_(The_Temptations_singer)
@@ -556,10 +551,12 @@ def main():
     # https://en.wikipedia.org/wiki/Freddie_Mercury
     # https://en.wikipedia.org/wiki/Bob_Weir
     # https://en.wikipedia.org/wiki/Moe_Tucker
+    # https://en.wikipedia.org/wiki/Randy_Meisner
     # )
     # todo find a way to parse years active flatlist
     #(
     # https://en.wikipedia.org/wiki/Moe_Tucker
+    # https://en.wikipedia.org/wiki/Randy_Meisner
     # )
     # todo find a method to parse not only tables
     # for cases (
@@ -585,10 +582,10 @@ def main():
     # print(birth_place)
     # birth_date = get_birth_day(soup, performer_url='https://en.wikipedia.org/wiki/Clarence_White')
     # print(birth_date)
-    # occups = get_occupations("https://en.wikipedia.org/wiki/Moe_Tucker")
+    # occups = get_occupations("https://en.wikipedia.org/wiki/Bekka_Bramlett")
     # print(occups)
     #
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Maurice_Gibb")
+    died_date = get_died_date("https://en.wikipedia.org/wiki/David_Brown_(American_musician)")
     print(died_date)
     #
     # died_place = get_death_place("https://en.wikipedia.org/wiki/John_Weider")
