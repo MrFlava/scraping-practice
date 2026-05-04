@@ -264,7 +264,33 @@ def parse_flatlist_occups(wikitext):
         re.DOTALL | re.IGNORECASE
     )
 
-    match = pattern.search(wikitext)
+    pattern2 = re.compile(
+        r'\|\s*occupation\s*=\s*\{\{flat list\s*\|\s*(.*?)\}\}',
+        re.DOTALL | re.IGNORECASE
+    )
+
+    pattern3 = re.compile(
+        r'\|\s*occupation\s*=\s*\{\{plainlist\s*\|\s*(.*?)\}\}',
+        re.DOTALL | re.IGNORECASE
+    )
+
+    pattern4 = re.compile(
+        r'\|\s*occupations\s*=\s*\{\{flat list\s*\|\s*(.*?)\}\}',
+        re.DOTALL | re.IGNORECASE
+    )
+
+    pattern5 = re.compile(
+        r'\|\s*occupation\s*=\s*\{\{hlist\s*\|\s*(.*?)\}\}',
+        re.DOTALL | re.IGNORECASE
+    )
+
+    pattern6 = re.compile(
+        r'\|\s*occupations\s*=\s*\{\{flatlist\s*\|\s*(.*?)\}\}',
+        re.DOTALL | re.IGNORECASE
+    )
+
+    match = pattern.search(wikitext) or pattern2.search(wikitext) or pattern3.search(wikitext) or pattern4.search(wikitext) or pattern5.search(wikitext) or pattern6.search(wikitext)
+
     if not match:
         return []
 
@@ -301,6 +327,9 @@ def get_occupations(performer_url: str) -> List[str]:
 
     textarea_edit_text = textarea_edit_soup.get_text()
     flatlist_occupations = parse_flatlist_occups(textarea_edit_text)
+
+    if flatlist_occupations:
+        return flatlist_occupations
 
     occupations_unparsed = re.search(r'occupation (.*)', textarea_edit_text)
 
@@ -549,40 +578,8 @@ def main():
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
-    # todo no occupations (needs to fix not only one row)
-    # for cases (
-    # https://en.wikipedia.org/wiki/Paul_Williams_(The_Temptations_singer)
-    # https://en.wikipedia.org/wiki/Eddie_Kendricks
-    # https://en.wikipedia.org/wiki/Otis_Williams
-    # https://en.wikipedia.org/wiki/Mike_Love
-    # https://en.wikipedia.org/wiki/Paul_McCartney
-    # https://en.wikipedia.org/wiki/Ringo_Starr
-    # https://en.wikipedia.org/wiki/Mick_Jagger
-    # https://en.wikipedia.org/wiki/Paul_Simon
-    # https://en.wikipedia.org/wiki/Art_Garfunkel
-    # https://en.wikipedia.org/wiki/Jerry_Butler
-    # https://en.wikipedia.org/wiki/Curtis_Mayfield
-    # https://en.wikipedia.org/wiki/Jack_Bruce
-    # https://en.wikipedia.org/wiki/Eric_Clapton
-    # https://en.wikipedia.org/wiki/John_Fogerty
-    # https://en.wikipedia.org/wiki/Jimmy_Page
-    # https://en.wikipedia.org/wiki/John_Paul_Jones_(musician),
-    # https://en.wikipedia.org/wiki/Richard_Wright_(musician),
-    # https://en.wikipedia.org/wiki/Syd_Barrett
-    # https://en.wikipedia.org/wiki/Peter_Green_(musician)
-    # https://en.wikipedia.org/wiki/Mick_Fleetwood
-    # https://en.wikipedia.org/wiki/Stevie_Nicks
-    # https://en.wikipedia.org/wiki/Cindy_Blackman_Santana
-    # https://en.wikipedia.org/wiki/Neal_Schon
-    # https://en.wikipedia.org/wiki/Gregg_Rolie
-    # https://en.wikipedia.org/wiki/Steven_Tyler
-    # https://en.wikipedia.org/wiki/Brian_May
-    # https://en.wikipedia.org/wiki/Roger_Taylor_(Queen_drummer)
-    # https://en.wikipedia.org/wiki/Freddie_Mercury
-    # https://en.wikipedia.org/wiki/Bob_Weir
-    # https://en.wikipedia.org/wiki/Moe_Tucker
-    # https://en.wikipedia.org/wiki/Randy_Meisner
-    # )
+    # todo https://en.wikipedia.org/wiki/Steven_Tyler for flatlist occups needs to delete some wrong values
+    # todo https://en.wikipedia.org/wiki/Bob_Weir for flatlist occups needs to delete some wrong values
     # todo find a way to parse years active flatlist
     #(
     # https://en.wikipedia.org/wiki/Moe_Tucker
@@ -612,7 +609,7 @@ def main():
     # print(birth_place)
     # birth_date = get_birth_day(soup, performer_url='https://en.wikipedia.org/wiki/Clarence_White')
     # print(birth_date)
-    occups = get_occupations("https://en.wikipedia.org/wiki/Paul_Williams_(The_Temptations_singer)")
+    occups = get_occupations("https://en.wikipedia.org/wiki/Randy_Meisner")
     print(occups)
     #
     # died_date = get_died_date("h/ttps://en.wikipedia.org/wiki/David_Brown_(American_musician)")
