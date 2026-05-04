@@ -258,6 +258,35 @@ def get_died_date(performer_url: str) -> str:
 
     return ''
 
+def parse_flatlist_occups(wikitext):
+    pattern = re.compile(
+        r'\|\s*occupation\s*=\s*\{\{flatlist\s*\|\s*(.*?)\}\}',
+        re.DOTALL | re.IGNORECASE
+    )
+
+    match = pattern.search(wikitext)
+    if not match:
+        return []
+
+    content = match.group(1)
+
+    raw_items = re.split(r'\n\*|\*', content)
+
+    occupations = []
+    for item in raw_items:
+        # Очищення від вікі-посилань: [[Стаття|Текст]] -> Текст
+        item = re.sub(r'\[\[[^|\]]+\|([^\]]+)\]\]', r'\1', item)
+        # Очищення від простих посилань: [[Стаття]] -> Стаття
+        item = re.sub(r'\[\[([^\]]+)\]\]', r'\1', item)
+        # Видалення залишків шаблонів та зайвих символів
+        item = re.sub(r'\{\{.*?\}\}', '', item)
+
+        clean_name = item.strip()
+        if clean_name:
+            occupations.append(clean_name)
+
+    return occupations
+
 def get_occupations(performer_url: str) -> List[str]:
     custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
                          " Chrome/123.0.0.0 Safari/537.36")
@@ -271,9 +300,10 @@ def get_occupations(performer_url: str) -> List[str]:
     )
 
     textarea_edit_text = textarea_edit_soup.get_text()
-    print(textarea_edit_text)
+    flatlist_occupations = parse_flatlist_occups(textarea_edit_text)
+
     occupations_unparsed = re.search(r'occupation (.*)', textarea_edit_text)
-    # print(occupations_unparsed)
+
     occupations_unparsed_v2 = re.search(r'occupations (.*)', textarea_edit_text)
 
     if occupations_unparsed:
@@ -582,11 +612,11 @@ def main():
     # print(birth_place)
     # birth_date = get_birth_day(soup, performer_url='https://en.wikipedia.org/wiki/Clarence_White')
     # print(birth_date)
-    # occups = get_occupations("https://en.wikipedia.org/wiki/Bekka_Bramlett")
-    # print(occups)
+    occups = get_occupations("https://en.wikipedia.org/wiki/Paul_Williams_(The_Temptations_singer)")
+    print(occups)
     #
-    died_date = get_died_date("https://en.wikipedia.org/wiki/David_Brown_(American_musician)")
-    print(died_date)
+    # died_date = get_died_date("h/ttps://en.wikipedia.org/wiki/David_Brown_(American_musician)")
+    # print(died_date)
     #
     # died_place = get_death_place("https://en.wikipedia.org/wiki/John_Weider")
     # print(died_place)
