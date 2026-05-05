@@ -1,5 +1,6 @@
 import re
 import json
+import resource
 
 import  requests
 from pymongo.collection import  Collection
@@ -258,7 +259,7 @@ def get_died_date(performer_url: str) -> str:
 
     return ''
 
-def parse_flatlist_occups(wikitext):
+def parse_flatlist_occups(wikitext: str):
     pattern = re.compile(
         r'\|\s*occupation\s*=\s*\{\{flatlist\s*\|\s*(.*?)\}\}',
         re.DOTALL | re.IGNORECASE
@@ -456,6 +457,37 @@ def get_death_place(performer_url: str) -> str:
 
     return ''
 
+def get_years_active_flatlist(wikitext: str):
+    pattern = re.compile(
+        r'\|\s*years_active\s*=\s*\{\{flatlist\s*\|\s*(.*?)\}\}',
+        re.DOTALL | re.IGNORECASE
+    )
+
+    match = pattern.search(wikitext)
+
+    if not match:
+        return []
+
+    content = match.group(1)
+
+    raw_items = re.split(r'\n\*|\*', content)
+
+    years_active = []
+    for item in raw_items:
+        # Очищення від вікі-посилань: [[Стаття|Текст]] -> Текст
+        item = re.sub(r'\[\[[^|\]]+\|([^\]]+)\]\]', r'\1', item)
+        # Очищення від простих посилань: [[Стаття]] -> Стаття
+        item = re.sub(r'\[\[([^\]]+)\]\]', r'\1', item)
+        # Видалення залишків шаблонів та зайвих символів
+        item = re.sub(r'\{\{.*?\}\}', '', item)
+
+        clean_name = item.strip()
+        if clean_name:
+            clean_name = clean_name.replace('{{circa|', '')
+            years_active.append(clean_name)
+
+    return ",".join(years_active)
+
 def get_years_activity(performer_url: str) -> str:
     custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
                          " Chrome/123.0.0.0 Safari/537.36")
@@ -469,6 +501,11 @@ def get_years_activity(performer_url: str) -> str:
     )
 
     textarea_edit_text = textarea_edit_soup.get_text()
+    flatlist_years_active = get_years_active_flatlist(textarea_edit_text)
+
+    if flatlist_years_active:
+        return flatlist_years_active
+
     years_active_unparsed = re.search(r'years_active (.*)', textarea_edit_text)
 
     if years_active_unparsed:
@@ -580,11 +617,6 @@ def main():
     band_members_list =  get_performers_from_db(band_members_collection, None)
     # todo https://en.wikipedia.org/wiki/Steven_Tyler for flatlist occups needs to delete some wrong values
     # todo https://en.wikipedia.org/wiki/Bob_Weir for flatlist occups needs to delete some wrong values
-    # todo find a way to parse years active flatlist
-    #(
-    # https://en.wikipedia.org/wiki/Moe_Tucker
-    # https://en.wikipedia.org/wiki/Randy_Meisner
-    # )
     # todo find a method to parse not only tables
     # for cases (
     # https://en.wikipedia.org/wiki/Vernon_Harrell
@@ -609,8 +641,8 @@ def main():
     # print(birth_place)
     # birth_date = get_birth_day(soup, performer_url='https://en.wikipedia.org/wiki/Clarence_White')
     # print(birth_date)
-    occups = get_occupations("https://en.wikipedia.org/wiki/Randy_Meisner")
-    print(occups)
+    # occups = get_occupations("https://en.wikipedia.org/wiki/Randy_Meisner")
+    # print(occups)
     #
     # died_date = get_died_date("h/ttps://en.wikipedia.org/wiki/David_Brown_(American_musician)")
     # print(died_date)
@@ -618,8 +650,8 @@ def main():
     # died_place = get_death_place("https://en.wikipedia.org/wiki/John_Weider")
     # print(died_place)
 
-    # years_active = get_years_activity("https://en.wikipedia.org/wiki/Moe_Tucker")
-    # print(years_active)
+    years_active = get_years_activity("https://en.wikipedia.org/wiki/Moe_Tucker")
+    print(years_active)
 
     # nickame = get_nickname(soup, 'https://en.wikipedia.org/wiki/David_Ruffin')
     # print(nickame)
