@@ -290,17 +290,24 @@ def parse_flatlist_occups(wikitext: str):
         re.DOTALL | re.IGNORECASE
     )
 
-    match = pattern.search(wikitext) or pattern2.search(wikitext) or pattern3.search(wikitext) or pattern4.search(wikitext) or pattern5.search(wikitext) or pattern6.search(wikitext)
+    pattern7 = re.compile(
+        r'\|\s*occupations\s*=\s*\{\{flatlist\s*\|\s*(.*?)\}\}',
+        re.DOTALL | re.IGNORECASE
+    )
 
+    match = pattern.search(wikitext) or pattern2.search(wikitext) or pattern3.search(wikitext) or pattern4.search(wikitext) or pattern5.search(wikitext) or pattern6.search(wikitext) or pattern7.search(wikitext)
     if not match:
         return []
 
     content = match.group(1)
 
-    raw_items = re.split(r'\n\*|\*', content)
+    raw_items = re.split(r'\n\*|\*|\n\||\|', content)
 
     occupations = []
     for item in raw_items:
+        # remove leading/trailing whitespace and any leftover separators
+        item = item.strip().lstrip('|').lstrip('*').strip()
+
         # Очищення від вікі-посилань: [[Стаття|Текст]] -> Текст
         item = re.sub(r'\[\[[^|\]]+\|([^\]]+)\]\]', r'\1', item)
         # Очищення від простих посилань: [[Стаття]] -> Стаття
@@ -310,6 +317,7 @@ def parse_flatlist_occups(wikitext: str):
 
         clean_name = item.strip()
         if clean_name:
+            clean_name = clean_name.replace('{{nowrap|', '')
             occupations.append(clean_name)
 
     return occupations
@@ -615,7 +623,6 @@ def main():
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
-    # todo https://en.wikipedia.org/wiki/Steven_Tyler for flatlist occups needs to delete some wrong values
     # todo https://en.wikipedia.org/wiki/Bob_Weir for flatlist occups needs to delete some wrong values
     # todo find a method to parse not only tables
     # for cases (
@@ -641,18 +648,16 @@ def main():
     # print(birth_place)
     # birth_date = get_birth_day(soup, performer_url='https://en.wikipedia.org/wiki/Clarence_White')
     # print(birth_date)
-    # occups = get_occupations("https://en.wikipedia.org/wiki/Randy_Meisner")
-    # print(occups)
+    occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
+    print(occups)
     #
     # died_date = get_died_date("h/ttps://en.wikipedia.org/wiki/David_Brown_(American_musician)")
     # print(died_date)
     #
     # died_place = get_death_place("https://en.wikipedia.org/wiki/John_Weider")
     # print(died_place)
-
-    years_active = get_years_activity("https://en.wikipedia.org/wiki/Moe_Tucker")
-    print(years_active)
-
+    # years_active = get_years_activity("https://en.wikipedia.org/wiki/Moe_Tucker")
+    # print(years_active)
     # nickame = get_nickname(soup, 'https://en.wikipedia.org/wiki/David_Ruffin')
     # print(nickame)
     # mine_bands_wiki_data(band_members_list)
