@@ -623,7 +623,6 @@ def main():
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
-    # todo https://en.wikipedia.org/wiki/Bob_Weir for flatlist occups needs to delete some wrong values
     # todo find a method to parse not only tables
     # for cases (
     # https://en.wikipedia.org/wiki/Vernon_Harrell
