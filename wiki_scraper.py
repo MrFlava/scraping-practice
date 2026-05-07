@@ -118,6 +118,55 @@ def get_performers_from_db(db_collection: Collection, query: Optional[str]) -> l
     performers = db_collection.find(query).to_list()
     return performers
 
+def parse_wiki_text_personal_info(text: str):
+    info = {}
+
+    # --- Nickname (Текст у лапках всередині імені) ---
+    nickname_match = re.search(r"'''[^']*\"([^\"]+)\"[^']*'''", text)
+    if nickname_match:
+        info['nickname'] = nickname_match.group(1)
+
+    # --- Birth Day (Конвертація "June 5, 1940" -> "1940-06-05") ---
+    months = {
+        "January": "01", "February": "02", "March": "03", "April": "04",
+        "May": "05", "June": "06", "July": "07", "August": "08",
+        "September": "09", "October": "10", "November": "11", "December": "12"
+    }
+    birth_match = re.search(r"\(([A-Za-z]+)\s(\d{1,2}),\s(\d{4})", text)
+    if birth_match:
+        month, day, year = birth_match.groups()
+        info['birth_day'] = f"{year}-{months.get(month, '00')}-{day.zfill(2)}"
+
+    # --- Birthplace ---
+    # Шукаємо фразу "was from [[...]]"
+    origin_match = re.search(r"was from \[\[([^\]|]+)(?:\|[^\]]+)?\]\]", text)
+    if origin_match:
+        info['birthplace'] = origin_match.group(1)
+
+    # --- Occupations ---
+    # Шукаємо слова після національності (наприклад, American ...)
+    occ_match = re.search(r"American\s+([A-Z&\s]+?)\s+(singer|songwriter|musician|artist)", text, re.IGNORECASE)
+    if occ_match:
+        # Шукаємо всі професії у реченні
+        line = re.search(r"was an? American (.+?)\.", text)
+        if line:
+            raw_occ = line.group(1)
+            # Розбиваємо за словами "and", "," та очищуємо
+            occ_list = re.split(r",\s*|and\s+", raw_occ)
+            info['occupations'] = [o.strip().capitalize() for o in occ_list if o.strip()]
+    # --- Years Active ---
+    years_match = re.search(r"released several singles in the (\d{4}s and \d{4}s)", text)
+    if years_match:
+        info['years_active'] = years_match.group(1)
+
+    # --- Genres ---
+    # Витягуємо R&B, Rock тощо перед професією
+    genre_match = re.search(r"American\s+([\w&/-]+)\s+(?:singer|songwriter)", text)
+    if genre_match:
+        info['genres'] = [genre_match.group(1)]
+
+    return {'personal_info': info}
+
 def get_table_soup(soup: BeautifulSoup) -> BeautifulSoup:
     table_soup = soup.find('table', attrs={'class': 'infobox biography vcard'})
 
@@ -604,6 +653,8 @@ def mine_bands_wiki_data(bands: list) -> str:
             member.update({"personal_info": personal_info})
             print(member)
 
+
+
 def hall_of_fame_links_miner():
     print('start to mine')
     performers, band_performers = mine_urls()
@@ -625,7 +676,6 @@ def main():
     band_members_list =  get_performers_from_db(band_members_collection, None)
     # todo find a method to parse not only tables
     # for cases (
-    # https://en.wikipedia.org/wiki/Vernon_Harrell
     # https://en.wikipedia.org/wiki/Harry_McGilberry
     # https://en.wikipedia.org/wiki/Ray_Davis_(musician)
     # https://en.wikipedia.org/wiki/Adolph_Jacobs,
@@ -640,15 +690,23 @@ def main():
     headers = {
         'User-Agent': custom_user_agent
     }
-    # soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Clarence_White', headers=headers).text)
-    # print(soup)
+    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Vernon_Harrell' + '?action=edit&veswitched=1', headers=headers).text)
+    textarea_edit_soup = source_edit_soup.find(
+        'textarea',
+        attrs={'id': 'wpTextbox1'}
+    )
+    textarea_edit_text = textarea_edit_soup.get_text()
+    print(textarea_edit_text)
+
+    personal_info = parse_wiki_text_personal_info(textarea_edit_text)
+    print(personal_info)
     #
     # birth_place = get_birthplace(soup, performer_url="https://en.wikipedia.org/wiki/John_Entwistle")
     # print(birth_place)
     # birth_date = get_birth_day(soup, performer_url='https://en.wikipedia.org/wiki/Clarence_White')
     # print(birth_date)
-    occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
-    print(occups)
+    # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
+    # print(occups)
     #
     # died_date = get_died_date("h/ttps://en.wikipedia.org/wiki/David_Brown_(American_musician)")
     # print(died_date)
