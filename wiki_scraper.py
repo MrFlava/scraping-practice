@@ -126,46 +126,55 @@ def parse_wiki_text_personal_info(text: str):
     if nickname_match:
         info['nickname'] = nickname_match.group(1)
 
-    # --- Birth Day (Конвертація "June 5, 1940" -> "1940-06-05") ---
+    # --- Birth Day and Died Date (Конвертація "June 5, 1940 &ndash; March 15, 1997" -> "1940-06-05", "1997-03-15") ---
     months = {
         "January": "01", "February": "02", "March": "03", "April": "04",
         "May": "05", "June": "06", "July": "07", "August": "08",
         "September": "09", "October": "10", "November": "11", "December": "12"
     }
-    birth_match = re.search(r"\(([A-Za-z]+)\s(\d{1,2}),\s(\d{4})", text)
-    if birth_match:
-        month, day, year = birth_match.groups()
-        info['birth_day'] = f"{year}-{months.get(month, '00')}-{day.zfill(2)}"
+
+    # Try to capture both birth and death in the same parentheses, handling several dash variants
+    date_range_match = re.search(
+        r"\(\s*([A-Za-z]+)\s+(\d{1,2}),\s+(\d{4})\s*(?:&ndash;|&mdash;|–|—|-)\s*([A-Za-z]+)\s+(\d{1,2}),\s+(\d{4})\s*\)",
+        text
+    )
+    if date_range_match:
+        b_month, b_day, b_year, d_month, d_day, d_year = date_range_match.groups()
+        info['birth_day'] = f"{b_year}-{months.get(b_month, '00')}-{b_day.zfill(2)}"
+        info['died_date'] = f"{d_year}-{months.get(d_month, '00')}-{d_day.zfill(2)}"
+    else:
+        # Fallback: only birth date present
+        birth_match = re.search(r"\(([A-Za-z]+)\s(\d{1,2}),\s(\d{4})", text)
+        if birth_match:
+            month, day, year = birth_match.groups()
+            info['birth_day'] = f"{year}-{months.get(month, '00')}-{day.zfill(2)}"
 
     # --- Birthplace ---
-    # Шукаємо фразу "was from [[...]]"
     origin_match = re.search(r"was from \[\[([^\]|]+)(?:\|[^\]]+)?\]\]", text)
     if origin_match:
         info['birthplace'] = origin_match.group(1)
 
     # --- Occupations ---
-    # Шукаємо слова після національності (наприклад, American ...)
     occ_match = re.search(r"American\s+([A-Z&\s]+?)\s+(singer|songwriter|musician|artist)", text, re.IGNORECASE)
     if occ_match:
-        # Шукаємо всі професії у реченні
         line = re.search(r"was an? American (.+?)\.", text)
         if line:
             raw_occ = line.group(1)
-            # Розбиваємо за словами "and", "," та очищуємо
             occ_list = re.split(r",\s*|and\s+", raw_occ)
             info['occupations'] = [o.strip().capitalize() for o in occ_list if o.strip()]
+
     # --- Years Active ---
     years_match = re.search(r"released several singles in the (\d{4}s and \d{4}s)", text)
     if years_match:
         info['years_active'] = years_match.group(1)
 
     # --- Genres ---
-    # Витягуємо R&B, Rock тощо перед професією
     genre_match = re.search(r"American\s+([\w&/-]+)\s+(?:singer|songwriter)", text)
     if genre_match:
         info['genres'] = [genre_match.group(1)]
 
     return {'personal_info': info}
+
 
 def get_table_soup(soup: BeautifulSoup) -> BeautifulSoup:
     table_soup = soup.find('table', attrs={'class': 'infobox biography vcard'})
@@ -674,23 +683,21 @@ def main():
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
-    # todo find a method to parse not only tables
-    # for cases (
-    # https://en.wikipedia.org/wiki/Harry_McGilberry
-    # https://en.wikipedia.org/wiki/Ray_Davis_(musician)
-    # https://en.wikipedia.org/wiki/Adolph_Jacobs,
-    # https://en.wikipedia.org/wiki/Bobby_Nunn_(doo-wop_musician),
-    # https://en.wikipedia.org/wiki/Sonny_Forriest,
-    # https://en.wikipedia.org/wiki/Billy_Yule,
-    # https://en.wikipedia.org/wiki/Ken_Koblun,
-    # https://en.wikipedia.org/wiki/Jim_Fielder
-    # )
+    # todo needs to fix the occups if it's possible https://en.wikipedia.org/wiki/Harry_McGilberry
+    # todo needs to not parse genre, because it's wrong https://en.wikipedia.org/wiki/Ray_Davis_(musician)
+    # todo needs to fix the occups https://en.wikipedia.org/wiki/Adolph_Jacobs
+    # todo needs to fix the occups  and genres https://en.wikipedia.org/wiki/Bobby_Nunn_(doo-wop_musician)
+    # todo needs to fix the occups https://en.wikipedia.org/wiki/Sonny_Forriest
+    # todo needs to fix text parsing https://en.wikipedia.org/wiki/Billy_Yule
+    # todo needs to fix text parsing https://en.wikipedia.org/wiki/Jim_Fielder
+    # todo  https://en.wikipedia.org/wiki/Ken_Koblun needs to get at least occupation
+
     custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
                          " Chrome/123.0.0.0 Safari/537.36")
     headers = {
         'User-Agent': custom_user_agent
     }
-    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Vernon_Harrell' + '?action=edit&veswitched=1', headers=headers).text)
+    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Jim_Fielder' + '?action=edit&veswitched=1', headers=headers).text)
     textarea_edit_soup = source_edit_soup.find(
         'textarea',
         attrs={'id': 'wpTextbox1'}
