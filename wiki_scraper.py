@@ -158,10 +158,18 @@ def parse_wiki_text_personal_info(text: str):
     occ_match = re.search(r"American\s+([A-Z&\s]+?)\s+(singer|songwriter|musician|artist)", text, re.IGNORECASE)
     if occ_match:
         line = re.search(r"was an? American (.+?)\.", text)
+        info['occupations'] = []
         if line:
             raw_occ = line.group(1)
             occ_list = re.split(r",\s*|and\s+", raw_occ)
-            info['occupations'] = [o.strip().capitalize() for o in occ_list if o.strip()]
+            for occ in occ_list:
+                print(occ)
+                info['occupations'].append(occ.strip())
+            # info['occupations'] = [o.strip()
+            #                        .replace("[[", "")
+            #                        .replace("]]", "")
+            #                         .replace("Latter-day bass guitar|bass singer for the temptations between 1995", "")
+            #                        .capitalize() for o in occ_list if o.strip()]
 
     # --- Years Active ---
     years_match = re.search(r"released several singles in the (\d{4}s and \d{4}s)", text)
@@ -697,7 +705,7 @@ def main():
     headers = {
         'User-Agent': custom_user_agent
     }
-    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Jim_Fielder' + '?action=edit&veswitched=1', headers=headers).text)
+    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Harry_McGilberry' + '?action=edit&veswitched=1', headers=headers).text)
     textarea_edit_soup = source_edit_soup.find(
         'textarea',
         attrs={'id': 'wpTextbox1'}
