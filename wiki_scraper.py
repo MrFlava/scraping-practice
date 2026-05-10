@@ -162,9 +162,23 @@ def parse_wiki_text_personal_info(text: str):
         if line:
             raw_occ = line.group(1)
             occ_list = re.split(r",\s*|and\s+", raw_occ)
+            # remove this logic into separate method
             for occ in occ_list:
-                print(occ)
-                info['occupations'].append(occ.strip())
+                occupation = (occ.strip()
+                              .replace("[[", "")
+                              .replace("]]", "")
+                              .replace("Rhythm", "")
+                              .replace("blues|R&B", "")
+                              .replace("soul music|soul singer", "soul singer")
+                              .replace("latter-day Bass guitar|bass singer for The Temptations between 1995", "guitar player")
+                              .replace("2003", "")
+                              .replace("best known as an original member of The Coasters", "")
+                              .replace("R&B singer with the musical groups The Robins", "R&B singer")
+                              .replace("original bass vocalist of The Coasters", "vocalist")
+                              )
+                # print(occ)
+                if occupation:
+                    info['occupations'].append(occupation)
             # info['occupations'] = [o.strip()
             #                        .replace("[[", "")
             #                        .replace("]]", "")
@@ -691,11 +705,8 @@ def main():
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
-    # todo needs to fix the occups if it's possible https://en.wikipedia.org/wiki/Harry_McGilberry
     # todo needs to not parse genre, because it's wrong https://en.wikipedia.org/wiki/Ray_Davis_(musician)
-    # todo needs to fix the occups https://en.wikipedia.org/wiki/Adolph_Jacobs
-    # todo needs to fix the occups  and genres https://en.wikipedia.org/wiki/Bobby_Nunn_(doo-wop_musician)
-    # todo needs to fix the occups https://en.wikipedia.org/wiki/Sonny_Forriest
+    # todo needs to fix genres https://en.wikipedia.org/wiki/Bobby_Nunn_(doo-wop_musician)
     # todo needs to fix text parsing https://en.wikipedia.org/wiki/Billy_Yule
     # todo needs to fix text parsing https://en.wikipedia.org/wiki/Jim_Fielder
     # todo  https://en.wikipedia.org/wiki/Ken_Koblun needs to get at least occupation
@@ -705,7 +716,7 @@ def main():
     headers = {
         'User-Agent': custom_user_agent
     }
-    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Harry_McGilberry' + '?action=edit&veswitched=1', headers=headers).text)
+    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Sonny_Forriest' + '?action=edit&veswitched=1', headers=headers).text)
     textarea_edit_soup = source_edit_soup.find(
         'textarea',
         attrs={'id': 'wpTextbox1'}
