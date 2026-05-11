@@ -193,7 +193,11 @@ def parse_wiki_text_personal_info(text: str):
     # --- Genres ---
     genre_match = re.search(r"American\s+([\w&/-]+)\s+(?:singer|songwriter)", text)
     if genre_match:
-        info['genres'] = [genre_match.group(1)]
+        genres = genre_match.group(1).replace("bass", "").replace("male", "")
+        info['genres'] = []
+
+        if genres:
+            info['genres'].append(genres)
 
     return {'personal_info': info}
 
@@ -705,8 +709,6 @@ def main():
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
-    # todo needs to not parse genre, because it's wrong https://en.wikipedia.org/wiki/Ray_Davis_(musician)
-    # todo needs to fix genres https://en.wikipedia.org/wiki/Bobby_Nunn_(doo-wop_musician)
     # todo needs to fix text parsing https://en.wikipedia.org/wiki/Billy_Yule
     # todo needs to fix text parsing https://en.wikipedia.org/wiki/Jim_Fielder
     # todo  https://en.wikipedia.org/wiki/Ken_Koblun needs to get at least occupation
@@ -716,7 +718,7 @@ def main():
     headers = {
         'User-Agent': custom_user_agent
     }
-    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Sonny_Forriest' + '?action=edit&veswitched=1', headers=headers).text)
+    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Bobby_Nunn_(doo-wop_musician)' + '?action=edit&veswitched=1', headers=headers).text)
     textarea_edit_soup = source_edit_soup.find(
         'textarea',
         attrs={'id': 'wpTextbox1'}
