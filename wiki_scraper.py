@@ -134,6 +134,7 @@ def parse_wiki_text_personal_info(text: str):
     }
 
     # Try to capture both birth and death in the same parentheses, handling several dash variants
+    # possibly needs to refactor this regex for catching (born c. 1954)
     date_range_match = re.search(
         r"\(\s*([A-Za-z]+)\s+(\d{1,2}),\s+(\d{4})\s*(?:&ndash;|&mdash;|–|—|-)\s*([A-Za-z]+)\s+(\d{1,2}),\s+(\d{4})\s*\)",
         text
@@ -718,7 +719,7 @@ def main():
     headers = {
         'User-Agent': custom_user_agent
     }
-    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Bobby_Nunn_(doo-wop_musician)' + '?action=edit&veswitched=1', headers=headers).text)
+    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Billy_Yule' + '?action=edit&veswitched=1', headers=headers).text)
     textarea_edit_soup = source_edit_soup.find(
         'textarea',
         attrs={'id': 'wpTextbox1'}
