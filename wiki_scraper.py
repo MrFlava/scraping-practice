@@ -121,86 +121,167 @@ def get_performers_from_db(db_collection: Collection, query: Optional[str]) -> l
 def parse_wiki_text_personal_info(text: str):
     info = {}
 
-    # --- Nickname (Текст у лапках всередині імені) ---
+    # --- Nickname inside bold name with quotes ---
     nickname_match = re.search(r"'''[^']*\"([^\"]+)\"[^']*'''", text)
     if nickname_match:
         info['nickname'] = nickname_match.group(1)
 
-    # --- Birth Day and Died Date (Конвертація "June 5, 1940 &ndash; March 15, 1997" -> "1940-06-05", "1997-03-15") ---
+    # --- Months map and helper ---
     months = {
-        "January": "01", "February": "02", "March": "03", "April": "04",
-        "May": "05", "June": "06", "July": "07", "August": "08",
-        "September": "09", "October": "10", "November": "11", "December": "12"
+        "january": "01", "february": "02", "march": "03", "april": "04",
+        "may": "05", "june": "06", "july": "07", "august": "08",
+        "september": "09", "october": "10", "november": "11", "december": "12"
     }
 
-    # Try to capture both birth and death in the same parentheses, handling several dash variants
-    # possibly needs to refactor this regex for catching (born c. 1954)
-    date_range_match = re.search(
-        r"\(\s*([A-Za-z]+)\s+(\d{1,2}),\s+(\d{4})\s*(?:&ndash;|&mdash;|–|—|-)\s*([A-Za-z]+)\s+(\d{1,2}),\s+(\d{4})\s*\)",
-        text
+    def _norm_date(mon: str, day: str, year: str):
+        m = months.get(mon.lower(), "00")
+        return f"{year}-{m}-{day.zfill(2)}"
+
+    # --- Birth and death parsing ---
+
+    # 1) full range with month/day -> (June 5, 1940 – March 15, 1997)
+    range_re = re.compile(
+        r"\(\s*([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})\s*(?:&ndash;|&mdash;|–|—|-)\s*([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})\s*\)",
+        re.IGNORECASE
     )
-    if date_range_match:
-        b_month, b_day, b_year, d_month, d_day, d_year = date_range_match.groups()
-        info['birth_day'] = f"{b_year}-{months.get(b_month, '00')}-{b_day.zfill(2)}"
-        info['died_date'] = f"{d_year}-{months.get(d_month, '00')}-{d_day.zfill(2)}"
+    m = range_re.search(text)
+    if m:
+        b_mon, b_day, b_year, d_mon, d_day, d_year = m.groups()
+        info['birth_day'] = _norm_date(b_mon, b_day, b_year)
+        info['died_date'] = _norm_date(d_mon, d_day, d_year)
     else:
-        # Fallback: only birth date present
-        birth_match = re.search(r"\(([A-Za-z]+)\s(\d{1,2}),\s(\d{4})", text)
-        if birth_match:
-            month, day, year = birth_match.groups()
-            info['birth_day'] = f"{year}-{months.get(month, '00')}-{day.zfill(2)}"
+        # 2) born immediately after bolded name with place: '''Name''' (born October 4, 1947 in [[Denton, Texas]])
+        bold_born_in = re.search(
+            r"'''[^']+'''\s*\(\s*born\s*([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})\s+in\s+\[\[([^\]|]+)(?:\|[^\]]+)?\]\]\s*\)",
+            text, re.IGNORECASE
+        )
+        if bold_born_in:
+            mon, day, year, place = bold_born_in.groups()
+            info['birth_day'] = _norm_date(mon, day, year)
+            info['birthplace'] = place
+        else:
+            # 3) born immediately after bolded name without place: '''Name''' (born June 5, 1940)
+            bold_born_md = re.search(r"'''[^']+'''\s*\(\s*born\s*([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})\s*\)", text, re.IGNORECASE)
+            if bold_born_md:
+                mon, day, year = bold_born_md.groups()
+                info['birth_day'] = _norm_date(mon, day, year)
+            else:
+                # 4) explicit "born Month day, year anywhere"
+                born_md = re.search(r"\(born\s*([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})\)", text, re.IGNORECASE)
+                if born_md:
+                    mon, day, year = born_md.groups()
+                    info['birth_day'] = _norm_date(mon, day, year)
+                else:
+                    # 5) born with place anywhere: (born October 4, 1947 in [[Denton, Texas]])
+                    born_in_any = re.search(
+                        r"\(\s*born\s*([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})\s+in\s+\[\[([^\]|]+)(?:\|[^\]]+)?\]\]\s*\)",
+                        text, re.IGNORECASE
+                    )
+                    if born_in_any:
+                        mon, day, year, place = born_in_any.groups()
+                        info['birth_day'] = _norm_date(mon, day, year)
+                        info['birthplace'] = place
+                    else:
+                        # 6) short description / circa / year-only
+                        short_desc_circa = re.search(r"\{\{\s*short description\s*\|[^}]*\(born\s*(?:c\.|circa)?\s*(\d{4})\)", text, re.IGNORECASE)
+                        if short_desc_circa:
+                            info['birth_day'] = short_desc_circa.group(1)
+                        else:
+                            born_year = re.search(r"\(?\s*born\s*(?:c\.|c|circa)?\s*(\d{4})\s*\)?", text, re.IGNORECASE)
+                            if born_year:
+                                info['birth_day'] = born_year.group(1)
+                            else:
+                                # fallback: single parenthetical birth like (June 5, 1940)
+                                single_birth = re.search(r"\(\s*([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})\s*\)", text)
+                                if single_birth:
+                                    mon, day, year = single_birth.groups()
+                                    info['birth_day'] = _norm_date(mon, day, year)
 
-    # --- Birthplace ---
-    origin_match = re.search(r"was from \[\[([^\]|]+)(?:\|[^\]]+)?\]\]", text)
-    if origin_match:
-        info['birthplace'] = origin_match.group(1)
+        # also attempt to extract a death-only date if present outside range
+        if 'died_date' not in info:
+            died_single = re.search(r"died\s+([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})", text, re.IGNORECASE)
+            if died_single:
+                mon, day, year = died_single.groups()
+                info['died_date'] = _norm_date(mon, day, year)
 
-    # --- Occupations ---
-    occ_match = re.search(r"American\s+([A-Z&\s]+?)\s+(singer|songwriter|musician|artist)", text, re.IGNORECASE)
-    if occ_match:
-        line = re.search(r"was an? American (.+?)\.", text)
-        info['occupations'] = []
-        if line:
-            raw_occ = line.group(1)
-            occ_list = re.split(r",\s*|and\s+", raw_occ)
-            # remove this logic into separate method
-            for occ in occ_list:
-                occupation = (occ.strip()
-                              .replace("[[", "")
-                              .replace("]]", "")
-                              .replace("Rhythm", "")
-                              .replace("blues|R&B", "")
-                              .replace("soul music|soul singer", "soul singer")
-                              .replace("latter-day Bass guitar|bass singer for The Temptations between 1995", "guitar player")
-                              .replace("2003", "")
-                              .replace("best known as an original member of The Coasters", "")
-                              .replace("R&B singer with the musical groups The Robins", "R&B singer")
-                              .replace("original bass vocalist of The Coasters", "vocalist")
-                              )
-                # print(occ)
-                if occupation:
-                    info['occupations'].append(occupation)
-            # info['occupations'] = [o.strip()
-            #                        .replace("[[", "")
-            #                        .replace("]]", "")
-            #                         .replace("Latter-day bass guitar|bass singer for the temptations between 1995", "")
-            #                        .capitalize() for o in occ_list if o.strip()]
+    # --- Birthplace from "was from [[Place]]" if not already set ---
+    if 'birthplace' not in info:
+        origin_match = re.search(r"was from \[\[([^\]|]+)(?:\|[^\]]+)?\]\]", text)
+        if origin_match:
+            info['birthplace'] = origin_match.group(1)
 
-    # --- Years Active ---
+    # --- Occupations: existing heuristic (unchanged) ---
+    occupation_keywords = [
+        "drummer", "singer", "songwriter", "musician", "bassist", "guitarist",
+        "producer", "composer", "vocalist", "pianist", "saxophonist", "keyboardist",
+        "record producer", "engineer", "actor", "actor/producer", "conductor", "violinist"
+    ]
+    occ_kw_pattern = r'(?:[A-Za-z-]+\s)?(?:' + '|'.join(re.escape(k) for k in occupation_keywords) + r')'
+    found_occs = []
+
+    short_desc_match = re.search(r'\{\{\s*short description\s*\|\s*([^|\}]+)', text, re.IGNORECASE)
+    if short_desc_match:
+        desc = short_desc_match.group(1).strip()
+        desc = re.sub(r'\s*\(.*\)\s*$', '', desc).strip()
+        m = re.search(r'(' + occ_kw_pattern + r')', desc, re.IGNORECASE)
+        if m:
+            found_occs.append(m.group(1).strip())
+
+    lead_match = re.search(r"'''[^']+'''\s*(?:\([^)]*\)\s*)?is\s+an?\s+([^.]+?)\.", text, re.IGNORECASE)
+    if lead_match:
+        lead = lead_match.group(1).strip()
+        m = re.search(r'(' + occ_kw_pattern + r')', lead, re.IGNORECASE)
+        if m:
+            found_occs.append(m.group(1).strip())
+
+    for link_target, link_label in re.findall(r'\[\[([^\]|]+)(?:\|([^\]]+))?\]\]', text):
+        token = (link_label or link_target).strip()
+        m = re.search(r'(' + occ_kw_pattern + r')', token, re.IGNORECASE)
+        if m:
+            found_occs.append(m.group(1).strip())
+
+    try:
+        flat_items = parse_flatlist_occups(text)
+    except Exception:
+        flat_items = []
+    if flat_items:
+        for it in flat_items:
+            if it and it not in found_occs:
+                found_occs.append(it.strip())
+
+    nationalities = {'american', 'british', 'english', 'canadian', 'australian', 'irish', 'scottish'}
+    cleaned = []
+    seen = set()
+    for o in found_occs:
+        o_norm = o.lower().strip()
+        o_norm = re.sub(r'\(.*?\)', '', o_norm).strip()
+        o_norm = re.sub(r'[^a-z0-9\s\-]', '', o_norm)
+        parts = o_norm.split()
+        if parts and parts[0] in nationalities:
+            parts = parts[1:]
+        o_norm = ' '.join(parts).strip()
+        if o_norm and o_norm not in seen:
+            seen.add(o_norm)
+            cleaned.append(o_norm)
+
+    if cleaned:
+        info['occupations'] = cleaned
+
+    # --- Years Active (existing) ---
     years_match = re.search(r"released several singles in the (\d{4}s and \d{4}s)", text)
     if years_match:
         info['years_active'] = years_match.group(1)
 
-    # --- Genres ---
+    # --- Genres (existing) ---
     genre_match = re.search(r"American\s+([\w&/-]+)\s+(?:singer|songwriter)", text)
     if genre_match:
         genres = genre_match.group(1).replace("bass", "").replace("male", "")
         info['genres'] = []
-
         if genres:
             info['genres'].append(genres)
 
     return {'personal_info': info}
+
 
 
 def get_table_soup(soup: BeautifulSoup) -> BeautifulSoup:
@@ -710,7 +791,6 @@ def main():
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
-    # todo needs to fix text parsing https://en.wikipedia.org/wiki/Billy_Yule
     # todo needs to fix text parsing https://en.wikipedia.org/wiki/Jim_Fielder
     # todo  https://en.wikipedia.org/wiki/Ken_Koblun needs to get at least occupation
 
@@ -719,7 +799,7 @@ def main():
     headers = {
         'User-Agent': custom_user_agent
     }
-    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Billy_Yule' + '?action=edit&veswitched=1', headers=headers).text)
+    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Jim_Fielder' + '?action=edit&veswitched=1', headers=headers).text)
     textarea_edit_soup = source_edit_soup.find(
         'textarea',
         attrs={'id': 'wpTextbox1'}
