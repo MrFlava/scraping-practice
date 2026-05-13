@@ -791,15 +791,13 @@ def main():
 
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
-    # todo needs to fix text parsing https://en.wikipedia.org/wiki/Jim_Fielder
-    # todo  https://en.wikipedia.org/wiki/Ken_Koblun needs to get at least occupation
 
     custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
                          " Chrome/123.0.0.0 Safari/537.36")
     headers = {
         'User-Agent': custom_user_agent
     }
-    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Jim_Fielder' + '?action=edit&veswitched=1', headers=headers).text)
+    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Ken_Koblun' + '?action=edit&veswitched=1', headers=headers).text)
     textarea_edit_soup = source_edit_soup.find(
         'textarea',
         attrs={'id': 'wpTextbox1'}
