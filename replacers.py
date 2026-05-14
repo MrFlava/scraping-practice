@@ -1,6 +1,6 @@
 REPLACE_DEFAULT = ''
 REPLACE_BIRTH_PLACE_ELEMENTS_LIST = [' ', '[', ']', '|', ',']
-REPLACE_BIRTH_PLACE_ELEMENTS = dict()
+
 REPLACE_OCCUPATION_ELEMENTS_LIST = [
     '  ',
     'hlist',
@@ -55,7 +55,33 @@ REPLACE_OCCUPATION_ELEMENTS_LIST = [
     'occupations=',
     'Musician;songwriter'
 ]
-REPLACE_OCCUPATION_ELEMENTS = dict()
+
+OCCUPATION_REPLACEMENTS = {
+    '[[minister(christianity)|minister]]': 'minister',
+    '|': ',',
+    'recordproducer': 'record producer',
+    'artist<ref>citeweb': 'artist',
+    'peaceactivist': 'peace activist',
+    'musicandfilmproducer': 'music and film producer',
+    'radiopersonality': 'radio personality',
+    'tourmanager': 'tour manager',
+    'recordingartist': 'Recording artist',
+    'filmproducer': 'Film producer',
+    'musicalarranger': 'musical arranger',
+    'artistsandrepertoire': 'Artists and repertoire',
+    'arrepresentative': 'AR representative',
+    'cityworker': 'City worker',
+    'autoracer': 'auto racer',
+    'christianminister': 'Christian minister',
+    'filmdirector': 'film director',
+    "[[philanthropyofmichaeljackson', 'philanthropist]]": 'philanthropist',
+    'musician;songwriter': 'Musician-songwriter',
+    'hlist': REPLACE_DEFAULT,
+    'flatlist': REPLACE_DEFAULT,
+    'occupation=': REPLACE_DEFAULT,
+    'occupations=': REPLACE_DEFAULT,
+}
+
 DEATH_DATE_ELEMENTS_LIST = [
     '  ',
     'death date and age',
@@ -68,55 +94,6 @@ DEATH_DATE_ELEMENTS_LIST = [
     'dfyes',
     '[[PhilanthropyofMichaelJackson', 'philanthropist]]'
 ]
-DEATH_DATE_ELEMENTS = dict()
-
-for element in REPLACE_BIRTH_PLACE_ELEMENTS_LIST:
-        REPLACE_BIRTH_PLACE_ELEMENTS[element] = REPLACE_DEFAULT
-
-for element in REPLACE_OCCUPATION_ELEMENTS_LIST:
-    if element == '[[Minister(Christianity)|minister]]':
-        REPLACE_OCCUPATION_ELEMENTS[element] = 'minister'
-    elif element == '|':
-        REPLACE_OCCUPATION_ELEMENTS[element] = ','
-    elif element == 'recordproducer':
-        REPLACE_OCCUPATION_ELEMENTS[element] = 'record producer'
-    elif element == 'artist<ref>Citeweb':
-        REPLACE_OCCUPATION_ELEMENTS[element] = 'artist'
-    elif element == 'peaceactivist':
-        REPLACE_OCCUPATION_ELEMENTS[element] = 'peace activist'
-    elif element == 'musicandfilmproducer':
-        REPLACE_OCCUPATION_ELEMENTS[element] = 'music and film producer'
-    elif element == 'radiopersonality':
-        REPLACE_OCCUPATION_ELEMENTS[element] = 'radio personality'
-    elif element == 'tourmanager':
-        REPLACE_OCCUPATION_ELEMENTS[element] = 'tour manager'
-    elif element == 'Recordingartist':
-        REPLACE_OCCUPATION_ELEMENTS[element] = 'Recording artist'
-    elif element == 'filmproducer':
-        REPLACE_OCCUPATION_ELEMENTS[element] = 'Film producer'
-    elif element == 'musicalarranger':
-        REPLACE_OCCUPATION_ELEMENTS[element] = 'musical arranger'
-    elif element == 'Artistsandrepertoire':
-        REPLACE_OCCUPATION_ELEMENTS[element] = 'Artists and repertoire'
-    elif element == 'ARrepresentative':
-        REPLACE_OCCUPATION_ELEMENTS[element] = 'AR representative'
-    elif element == 'Cityworker':
-        REPLACE_OCCUPATION_ELEMENTS[element] = 'City worker'
-    elif element == 'autoracer':
-        REPLACE_OCCUPATION_ELEMENTS[element] = 'auto racer'
-    elif element == 'Christianminister':
-        REPLACE_OCCUPATION_ELEMENTS[element] = 'Christian minister'
-    elif element == 'filmdirector':
-        REPLACE_OCCUPATION_ELEMENTS[element] = 'film director'
-    elif element == "[[PhilanthropyofMichaelJackson', 'philanthropist]]":
-        REPLACE_OCCUPATION_ELEMENTS[element] = 'philanthropist'
-    elif element == "Musician;songwriter":
-        REPLACE_OCCUPATION_ELEMENTS[element] = 'Musician-songwriter'
-    else:
-        REPLACE_OCCUPATION_ELEMENTS[element] = REPLACE_DEFAULT
-
-for element in DEATH_DATE_ELEMENTS_LIST:
-    DEATH_DATE_ELEMENTS[element] = REPLACE_DEFAULT
 
 DEATH_PLACE_ELEMENTS_LIST = [
     ' ',
@@ -154,10 +131,6 @@ DEATH_PLACE_ELEMENTS_LIST = [
     '<refname"Obit"/><refname"Obit3"/>',
     '<!--InBritishEnglish,"US"ispreferredover"U.S."-->'
 ]
-DEATH_PLACE_ELEMENTS = dict()
-
-for element in DEATH_PLACE_ELEMENTS_LIST:
-    DEATH_PLACE_ELEMENTS[element] = REPLACE_DEFAULT
 
 YEARS_ACTIVE_ELEMENTS_LIST = [
     '  ',
@@ -187,28 +160,6 @@ YEARS_ACTIVE_ELEMENTS_LIST = [
     "<!--STOP editing this without a reliable source; Phillips's professional career began with Mamas and Papas in 1965 by all accounts. She was 13 years old in 1957, and living in Mexico at that time-->",
     '1965–as of2015altpresent',
 ]
-YEARS_ACTIVE_ELEMENTS = dict()
-
-for element in YEARS_ACTIVE_ELEMENTS_LIST:
-    if element == '19751980':
-        YEARS_ACTIVE_ELEMENTS[element] = '1980'
-    elif element == '1959–19931997–present':
-        YEARS_ACTIVE_ELEMENTS[element] = '1959–1993 1997–present'
-    elif element == '&ndash;':
-        YEARS_ACTIVE_ELEMENTS[element] = '-'
-    elif element == ' 1965–19771997–present':
-        YEARS_ACTIVE_ELEMENTS[element] = '1965-1977 1997-present'
-    elif element == 'ndash':
-        YEARS_ACTIVE_ELEMENTS[element] = '-'
-    elif element == '1960–19791986–present':
-        YEARS_ACTIVE_ELEMENTS[element] = '1960–1979 1986–present'
-    elif element == '1966–19982003–20042013–2022':
-        YEARS_ACTIVE_ELEMENTS[element] = '1966–1998 2003–2004 2013–2022'
-    elif element == '1965–as of2015altpresent':
-        YEARS_ACTIVE_ELEMENTS[element] = '1965-present'
-    else:
-        YEARS_ACTIVE_ELEMENTS[element] = REPLACE_DEFAULT
-
 
 GENRES_ELEMENTS = {
     "ContemporaryfolkmusicFolk": "Contemporary folk music",
@@ -263,3 +214,35 @@ GENRES_ELEMENTS = {
     "Rockandrollrhythmandbluesgospelmusicgospelsoulmusicsoul": "Rock and roll, R&B, Gospel, Soul",
     "RockmusicRockprogressiverockbluesexperimentalmusicexperimentaljazzjazzfusionfusionclassicalmusicclassicalPopmusicpopavant-gardemusicavant-gardedoo-wopcomedymusiccomedyelectronicmusicelectronicmusiqueconcrète": "Rock, Progressive rock, Blues, Experimental music, Experimental jazz, Jazz fuzion, Classical music",
 }
+
+# python
+# helper used to build replacement dicts from existing *LIST constants
+def _normalize_key(s: str) -> str:
+    return s.strip().lower()
+
+def _build_replacements_from_list(list_items, replacements=None, default=REPLACE_DEFAULT):
+    replacements = replacements or {}
+    out = {}
+    for item in list_items:
+        key = _normalize_key(item)
+        out[item] = replacements.get(key, default)
+    return out
+
+# specific replacements for years active (previously handled with many elifs)
+YEARS_ACTIVE_REPLACEMENTS = {
+    '19751980': '1980',
+    '1959–19931997–present': '1959–1993 1997–present',
+    '&ndash;': '-',
+    ' 1965–19771997–present': '1965-1977 1997-present',
+    'ndash': '-',
+    '1960–19791986–present': '1960–1979 1986–present',
+    '1966–19982003–20042013–2022': '1966–1998 2003–2004 2013–2022',
+    '1965–as of2015altpresent': '1965-present',
+}
+
+# build the dicts using the helper (works for occupation, years active, birth/death/place lists)
+REPLACE_BIRTH_PLACE_ELEMENTS = _build_replacements_from_list(REPLACE_BIRTH_PLACE_ELEMENTS_LIST)
+REPLACE_OCCUPATION_ELEMENTS = _build_replacements_from_list(REPLACE_OCCUPATION_ELEMENTS_LIST, OCCUPATION_REPLACEMENTS)
+DEATH_DATE_ELEMENTS = _build_replacements_from_list(DEATH_DATE_ELEMENTS_LIST)
+DEATH_PLACE_ELEMENTS = _build_replacements_from_list(DEATH_PLACE_ELEMENTS_LIST)
+YEARS_ACTIVE_ELEMENTS = _build_replacements_from_list(YEARS_ACTIVE_ELEMENTS_LIST, YEARS_ACTIVE_REPLACEMENTS)
