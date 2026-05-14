@@ -792,36 +792,36 @@ def main():
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
 
-    custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
-                         " Chrome/123.0.0.0 Safari/537.36")
-    headers = {
-        'User-Agent': custom_user_agent
-    }
-    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Ken_Koblun' + '?action=edit&veswitched=1', headers=headers).text)
-    textarea_edit_soup = source_edit_soup.find(
-        'textarea',
-        attrs={'id': 'wpTextbox1'}
-    )
-    textarea_edit_text = textarea_edit_soup.get_text()
-    print(textarea_edit_text)
+    # custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
+    #                      " Chrome/123.0.0.0 Safari/537.36")
+    # headers = {
+    #     'User-Agent': custom_user_agent
+    # }
+    # source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Ken_Koblun' + '?action=edit&veswitched=1', headers=headers).text)
+    # textarea_edit_soup = source_edit_soup.find(
+    #     'textarea',
+    #     attrs={'id': 'wpTextbox1'}
+    # )
+    # textarea_edit_text = textarea_edit_soup.get_text()
+    # print(textarea_edit_text)
 
-    personal_info = parse_wiki_text_personal_info(textarea_edit_text)
-    print(personal_info)
+    # personal_info = parse_wiki_text_personal_info(textarea_edit_text)
+    # print(personal_info)
     #
     # birth_place = get_birthplace(soup, performer_url="https://en.wikipedia.org/wiki/John_Entwistle")
     # print(birth_place)
     # birth_date = get_birth_day(soup, performer_url='https://en.wikipedia.org/wiki/Clarence_White')
     # print(birth_date)
-    # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
-    # print(occups)
+    occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
+    print(occups)
     #
-    # died_date = get_died_date("h/ttps://en.wikipedia.org/wiki/David_Brown_(American_musician)")
-    # print(died_date)
+    died_date = get_died_date("https://en.wikipedia.org/wiki/David_Brown_(American_musician)")
+    print(died_date)
     #
-    # died_place = get_death_place("https://en.wikipedia.org/wiki/John_Weider")
-    # print(died_place)
-    # years_active = get_years_activity("https://en.wikipedia.org/wiki/Moe_Tucker")
-    # print(years_active)
+    died_place = get_death_place("https://en.wikipedia.org/wiki/John_Weider")
+    print(died_place)
+    years_active = get_years_activity("https://en.wikipedia.org/wiki/Moe_Tucker")
+    print(years_active)
     # nickame = get_nickname(soup, 'https://en.wikipedia.org/wiki/David_Ruffin')
     # print(nickame)
     # mine_bands_wiki_data(band_members_list)
