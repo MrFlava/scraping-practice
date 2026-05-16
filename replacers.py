@@ -1,3 +1,5 @@
+import re
+
 REPLACE_DEFAULT = ''
 REPLACE_BIRTH_PLACE_ELEMENTS_LIST = [' ', '[', ']', '|', ',']
 
@@ -246,3 +248,37 @@ REPLACE_OCCUPATION_ELEMENTS = _build_replacements_from_list(REPLACE_OCCUPATION_E
 DEATH_DATE_ELEMENTS = _build_replacements_from_list(DEATH_DATE_ELEMENTS_LIST)
 DEATH_PLACE_ELEMENTS = _build_replacements_from_list(DEATH_PLACE_ELEMENTS_LIST)
 YEARS_ACTIVE_ELEMENTS = _build_replacements_from_list(YEARS_ACTIVE_ELEMENTS_LIST, YEARS_ACTIVE_REPLACEMENTS)
+
+def normalize_genre_string(genre_unparsed: str) -> str:
+    genre_str = (genre_unparsed
+                 .replace('Flatlist', '')
+                 .replace('flatlist', '')
+                 .replace('Hlist', '')
+                 .replace('hlist', '')
+                 .replace('genre', '')
+                 .replace('=', '')
+                 .replace('*', '')
+                 .replace('[', '')
+                 .replace(']', '')
+                 .replace('{', '')
+                 .replace('}', '')
+                 .replace('|', ' ')
+                 .replace(' ', '')
+                 .replace('<ref>CitewebtitleJerryLeeLewisurlhttps://www.rockhall.com/inductees/jerry-lee-lewisaccess-dateSeptember4,2016websiteRockandRollHallofFameandMuseumarchive-dateOctober1,2021archive-urlhttps://web.archive.org/web/20211001212832/https://www.rockhall.com/inductees/jerry-lee-lewisurl-statuslive', '')
+                 .replace('<ref>citeweblastSilvafirstCarlytitleRodStewartAnnouncesHe"sSwitchingMusicGenresurlhttps://www.msn.com/en-us/entertainment/news/rod-stewart-announces-he-s-switching-music-s/ar-AA1cB3el?liBBnb2ghwebsiteParadedate15June2023access-date9July2023viaMSN', '')
+                 .replace('<ref>citeweburlhttps://www.allmusic.com/artist/roy-orbison-mn0000852007titleRoyOrbisonSongs,Albums,Reviews,Bio&MorewebsiteAllMusic', '')
+                 .replace('<ref>JazzNorthernSoulhttps://lithub.com/dusty-springfield-reluctant-queen-of-blue-eyed-soul/DustySpringfieldqueenofblue-eyed-soulRetrieved12April2022</ref>', '')
+                 .replace("<ref>citeweblastSilvafirstCarlytitleRodStewartAnnouncesHe'sSwitchingMusicGenresurlhttps://www.msn.com/en-us/entertainment/news/rod-stewart-announces-he-s-switching-music-s/ar-AA1cB3el?liBBnb2ghwebsiteParadedate15June2023access-date9July2023viaMSN", '')
+                 .replace("<ref>citeweburlhttps://www.latimes.com/archives/la-xpm-1995-02-13-ca-31549-story.htmltitleBobMarleyFestivalSpreadsSome'RastamanVibration':Anniversary:Jamaicaconcertmarksthe50thbirthdayofthelatereggaeiconandpoet-musician.authorFreed,Kennethdate13February1995newspaperLosAngelesTimesaccess-date1August2019archive-date2August2019archive-urlhttps://web.archive.org/web/20190802064134/https://www.latimes.com/archives/la-xpm-1995-02-13-ca-31549-story.htmlurl-statuslive", '')
+                 .replace('<refname"auto2">Citeweburlhttps://www.allmusic.com/artist/johnny-cash-mn0000816890titleJohnnyCash&#124;Biography,Albums,StreamingLinkswebsiteAllMusic', '')
+                 .replace('<refname"Snapes-2019">citeweburlhttps://www.theguardian.com/music/2019/jul/08/stevie-wonder-kidney-transplant-british-summertime-festival-hyde-park-londontitleStevieWondertoundergokidneytransplantworkTheGuardianlocationLondonlastSnapesfirstLauradateJuly8,2019access-dateJuly26,2020', '')
+                 )
+    if genre_str.startswith('Rockmusicrock<refname"bio-allmusic1"'):
+        genre_str = re.sub(r"['\"]", "", genre_str)
+        genre_str = genre_str.replace('<refnamebio-allmusic1/><refnameconcertarchives>citeweburlhttps://www.concertarchives.org/bands/billy-joel--5workConcertArchivestitleBillyJoelsConcertHistoryaccess-dateOctober18,2020archive-dateNovember8,2020archive-urlhttps://web.archive.org/web/20201108053223/https://www.concertarchives.org/bands/billy-joel--5url-statuslive', "")
+
+    if genre_str.startswith('<!--Donotaddslikeart/prog/jazz/experimental/symphonicrock.'):
+        genre_str = genre_str.replace('<!--Donotaddslikeart/prog/jazz/experimental/symphonicrock.ThisinfoboxwouldbeenormousifeverystyleZappaeverplayedwasincluded.-->', '')
+
+    return genre_str
+

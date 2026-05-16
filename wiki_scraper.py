@@ -26,7 +26,8 @@ from replacers import (
     DEATH_DATE_ELEMENTS,
     DEATH_PLACE_ELEMENTS,
     YEARS_ACTIVE_ELEMENTS,
-    GENRES_ELEMENTS
+    GENRES_ELEMENTS,
+    normalize_genre_string
 )
 
 # Needs to scrap all urls of the performers or members of band (including band names).
@@ -563,38 +564,7 @@ def get_genres(performer_url: str) -> List[str]:
         genre_unparsed_list = genre_unparsed[0].splitlines()
 
         for genre_unparsed in genre_unparsed_list:
-            # todo: move them somehow
-            genre_str = (genre_unparsed
-                         .replace('Flatlist', '')
-                         .replace('flatlist', '')
-                         .replace('Hlist', '')
-                         .replace('hlist', '')
-                         .replace('genre', '')
-                         .replace('=', '')
-                         .replace('*', '')
-                         .replace('[', '')
-                         .replace(']', '')
-                         .replace('{', '')
-                         .replace('}', '')
-                         .replace('|', ' ')
-                         .replace(' ', '')
-                         .replace('<ref>CitewebtitleJerryLeeLewisurlhttps://www.rockhall.com/inductees/jerry-lee-lewisaccess-dateSeptember4,2016websiteRockandRollHallofFameandMuseumarchive-dateOctober1,2021archive-urlhttps://web.archive.org/web/20211001212832/https://www.rockhall.com/inductees/jerry-lee-lewisurl-statuslive', '')
-                         .replace('<ref>citeweblastSilvafirstCarlytitleRodStewartAnnouncesHe"sSwitchingMusicGenresurlhttps://www.msn.com/en-us/entertainment/news/rod-stewart-announces-he-s-switching-music-s/ar-AA1cB3el?liBBnb2ghwebsiteParadedate15June2023access-date9July2023viaMSN', '')
-                         .replace('<ref>citeweburlhttps://www.allmusic.com/artist/roy-orbison-mn0000852007titleRoyOrbisonSongs,Albums,Reviews,Bio&MorewebsiteAllMusic', '')
-                         .replace('<ref>JazzNorthernSoulhttps://lithub.com/dusty-springfield-reluctant-queen-of-blue-eyed-soul/DustySpringfieldqueenofblue-eyed-soulRetrieved12April2022</ref>', '')
-                         .replace("<ref>citeweblastSilvafirstCarlytitleRodStewartAnnouncesHe'sSwitchingMusicGenresurlhttps://www.msn.com/en-us/entertainment/news/rod-stewart-announces-he-s-switching-music-s/ar-AA1cB3el?liBBnb2ghwebsiteParadedate15June2023access-date9July2023viaMSN", '')
-                         .replace("<ref>citeweburlhttps://www.latimes.com/archives/la-xpm-1995-02-13-ca-31549-story.htmltitleBobMarleyFestivalSpreadsSome'RastamanVibration':Anniversary:Jamaicaconcertmarksthe50thbirthdayofthelatereggaeiconandpoet-musician.authorFreed,Kennethdate13February1995newspaperLosAngelesTimesaccess-date1August2019archive-date2August2019archive-urlhttps://web.archive.org/web/20190802064134/https://www.latimes.com/archives/la-xpm-1995-02-13-ca-31549-story.htmlurl-statuslive", '')
-                         .replace('<refname"auto2">Citeweburlhttps://www.allmusic.com/artist/johnny-cash-mn0000816890titleJohnnyCash&#124;Biography,Albums,StreamingLinkswebsiteAllMusic', '')
-                         .replace('<refname"Snapes-2019">citeweburlhttps://www.theguardian.com/music/2019/jul/08/stevie-wonder-kidney-transplant-british-summertime-festival-hyde-park-londontitleStevieWondertoundergokidneytransplantworkTheGuardianlocationLondonlastSnapesfirstLauradateJuly8,2019access-dateJuly26,2020', '')
-                         )
-
-            if genre_str.startswith('Rockmusicrock<refname"bio-allmusic1"'):
-                genre_str = re.sub(r"['\"]","" ,genre_str)
-                genre_str = genre_str.replace('<refnamebio-allmusic1/><refnameconcertarchives>citeweburlhttps://www.concertarchives.org/bands/billy-joel--5workConcertArchivestitleBillyJoelsConcertHistoryaccess-dateOctober18,2020archive-dateNovember8,2020archive-urlhttps://web.archive.org/web/20201108053223/https://www.concertarchives.org/bands/billy-joel--5url-statuslive', "")
-
-            if genre_str.startswith('<!--Donotaddslikeart/prog/jazz/experimental/symphonicrock.'):
-                genre_str = genre_str.replace('<!--Donotaddslikeart/prog/jazz/experimental/symphonicrock.ThisinfoboxwouldbeenormousifeverystyleZappaeverplayedwasincluded.-->', '')
-
+            genre_str = normalize_genre_string(genre_unparsed)
             genre_str = GENRES_ELEMENTS.get(genre_str)
 
             if genre_str and  "," in genre_str:
@@ -781,7 +751,7 @@ def hall_of_fame_links_miner():
     print('done')
 
 
-
+# todo check genre parsing for the performers
 def main():
     # hall_of_fame_links_miner()
     # performers_collection =  get_performers_collection(DB_HALL_OF_FAME_PERFORMERS_COLLECTION)
@@ -812,16 +782,18 @@ def main():
     # print(birth_place)
     # birth_date = get_birth_day(soup, performer_url='https://en.wikipedia.org/wiki/Clarence_White')
     # print(birth_date)
-    occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
-    print(occups)
-    #
-    died_date = get_died_date("https://en.wikipedia.org/wiki/David_Brown_(American_musician)")
-    print(died_date)
-    #
-    died_place = get_death_place("https://en.wikipedia.org/wiki/John_Weider")
-    print(died_place)
-    years_active = get_years_activity("https://en.wikipedia.org/wiki/Moe_Tucker")
-    print(years_active)
+    genres = get_genres("https://en.wikipedia.org/wiki/Clarence_White")
+    print(genres)
+    # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
+    # print(occups)
+
+    # died_date = get_died_date("https://en.wikipedia.org/wiki/David_Brown_(American_musician)")
+    # print(died_date)
+
+    # died_place = get_death_place("https://en.wikipedia.org/wiki/John_Weider")
+    # print(died_place)
+    # years_active = get_years_activity("https://en.wikipedia.org/wiki/Moe_Tucker")
+    # print(years_active)
     # nickame = get_nickname(soup, 'https://en.wikipedia.org/wiki/David_Ruffin')
     # print(nickame)
     # mine_bands_wiki_data(band_members_list)
