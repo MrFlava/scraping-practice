@@ -548,6 +548,7 @@ def get_genres(performer_url: str) -> List[str]:
 
     textarea_edit_text = textarea_edit_soup.get_text()
 
+    genre_unparsed_usual = re.search(r'genre (.*)', textarea_edit_text)
     genre_unparsed_Flist = re.search(r'genre\s*=\s*\{\{Flatlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL)
     genre_unparsed_flist = re.search(r'genre\s*=\s*\{\{flatlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL)
     genre_unparsed_hlist = re.search(r'genre\s*=\s*\{\{hlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL)
@@ -571,6 +572,45 @@ def get_genres(performer_url: str) -> List[str]:
                 genre_list += genre_str.split(',')
             elif genre_str:
                 genre_list.append(genre_str)
+
+    # needs to fix this
+    elif genre_unparsed_usual:
+        raw = genre_unparsed_usual.group(1).strip()
+
+        # remove HTML tags and references
+        raw = re.sub(r'<.*?>', '', raw)
+        raw = re.sub(r'<ref[^>]*>.*?</ref>', '', raw, flags=re.DOTALL)
+
+        # split on common separators: comma, pipe, slash, semicolon, " and ", newlines
+        tokens = re.split(r',|\||/|;|\band\b|\n', raw)
+
+        seen = set()
+        for t in tokens:
+            t = t.strip()
+            if not t:
+                continue
+
+            # extract label from wikilinks: [[Article|Label]] -> Label ; [[Article]] -> Article
+            t = re.sub(r'\[\[[^|\]]+\|([^\]]+)\]\]', r'\1', t)
+            t = re.sub(r'\[\[([^\]]+)\]\]', r'\1', t)
+            # remove templates like {{...}} and leftover braces
+            t = re.sub(r'\{\{.*?\}\}', '', t)
+            t = t.strip()
+            if not t:
+                continue
+
+            norm = normalize_genre_string(t)
+            mapped = GENRES_ELEMENTS.get(norm) or GENRES_ELEMENTS.get(t.lower())
+
+            if mapped:
+                items = [g.strip() for g in mapped.split(',')] if "," in mapped else [mapped.strip()]
+            else:
+                items = [t]
+
+            for it in items:
+                if it and it not in seen:
+                    seen.add(it)
+                    genre_list.append(it)
 
 
     return genre_list
