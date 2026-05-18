@@ -580,22 +580,44 @@ def get_genres(performer_url: str) -> List[str]:
         # remove HTML tags and references
         raw = re.sub(r'<.*?>', '', raw)
         raw = re.sub(r'<ref[^>]*>.*?</ref>', '', raw, flags=re.DOTALL)
-
+        print(raw)
         # split on common separators: comma, pipe, slash, semicolon, " and ", newlines
-        tokens = re.split(r',|\||/|;|\band\b|\n', raw)
+        tokens = re.split(r',|/|;|\band\b|\n', raw)
 
         seen = set()
+
+        def _wikilink_label(m):
+            target = m.group(1)
+            label = m.group(2)
+            out = label if label else target
+            # take last segment if target contains slashes or namespaces
+            out = out.split('/')[-1].split(':')[-1].strip()
+            # drop common suffix like " music"
+            out = re.sub(r'\bmusic\b', '', out, flags=re.IGNORECASE).strip()
+            # remove parentheses and extra whitespace
+            out = re.sub(r'\s*\(.*?\)\s*', '', out).strip()
+            return out
+
+        def _clean_token(t: str) -> str:
+            # replace wikilinks with their labels first
+            t = re.sub(r'\[\[([^\]|]+)(?:\|([^\]]+))?\]\]', _wikilink_label, t)
+            # remove templates and brackets
+            t = re.sub(r'\{\{.*?\}\}', '', t)
+            t = re.sub(r'[\[\]]', '', t)
+            # drop " music" suffix
+            t = re.sub(r'\s+music\b', '', t, flags=re.IGNORECASE)
+            # remove parentheses
+            t = re.sub(r'\s*\(.*?\)\s*', '', t)
+            # normalize whitespace
+            t = re.sub(r'\s+', ' ', t).strip()
+            return t
+
         for t in tokens:
             t = t.strip()
             if not t:
                 continue
 
-            # extract label from wikilinks: [[Article|Label]] -> Label ; [[Article]] -> Article
-            t = re.sub(r'\[\[[^|\]]+\|([^\]]+)\]\]', r'\1', t)
-            t = re.sub(r'\[\[([^\]]+)\]\]', r'\1', t)
-            # remove templates like {{...}} and leftover braces
-            t = re.sub(r'\{\{.*?\}\}', '', t)
-            t = t.strip()
+            t = _clean_token(t)
             if not t:
                 continue
 
@@ -610,8 +632,7 @@ def get_genres(performer_url: str) -> List[str]:
             for it in items:
                 if it and it not in seen:
                     seen.add(it)
-                    genre_list.append(it)
-
+                    genre_list.append(it.replace('=', '').replace(' ', ''))
 
     return genre_list
 
