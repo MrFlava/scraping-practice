@@ -547,7 +547,7 @@ def get_genres(performer_url: str) -> List[str]:
     genre_list = []
 
     textarea_edit_text = textarea_edit_soup.get_text()
-
+    # todo some of the performers have this type of pattern? but don't have genres list Needs to investigate and fix it
     genre_unparsed_usual = re.search(r'genre (.*)', textarea_edit_text)
     genre_unparsed_Flist = re.search(r'genre\s*=\s*\{\{Flatlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL)
     genre_unparsed_flist = re.search(r'genre\s*=\s*\{\{flatlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL)
@@ -813,6 +813,7 @@ def hall_of_fame_links_miner():
 
 
 # todo check genre parsing for the performers
+# todo https://en.wikipedia.org/wiki/Dub_Jones_(singer) fix birthdate parsing
 def main():
     # hall_of_fame_links_miner()
     # performers_collection =  get_performers_collection(DB_HALL_OF_FAME_PERFORMERS_COLLECTION)
@@ -823,12 +824,12 @@ def main():
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
 
-    # custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
-    #                      " Chrome/123.0.0.0 Safari/537.36")
-    # headers = {
-    #     'User-Agent': custom_user_agent
-    # }
-    # source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Ken_Koblun' + '?action=edit&veswitched=1', headers=headers).text)
+    custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
+                         " Chrome/123.0.0.0 Safari/537.36")
+    headers = {
+        'User-Agent': custom_user_agent
+    }
+    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Dub_Jones_(singer)' + '?action=edit&veswitched=1', headers=headers).text)
     # textarea_edit_soup = source_edit_soup.find(
     #     'textarea',
     #     attrs={'id': 'wpTextbox1'}
@@ -841,9 +842,9 @@ def main():
     #
     # birth_place = get_birthplace(soup, performer_url="https://en.wikipedia.org/wiki/John_Entwistle")
     # print(birth_place)
-    # birth_date = get_birth_day(soup, performer_url='https://en.wikipedia.org/wiki/Clarence_White')
-    # print(birth_date)
-    genres = get_genres("https://en.wikipedia.org/wiki/Clarence_White")
+    birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Dub_Jones_(singer)')
+    print(birth_date)
+    genres = get_genres("https://en.wikipedia.org/wiki/Don_Everly")
     print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     # print(occups)
