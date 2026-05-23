@@ -548,6 +548,7 @@ def get_genres(performer_url: str) -> List[str]:
 
     textarea_edit_text = textarea_edit_soup.get_text()
     # todo some of the performers have this type of pattern? but don't have genres list Needs to investigate and fix it
+    print(textarea_edit_text)
     genre_unparsed_usual = re.search(r'genre (.*)', textarea_edit_text)
     genre_unparsed_Flist = re.search(r'genre\s*=\s*\{\{Flatlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL)
     genre_unparsed_flist = re.search(r'genre\s*=\s*\{\{flatlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL)
@@ -829,7 +830,7 @@ def main():
     headers = {
         'User-Agent': custom_user_agent
     }
-    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Dub_Jones_(singer)' + '?action=edit&veswitched=1', headers=headers).text)
+    # source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Dub_Jones_(singer)' + '?action=edit&veswitched=1', headers=headers).text)
     # textarea_edit_soup = source_edit_soup.find(
     #     'textarea',
     #     attrs={'id': 'wpTextbox1'}
@@ -842,9 +843,9 @@ def main():
     #
     # birth_place = get_birthplace(soup, performer_url="https://en.wikipedia.org/wiki/John_Entwistle")
     # print(birth_place)
-    birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Dub_Jones_(singer)')
-    print(birth_date)
-    genres = get_genres("https://en.wikipedia.org/wiki/Don_Everly")
+    # birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Dub_Jones_(singer)')
+    # print(birth_date)
+    genres = get_genres("https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist)")
     print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     # print(occups)
