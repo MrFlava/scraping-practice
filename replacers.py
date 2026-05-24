@@ -196,6 +196,7 @@ GENRES_ELEMENTS = {
     "countrymusiccountry": "Country music",
     "ChansonFrenchchanson": "French chanson",
     "disco": "Disco",
+    "Doo-wopRhythmandbluesR&B": "Doo-Wop, R&B",
     "softrock": "Soft rock",
     "folkrock": "Folk rock",
     "bluesrock": "Blues rock",

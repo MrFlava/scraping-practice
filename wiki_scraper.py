@@ -564,7 +564,6 @@ def get_genres(performer_url: str) -> List[str]:
 
     if genre_unparsed:
         genre_unparsed_list = genre_unparsed[0].splitlines()
-
         for genre_unparsed in genre_unparsed_list:
             genre_str = normalize_genre_string(genre_unparsed)
             genre_str = GENRES_ELEMENTS.get(genre_str)
@@ -814,6 +813,7 @@ def hall_of_fame_links_miner():
 
 
 # todo check genre parsing for the performers
+# todo https://en.wikipedia.org/wiki/Jimmy_Norman fix genre parsing
 # todo https://en.wikipedia.org/wiki/Dub_Jones_(singer) fix birthdate parsing
 def main():
     # hall_of_fame_links_miner()
@@ -845,7 +845,7 @@ def main():
     # print(birth_place)
     # birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Dub_Jones_(singer)')
     # print(birth_date)
-    genres = get_genres("https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist)")
+    genres = get_genres("https://en.wikipedia.org/wiki/Jimmy_Norman")
     print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     # print(occups)
