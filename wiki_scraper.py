@@ -813,9 +813,18 @@ def hall_of_fame_links_miner():
 
 
 # todo check genre parsing for the performers
-# todo https://en.wikipedia.org/wiki/Jimmy_Norman fix genre parsing
-# todo https://en.wikipedia.org/wiki/Mike_Love fix genre parsing
-# todo https://en.wikipedia.org/wiki/Brian_Wilson fix genre parsing
+# (
+#   https://en.wikipedia.org/wiki/Jimmy_Norman,
+#   https://en.wikipedia.org/wiki/Mike_Love,
+#   https://en.wikipedia.org/wiki/Brian_Wilson,
+#   https://en.wikipedia.org/wiki/Al_Jardine,
+#   https://en.wikipedia.org/wiki/Bruce_Johnston,
+#   https://en.wikipedia.org/wiki/Dennis_Wilson,
+#   https://en.wikipedia.org/wiki/Carl_Wilson,
+#   https://en.wikipedia.org/wiki/David_Marks,
+#   https://en.wikipedia.org/wiki/Ricky_Fataar,
+# )
+
 # todo https://en.wikipedia.org/wiki/Dub_Jones_(singer) fix birthdate parsing
 def main():
     # hall_of_fame_links_miner()
@@ -847,7 +856,7 @@ def main():
     # print(birth_place)
     # birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Dub_Jones_(singer)')
     # print(birth_date)
-    genres = get_genres("https://en.wikipedia.org/wiki/Mike_Love")
+    genres = get_genres("https://en.wikipedia.org/wiki/Ricky_Fataar")
     print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     # print(occups)
