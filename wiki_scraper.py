@@ -824,7 +824,6 @@ def hall_of_fame_links_miner():
 #   https://en.wikipedia.org/wiki/David_Marks,
 #   https://en.wikipedia.org/wiki/Ricky_Fataar,
 # )
-
 # todo https://en.wikipedia.org/wiki/Dub_Jones_(singer) fix birthdate parsing
 def main():
     # hall_of_fame_links_miner()
