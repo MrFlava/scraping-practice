@@ -823,8 +823,21 @@ def hall_of_fame_links_miner():
 #   https://en.wikipedia.org/wiki/Carl_Wilson,
 #   https://en.wikipedia.org/wiki/David_Marks,
 #   https://en.wikipedia.org/wiki/Ricky_Fataar,
+#   https://en.wikipedia.org/wiki/Blondie_Chaplin,
+#   https://en.wikipedia.org/wiki/John_Lennon,
+#   https://en.wikipedia.org/wiki/George_Harrison,
+#   https://en.wikipedia.org/wiki/Ringo_Starr,
+#   https://en.wikipedia.org/wiki/Bobby_Hendricks,
+#   https://en.wikipedia.org/wiki/Louis_Price,
+#   https://en.wikipedia.org/wiki/Diana_Ross,
+#   https://en.wikipedia.org/wiki/Florence_Ballard,
+#   https://en.wikipedia.org/wiki/Cindy_Birdsong,
 # )
+# todo https://en.wikipedia.org/wiki/Ben_E._King fix genres
+# todo https://en.wikipedia.org/wiki/Rudy_Lewis fix genres
+# todo https://en.wikipedia.org/wiki/Betty_McGlown fix genres
 # todo https://en.wikipedia.org/wiki/Dub_Jones_(singer) fix birthdate parsing
+# todo https://en.wikipedia.org/wiki/Barbara_Martin_(singer) fix birthdate parsing
 def main():
     # hall_of_fame_links_miner()
     # performers_collection =  get_performers_collection(DB_HALL_OF_FAME_PERFORMERS_COLLECTION)
@@ -855,7 +868,7 @@ def main():
     # print(birth_place)
     # birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Dub_Jones_(singer)')
     # print(birth_date)
-    genres = get_genres("https://en.wikipedia.org/wiki/Ricky_Fataar")
+    genres = get_genres("https://en.wikipedia.org/wiki/Cindy_Birdsong")
     print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     # print(occups)
