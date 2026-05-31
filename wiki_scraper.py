@@ -832,10 +832,17 @@ def hall_of_fame_links_miner():
 #   https://en.wikipedia.org/wiki/Diana_Ross,
 #   https://en.wikipedia.org/wiki/Florence_Ballard,
 #   https://en.wikipedia.org/wiki/Cindy_Birdsong,
+#   https://en.wikipedia.org/wiki/Jean_Terrell,
+#   https://en.wikipedia.org/wiki/Lynda_Laurence,
+#   https://en.wikipedia.org/wiki/Scherrie_Payne,
+#   https://en.wikipedia.org/wiki/Susaye_Greene,
+#   https://en.wikipedia.org/wiki/Keith_Richards,
+#   https://en.wikipedia.org/wiki/Brian_Jones,
 # )
 # todo https://en.wikipedia.org/wiki/Ben_E._King fix genres
 # todo https://en.wikipedia.org/wiki/Rudy_Lewis fix genres
 # todo https://en.wikipedia.org/wiki/Betty_McGlown fix genres
+# todo https://en.wikipedia.org/wiki/Ronnie_Wood fix genres
 # todo https://en.wikipedia.org/wiki/Dub_Jones_(singer) fix birthdate parsing
 # todo https://en.wikipedia.org/wiki/Barbara_Martin_(singer) fix birthdate parsing
 def main():
@@ -868,7 +875,7 @@ def main():
     # print(birth_place)
     # birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Dub_Jones_(singer)')
     # print(birth_date)
-    genres = get_genres("https://en.wikipedia.org/wiki/Cindy_Birdsong")
+    genres = get_genres("https://en.wikipedia.org/wiki/Brian_Jones")
     print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     # print(occups)
