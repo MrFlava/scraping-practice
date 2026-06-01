@@ -828,7 +828,6 @@ def hall_of_fame_links_miner():
 #   https://en.wikipedia.org/wiki/George_Harrison,
 #   https://en.wikipedia.org/wiki/Ringo_Starr,
 #   https://en.wikipedia.org/wiki/Bobby_Hendricks,
-#   https://en.wikipedia.org/wiki/Louis_Price,
 #   https://en.wikipedia.org/wiki/Diana_Ross,
 #   https://en.wikipedia.org/wiki/Florence_Ballard,
 #   https://en.wikipedia.org/wiki/Cindy_Birdsong,
@@ -838,11 +837,21 @@ def hall_of_fame_links_miner():
 #   https://en.wikipedia.org/wiki/Susaye_Greene,
 #   https://en.wikipedia.org/wiki/Keith_Richards,
 #   https://en.wikipedia.org/wiki/Brian_Jones,
+#   https://en.wikipedia.org/wiki/Bill_Wyman,
+#   https://en.wikipedia.org/wiki/Dennis_Edwards,
+#   https://en.wikipedia.org/wiki/Louis_Price,
+#   https://en.wikipedia.org/wiki/Duke_Fakir,
 # )
 # todo https://en.wikipedia.org/wiki/Ben_E._King fix genres
 # todo https://en.wikipedia.org/wiki/Rudy_Lewis fix genres
 # todo https://en.wikipedia.org/wiki/Betty_McGlown fix genres
 # todo https://en.wikipedia.org/wiki/Ronnie_Wood fix genres
+# todo https://en.wikipedia.org/wiki/Ian_Stewart_(musician) fix genres
+# todo https://en.wikipedia.org/wiki/Charlie_Watts fix genres
+# todo https://en.wikipedia.org/wiki/Richard_Street fix genres
+# todo https://en.wikipedia.org/wiki/Damon_Harris fix genres
+# todo https://en.wikipedia.org/wiki/Ali-Ollie_Woodson fix genres
+# todo https://en.wikipedia.org/wiki/Levi_Stubbs fix genres
 # todo https://en.wikipedia.org/wiki/Dub_Jones_(singer) fix birthdate parsing
 # todo https://en.wikipedia.org/wiki/Barbara_Martin_(singer) fix birthdate parsing
 def main():
@@ -875,7 +884,7 @@ def main():
     # print(birth_place)
     # birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Dub_Jones_(singer)')
     # print(birth_date)
-    genres = get_genres("https://en.wikipedia.org/wiki/Brian_Jones")
+    genres = get_genres("https://en.wikipedia.org/wiki/Duke_Fakir")
     print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     # print(occups)
