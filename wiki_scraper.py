@@ -841,6 +841,20 @@ def hall_of_fame_links_miner():
 #   https://en.wikipedia.org/wiki/Dennis_Edwards,
 #   https://en.wikipedia.org/wiki/Louis_Price,
 #   https://en.wikipedia.org/wiki/Duke_Fakir,
+#   https://en.wikipedia.org/wiki/Renaldo_Benson,
+#   https://en.wikipedia.org/wiki/Ray_Davies,
+#   https://en.wikipedia.org/wiki/Dave_Davies,
+#   https://en.wikipedia.org/wiki/Mick_Avory,
+#   https://en.wikipedia.org/wiki/Jim_Rodford,
+#   https://en.wikipedia.org/wiki/Ian_Gibbons_(musician),
+#   https://en.wikipedia.org/wiki/Roger_Daltrey,
+#   https://en.wikipedia.org/wiki/Pete_Townshend,
+#   https://en.wikipedia.org/wiki/John_Entwistle,
+#   https://en.wikipedia.org/wiki/Doug_Sandom,
+#   https://en.wikipedia.org/wiki/Keith_Moon,
+#   https://en.wikipedia.org/wiki/Kenney_Jones,
+#   https://en.wikipedia.org/wiki/Roger_McGuinn,
+#   https://en.wikipedia.org/wiki/Gene_Clark,
 # )
 # todo https://en.wikipedia.org/wiki/Ben_E._King fix genres
 # todo https://en.wikipedia.org/wiki/Rudy_Lewis fix genres
@@ -852,6 +866,8 @@ def hall_of_fame_links_miner():
 # todo https://en.wikipedia.org/wiki/Damon_Harris fix genres
 # todo https://en.wikipedia.org/wiki/Ali-Ollie_Woodson fix genres
 # todo https://en.wikipedia.org/wiki/Levi_Stubbs fix genres
+# todo https://en.wikipedia.org/wiki/Paul_Simon fix genres
+# todo https://en.wikipedia.org/wiki/Art_Garfunkel fix genres
 # todo https://en.wikipedia.org/wiki/Dub_Jones_(singer) fix birthdate parsing
 # todo https://en.wikipedia.org/wiki/Barbara_Martin_(singer) fix birthdate parsing
 def main():
@@ -884,7 +900,7 @@ def main():
     # print(birth_place)
     # birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Dub_Jones_(singer)')
     # print(birth_date)
-    genres = get_genres("https://en.wikipedia.org/wiki/Duke_Fakir")
+    genres = get_genres("https://en.wikipedia.org/wiki/Gene_Clark")
     print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     # print(occups)
