@@ -855,6 +855,11 @@ def hall_of_fame_links_miner():
 #   https://en.wikipedia.org/wiki/Kenney_Jones,
 #   https://en.wikipedia.org/wiki/Roger_McGuinn,
 #   https://en.wikipedia.org/wiki/Gene_Clark,
+#   https://en.wikipedia.org/wiki/David_Crosby,
+#   https://en.wikipedia.org/wiki/Chris_Hillman,
+#   https://en.wikipedia.org/wiki/Gram_Parsons,
+#   https://en.wikipedia.org/wiki/Fred_Cash,
+#   https://en.wikipedia.org/wiki/Sam_Gooden,
 # )
 # todo https://en.wikipedia.org/wiki/Ben_E._King fix genres
 # todo https://en.wikipedia.org/wiki/Rudy_Lewis fix genres
@@ -900,7 +905,7 @@ def main():
     # print(birth_place)
     # birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Dub_Jones_(singer)')
     # print(birth_date)
-    genres = get_genres("https://en.wikipedia.org/wiki/Gene_Clark")
+    genres = get_genres("https://en.wikipedia.org/wiki/Sam_Gooden")
     print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     # print(occups)
