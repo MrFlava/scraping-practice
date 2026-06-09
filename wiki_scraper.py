@@ -869,6 +869,11 @@ def hall_of_fame_links_miner():
 #   https://en.wikipedia.org/wiki/Eric_Burdon,
 #   https://en.wikipedia.org/wiki/Alan_Price,
 #   https://en.wikipedia.org/wiki/Mick_Gallagher,
+#   https://en.wikipedia.org/wiki/Zoot_Money,
+#   https://en.wikipedia.org/wiki/Andy_Summers,
+#   https://en.wikipedia.org/wiki/Jerry_Garcia,
+#   https://en.wikipedia.org/wiki/Bob_Weir,
+#   https://en.wikipedia.org/wiki/Ron_%22Pigpen%22_McKernan,
 # )
 # todo https://en.wikipedia.org/wiki/Ben_E._King fix genres
 # todo https://en.wikipedia.org/wiki/Rudy_Lewis fix genres
@@ -884,6 +889,7 @@ def hall_of_fame_links_miner():
 # todo https://en.wikipedia.org/wiki/Art_Garfunkel fix genres
 # todo https://en.wikipedia.org/wiki/Leroy_Hutson fix genres
 # todo https://en.wikipedia.org/wiki/Dave_Rowberry fix genres
+# todo https://en.wikipedia.org/wiki/Barry_Jenkins_(musician) fix genres
 # todo https://en.wikipedia.org/wiki/John_Steel_(drummer) fix genres
 # todo https://en.wikipedia.org/wiki/Dub_Jones_(singer) fix birthdate parsing
 # todo https://en.wikipedia.org/wiki/Barbara_Martin_(singer) fix birthdate parsing
@@ -917,7 +923,7 @@ def main():
     # print(birth_place)
     # birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Dub_Jones_(singer)')
     # print(birth_date)
-    genres = get_genres("https://en.wikipedia.org/wiki/Dave_Rowberry")
+    genres = get_genres("https://en.wikipedia.org/wiki/Mickey_Hart")
     print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     # print(occups)
