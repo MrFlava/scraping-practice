@@ -878,6 +878,13 @@ def hall_of_fame_links_miner():
 #   https://en.wikipedia.org/wiki/Robert_Plant,
 #   https://en.wikipedia.org/wiki/Martha_Reeves,
 #   https://en.wikipedia.org/wiki/John_Paul_Jones_(musician),
+#   https://en.wikipedia.org/wiki/Sandra_Tilley,
+#   https://en.wikipedia.org/wiki/Signe_Toly_Anderson,
+#   https://en.wikipedia.org/wiki/Paul_Kantner,
+#   https://en.wikipedia.org/wiki/Jorma_Kaukonen,
+#   https://en.wikipedia.org/wiki/Skip_Spence,
+#   https://en.wikipedia.org/wiki/David_Gilmour,
+#   https://en.wikipedia.org/wiki/Nick_Mason,
 # )
 # todo https://en.wikipedia.org/wiki/Ben_E._King fix genres
 # todo https://en.wikipedia.org/wiki/Rudy_Lewis fix genres
@@ -928,7 +935,7 @@ def main():
     # print(birth_place)
     # birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Dub_Jones_(singer)')
     # print(birth_date)
-    genres = get_genres("https://en.wikipedia.org/wiki/Gloria_Williams")
+    genres = get_genres("https://en.wikipedia.org/wiki/David_Gilmour")
     print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     # print(occups)
