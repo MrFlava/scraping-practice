@@ -885,6 +885,14 @@ def hall_of_fame_links_miner():
 #   https://en.wikipedia.org/wiki/Skip_Spence,
 #   https://en.wikipedia.org/wiki/David_Gilmour,
 #   https://en.wikipedia.org/wiki/Nick_Mason,
+#   https://en.wikipedia.org/wiki/Roger_Waters,
+#   https://en.wikipedia.org/wiki/Syd_Barrett,
+#   https://en.wikipedia.org/wiki/Lou_Reed,
+#   https://en.wikipedia.org/wiki/John_Cale,
+#   https://en.wikipedia.org/wiki/Sterling_Morrison,
+#   https://en.wikipedia.org/wiki/Angus_MacLise,
+#   https://en.wikipedia.org/wiki/Moe_Tucker,
+#   https://en.wikipedia.org/wiki/Doug_Yule,
 # )
 # todo https://en.wikipedia.org/wiki/Ben_E._King fix genres
 # todo https://en.wikipedia.org/wiki/Rudy_Lewis fix genres
@@ -935,7 +943,8 @@ def main():
     # print(birth_place)
     # birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Dub_Jones_(singer)')
     # print(birth_date)
-    genres = get_genres("https://en.wikipedia.org/wiki/David_Gilmour")
+
+    genres = get_genres("https://en.wikipedia.org/wiki/Walter_Powers_(musician)")
     print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     # print(occups)
