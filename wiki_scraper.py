@@ -893,6 +893,40 @@ def hall_of_fame_links_miner():
 #   https://en.wikipedia.org/wiki/Angus_MacLise,
 #   https://en.wikipedia.org/wiki/Moe_Tucker,
 #   https://en.wikipedia.org/wiki/Doug_Yule,
+#   https://en.wikipedia.org/wiki/Barry_Gibb,
+#   https://en.wikipedia.org/wiki/Robin_Gibb,
+#   https://en.wikipedia.org/wiki/Maurice_Gibb,
+#   https://en.wikipedia.org/wiki/Vince_Melouney,
+#   https://en.wikipedia.org/wiki/Colin_Petersen,
+#   https://en.wikipedia.org/wiki/Richie_Furay,
+#   https://en.wikipedia.org/wiki/Stephen_Stills,
+#   https://en.wikipedia.org/wiki/Neil_Young,
+#   https://en.wikipedia.org/wiki/Jackie_Jackson,
+#   https://en.wikipedia.org/wiki/Tito_Jackson,
+#   https://en.wikipedia.org/wiki/Michael_Jackson,
+#   https://en.wikipedia.org/wiki/Randy_Jackson_(Jacksons_singer),
+#   https://en.wikipedia.org/wiki/Don_Henley,
+#   https://en.wikipedia.org/wiki/Joe_Walsh,
+#   https://en.wikipedia.org/wiki/Vince_Gill,
+#   https://en.wikipedia.org/wiki/Glenn_Frey,
+#   https://en.wikipedia.org/wiki/Don_Felder,
+#   https://en.wikipedia.org/wiki/Bernie_Leadon,
+#   https://en.wikipedia.org/wiki/John_McVie,
+#   https://en.wikipedia.org/wiki/Danny_Kirwan,
+#   https://en.wikipedia.org/wiki/Christine_McVie,
+#   https://en.wikipedia.org/wiki/Dave_Walker,
+#   https://en.wikipedia.org/wiki/Billy_Burnette,
+#   https://en.wikipedia.org/wiki/Dave_Mason,
+#   https://en.wikipedia.org/wiki/Neil_Finn,
+#   https://en.wikipedia.org/wiki/Cass_Elliot,
+#   https://en.wikipedia.org/wiki/Michelle_Phillips,
+#   https://en.wikipedia.org/wiki/Carlos_Santana,
+#   https://en.wikipedia.org/wiki/Cindy_Blackman_Santana,
+#   https://en.wikipedia.org/wiki/Neal_Schon,
+#   https://en.wikipedia.org/wiki/Gregg_Rolie,
+#   https://en.wikipedia.org/wiki/Jos%C3%A9_Areas,
+#   https://en.wikipedia.org/wiki/Brian_May,
+#   https://en.wikipedia.org/wiki/Brian_May,
 # )
 # todo https://en.wikipedia.org/wiki/Ben_E._King fix genres
 # todo https://en.wikipedia.org/wiki/Rudy_Lewis fix genres
@@ -944,7 +978,7 @@ def main():
     # birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Dub_Jones_(singer)')
     # print(birth_date)
 
-    genres = get_genres("https://en.wikipedia.org/wiki/Walter_Powers_(musician)")
+    genres = get_genres("https://en.wikipedia.org/wiki/John_Deacon")
     print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     # print(occups)
