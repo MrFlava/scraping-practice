@@ -978,7 +978,8 @@ def main():
     # birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Dub_Jones_(singer)')
     # print(birth_date)
 
-    genres = get_genres("https://en.wikipedia.org/wiki/John_Deacon")
+    # needs to check
+    genres = get_genres("https://en.wikipedia.org/wiki/Jimmy_Norman")
     print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     # print(occups)
