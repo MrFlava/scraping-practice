@@ -547,13 +547,12 @@ def get_genres(performer_url: str) -> List[str]:
     genre_list = []
 
     textarea_edit_text = textarea_edit_soup.get_text()
-    # todo some of the performers have this type of pattern? but don't have genres list Needs to investigate and fix it
     print(textarea_edit_text)
     genre_unparsed_usual = re.search(r'genre (.*)', textarea_edit_text)
-    genre_unparsed_Flist = re.search(r'genre\s*=\s*\{\{Flatlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL)
-    genre_unparsed_flist = re.search(r'genre\s*=\s*\{\{flatlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL)
-    genre_unparsed_hlist = re.search(r'genre\s*=\s*\{\{hlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL)
-    genre_unparsed_Hlist = re.search(r'genre\s*=\s*\{\{Hlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL)
+    genre_unparsed_Flist = re.search(r'genre\s*=\s*\{\{Flatlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL | re.IGNORECASE)
+    genre_unparsed_flist = re.search(r'genre\s*=\s*\{\{flatlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL | re.IGNORECASE)
+    genre_unparsed_hlist = re.search(r'genre\s*=\s*\{\{hlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL | re.IGNORECASE)
+    genre_unparsed_Hlist = re.search(r'genre\s*=\s*\{\{Hlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL | re.IGNORECASE)
 
     genre_unparsed = next((v for v in [
         genre_unparsed_Flist,
@@ -562,62 +561,78 @@ def get_genres(performer_url: str) -> List[str]:
         genre_unparsed_Hlist
     ] if v is not None), None)
 
+    # helper to extract wikilink label/target safely
+    def _wikilink_label(m):
+        target = m.group(1)
+        label = m.group(2)
+        out = (label or target)
+        out = out.split('/')[-1].split(':')[-1].strip()
+        out = re.sub(r'\bmusic\b', '', out, flags=re.IGNORECASE).strip()
+        out = re.sub(r'\s*\(.*?\)\s*', '', out).strip()
+        return out
+
     if genre_unparsed:
-        genre_unparsed_list = genre_unparsed[0].splitlines()
-        for genre_unparsed in genre_unparsed_list:
-            genre_str = normalize_genre_string(genre_unparsed)
-            genre_str = GENRES_ELEMENTS.get(genre_str)
+        # use captured group(1) which contains inner flatlist content
+        genre_unparsed_list = genre_unparsed.group(1).splitlines()
+        seen = set()
+        for genre_unparsed_line in genre_unparsed_list:
+            line = genre_unparsed_line.strip()
+            if not line:
+                continue
+            # replace wikilinks with labels first
+            line = re.sub(r'\[\[([^\]|]+)(?:\|([^\]]+))?\]\]', _wikilink_label, line)
+            # remove templates
+            line = re.sub(r'\{\{.*?\}\}', '', line)
+            # split by common separators (commas, slashes, semicolons, newlines)
+            tokens = re.split(r'\s*,\s*|/|;|\n', line)
+            for t in tokens:
+                t = t.strip()
+                if not t:
+                    continue
+                t = re.sub(r'[\[\]]', '', t)
+                t = re.sub(r'\s*\(.*?\)\s*', '', t)
+                t = re.sub(r'\s+music\b', '', t, flags=re.IGNORECASE)
+                t = re.sub(r'\s+', ' ', t).strip()
+                norm = normalize_genre_string(t)
+                mapped = GENRES_ELEMENTS.get(norm) or GENRES_ELEMENTS.get(t.lower())
+                if mapped:
+                    items = [g.strip() for g in mapped.split(',')] if "," in mapped else [mapped.strip()]
+                else:
+                    items = [t]
+                for it in items:
+                    it_clean = it.replace('=', '').replace('*', '').strip()
+                    if it_clean and it_clean not in seen:
+                        seen.add(it_clean)
+                        genre_list.append(it_clean)
 
-            if genre_str and  "," in genre_str:
-                genre_list += genre_str.split(',')
-            elif genre_str:
-                genre_list.append(genre_str)
-
-    # needs to fix this
     elif genre_unparsed_usual:
         raw = genre_unparsed_usual.group(1).strip()
 
         # remove HTML tags and references
-        raw = re.sub(r'<.*?>', '', raw)
         raw = re.sub(r'<ref[^>]*>.*?</ref>', '', raw, flags=re.DOTALL)
-        print(raw)
-        # split on common separators: comma, pipe, slash, semicolon, " and ", newlines
-        tokens = re.split(r',|/|;|\band\b|\n', raw)
+        raw = re.sub(r'<.*?>', '', raw)
+
+        # replace wikilinks with their labels before splitting so "and" inside a link doesn't split
+        raw = re.sub(r'\[\[([^\]|]+)(?:\|([^\]]+))?\]\]', _wikilink_label, raw)
+        # remove templates
+        raw = re.sub(r'\{\{.*?\}\}', '', raw)
+
+        # split on common separators: comma, slash, semicolon, newlines (do NOT split on "and" or pipe)
+        tokens = re.split(r'\s*,\s*|/|;|\n', raw)
 
         seen = set()
-
-        def _wikilink_label(m):
-            target = m.group(1)
-            label = m.group(2)
-            out = label if label else target
-            # take last segment if target contains slashes or namespaces
-            out = out.split('/')[-1].split(':')[-1].strip()
-            # drop common suffix like " music"
-            out = re.sub(r'\bmusic\b', '', out, flags=re.IGNORECASE).strip()
-            # remove parentheses and extra whitespace
-            out = re.sub(r'\s*\(.*?\)\s*', '', out).strip()
-            return out
-
-        def _clean_token(t: str) -> str:
-            # replace wikilinks with their labels first
-            t = re.sub(r'\[\[([^\]|]+)(?:\|([^\]]+))?\]\]', _wikilink_label, t)
-            # remove templates and brackets
-            t = re.sub(r'\{\{.*?\}\}', '', t)
-            t = re.sub(r'[\[\]]', '', t)
-            # drop " music" suffix
-            t = re.sub(r'\s+music\b', '', t, flags=re.IGNORECASE)
-            # remove parentheses
-            t = re.sub(r'\s*\(.*?\)\s*', '', t)
-            # normalize whitespace
-            t = re.sub(r'\s+', ' ', t).strip()
-            return t
 
         for t in tokens:
             t = t.strip()
             if not t:
                 continue
 
-            t = _clean_token(t)
+            # basic cleaning
+            t = re.sub(r'[\[\]]', '', t)
+            t = re.sub(r'\s*\(.*?\)\s*', '', t)
+            t = re.sub(r'\s+music\b', '', t, flags=re.IGNORECASE)
+            t = re.sub(r'\s+', ' ', t).strip()
+
             if not t:
                 continue
 
@@ -630,11 +645,13 @@ def get_genres(performer_url: str) -> List[str]:
                 items = [t]
 
             for it in items:
-                if it and it not in seen:
-                    seen.add(it)
-                    genre_list.append(it.replace('=', '').replace(' ', ''))
+                it_clean = it.replace('=', '').strip()
+                if it_clean and it_clean not in seen:
+                    seen.add(it_clean)
+                    genre_list.append(it_clean)
 
     return genre_list
+
 
 def get_death_place(performer_url: str) -> str:
     custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
@@ -814,7 +831,6 @@ def hall_of_fame_links_miner():
 
 # todo check genre parsing for the performers
 # (
-#   https://en.wikipedia.org/wiki/Jimmy_Norman,
 #   https://en.wikipedia.org/wiki/Mike_Love,
 #   https://en.wikipedia.org/wiki/Brian_Wilson,
 #   https://en.wikipedia.org/wiki/Al_Jardine,
@@ -929,22 +945,6 @@ def hall_of_fame_links_miner():
 #   https://en.wikipedia.org/wiki/Brian_May,
 # )
 # todo https://en.wikipedia.org/wiki/Ben_E._King fix genres
-# todo https://en.wikipedia.org/wiki/Rudy_Lewis fix genres
-# todo https://en.wikipedia.org/wiki/Betty_McGlown fix genres
-# todo https://en.wikipedia.org/wiki/Ronnie_Wood fix genres
-# todo https://en.wikipedia.org/wiki/Ian_Stewart_(musician) fix genres
-# todo https://en.wikipedia.org/wiki/Charlie_Watts fix genres
-# todo https://en.wikipedia.org/wiki/Richard_Street fix genres
-# todo https://en.wikipedia.org/wiki/Damon_Harris fix genres
-# todo https://en.wikipedia.org/wiki/Ali-Ollie_Woodson fix genres
-# todo https://en.wikipedia.org/wiki/Levi_Stubbs fix genres
-# todo https://en.wikipedia.org/wiki/Paul_Simon fix genres
-# todo https://en.wikipedia.org/wiki/Art_Garfunkel fix genres
-# todo https://en.wikipedia.org/wiki/Leroy_Hutson fix genres
-# todo https://en.wikipedia.org/wiki/Dave_Rowberry fix genres
-# todo https://en.wikipedia.org/wiki/Barry_Jenkins_(musician) fix genres
-# todo https://en.wikipedia.org/wiki/John_Steel_(drummer) fix genres
-# todo https://en.wikipedia.org/wiki/Rosalind_Ashford fix genres
 # todo https://en.wikipedia.org/wiki/Dub_Jones_(singer) fix birthdate parsing
 # todo https://en.wikipedia.org/wiki/Barbara_Martin_(singer) fix birthdate parsing
 def main():
@@ -979,7 +979,7 @@ def main():
     # print(birth_date)
 
     # needs to check
-    genres = get_genres("https://en.wikipedia.org/wiki/Jimmy_Norman")
+    genres = get_genres("https://en.wikipedia.org/wiki/Rosalind_Ashford")
     print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     # print(occups)
