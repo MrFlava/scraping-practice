@@ -547,16 +547,22 @@ def get_genres(performer_url: str) -> List[str]:
     genre_list = []
 
     textarea_edit_text = textarea_edit_soup.get_text()
-    print(textarea_edit_text)
-    genre_unparsed_usual = re.search(r'genre (.*)', textarea_edit_text)
+    # simple inline genre line (now expects possible '=')
+    genre_unparsed_usual = re.search(r'genre\s*=\s*(.*)', textarea_edit_text, re.IGNORECASE)
+
+    # flatlist / flat list / hlist variants (capture inner content across lines)
     genre_unparsed_Flist = re.search(r'genre\s*=\s*\{\{Flatlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL | re.IGNORECASE)
     genre_unparsed_flist = re.search(r'genre\s*=\s*\{\{flatlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL | re.IGNORECASE)
+    # handle `{{flat list|` with optional spaces between "flat" and "list"
+    genre_unparsed_flat_space = re.search(r'genre\s*=\s*\{\{\s*flat\s*list\s*\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL | re.IGNORECASE)
+
     genre_unparsed_hlist = re.search(r'genre\s*=\s*\{\{hlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL | re.IGNORECASE)
     genre_unparsed_Hlist = re.search(r'genre\s*=\s*\{\{Hlist\|\s*(.*?)\s*\}\}', textarea_edit_text, re.DOTALL | re.IGNORECASE)
 
     genre_unparsed = next((v for v in [
         genre_unparsed_Flist,
         genre_unparsed_flist,
+        genre_unparsed_flat_space,
         genre_unparsed_hlist,
         genre_unparsed_Hlist
     ] if v is not None), None)
@@ -571,20 +577,23 @@ def get_genres(performer_url: str) -> List[str]:
         out = re.sub(r'\s*\(.*?\)\s*', '', out).strip()
         return out
 
+    # separators: include pipe as separator but only after wikilinks/templates are replaced
+    split_re = r'\s*\|\s*|\s*,\s*|/|;|\n'
+
     if genre_unparsed:
-        # use captured group(1) which contains inner flatlist content
+        # captured inner flatlist content (may contain bullets/lines)
         genre_unparsed_list = genre_unparsed.group(1).splitlines()
         seen = set()
         for genre_unparsed_line in genre_unparsed_list:
             line = genre_unparsed_line.strip()
             if not line:
                 continue
-            # replace wikilinks with labels first
+            # replace wikilinks with labels first (so internal `|` from `[[a|b]]` won't remain)
             line = re.sub(r'\[\[([^\]|]+)(?:\|([^\]]+))?\]\]', _wikilink_label, line)
-            # remove templates
-            line = re.sub(r'\{\{.*?\}\}', '', line)
-            # split by common separators (commas, slashes, semicolons, newlines)
-            tokens = re.split(r'\s*,\s*|/|;|\n', line)
+            # remove templates (multi-line aware)
+            line = re.sub(r'\{\{.*?\}\}', '', line, flags=re.DOTALL)
+            # split by common separators including pipe
+            tokens = re.split(split_re, line)
             for t in tokens:
                 t = t.strip()
                 if not t:
@@ -612,13 +621,13 @@ def get_genres(performer_url: str) -> List[str]:
         raw = re.sub(r'<ref[^>]*>.*?</ref>', '', raw, flags=re.DOTALL)
         raw = re.sub(r'<.*?>', '', raw)
 
-        # replace wikilinks with their labels before splitting so "and" inside a link doesn't split
+        # replace wikilinks with their labels before splitting so "and" or internal `|` inside a link doesn't split
         raw = re.sub(r'\[\[([^\]|]+)(?:\|([^\]]+))?\]\]', _wikilink_label, raw)
-        # remove templates
-        raw = re.sub(r'\{\{.*?\}\}', '', raw)
+        # remove templates (multi-line aware)
+        raw = re.sub(r'\{\{.*?\}\}', '', raw, flags=re.DOTALL)
 
-        # split on common separators: comma, slash, semicolon, newlines (do NOT split on "and" or pipe)
-        tokens = re.split(r'\s*,\s*|/|;|\n', raw)
+        # split on common separators: pipe, comma, slash, semicolon, newlines
+        tokens = re.split(split_re, raw)
 
         seen = set()
 
@@ -651,6 +660,8 @@ def get_genres(performer_url: str) -> List[str]:
                     genre_list.append(it_clean)
 
     return genre_list
+
+
 
 
 def get_death_place(performer_url: str) -> str:
@@ -831,33 +842,6 @@ def hall_of_fame_links_miner():
 
 # todo check genre parsing for the performers
 # (
-#   https://en.wikipedia.org/wiki/Mike_Love,
-#   https://en.wikipedia.org/wiki/Brian_Wilson,
-#   https://en.wikipedia.org/wiki/Al_Jardine,
-#   https://en.wikipedia.org/wiki/Bruce_Johnston,
-#   https://en.wikipedia.org/wiki/Dennis_Wilson,
-#   https://en.wikipedia.org/wiki/Carl_Wilson,
-#   https://en.wikipedia.org/wiki/David_Marks,
-#   https://en.wikipedia.org/wiki/Ricky_Fataar,
-#   https://en.wikipedia.org/wiki/Blondie_Chaplin,
-#   https://en.wikipedia.org/wiki/John_Lennon,
-#   https://en.wikipedia.org/wiki/George_Harrison,
-#   https://en.wikipedia.org/wiki/Ringo_Starr,
-#   https://en.wikipedia.org/wiki/Bobby_Hendricks,
-#   https://en.wikipedia.org/wiki/Diana_Ross,
-#   https://en.wikipedia.org/wiki/Florence_Ballard,
-#   https://en.wikipedia.org/wiki/Cindy_Birdsong,
-#   https://en.wikipedia.org/wiki/Jean_Terrell,
-#   https://en.wikipedia.org/wiki/Lynda_Laurence,
-#   https://en.wikipedia.org/wiki/Scherrie_Payne,
-#   https://en.wikipedia.org/wiki/Susaye_Greene,
-#   https://en.wikipedia.org/wiki/Keith_Richards,
-#   https://en.wikipedia.org/wiki/Brian_Jones,
-#   https://en.wikipedia.org/wiki/Bill_Wyman,
-#   https://en.wikipedia.org/wiki/Dennis_Edwards,
-#   https://en.wikipedia.org/wiki/Louis_Price,
-#   https://en.wikipedia.org/wiki/Duke_Fakir,
-#   https://en.wikipedia.org/wiki/Renaldo_Benson,
 #   https://en.wikipedia.org/wiki/Ray_Davies,
 #   https://en.wikipedia.org/wiki/Dave_Davies,
 #   https://en.wikipedia.org/wiki/Mick_Avory,
@@ -979,7 +963,7 @@ def main():
     # print(birth_date)
 
     # needs to check
-    genres = get_genres("https://en.wikipedia.org/wiki/Rosalind_Ashford")
+    genres = get_genres("https://en.wikipedia.org/wiki/Renaldo_Benson")
     print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     # print(occups)
