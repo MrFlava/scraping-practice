@@ -842,42 +842,14 @@ def hall_of_fame_links_miner():
 
 # todo check genre parsing for the performers
 # (
-#   https://en.wikipedia.org/wiki/Ray_Davies,
-#   https://en.wikipedia.org/wiki/Dave_Davies,
-#   https://en.wikipedia.org/wiki/Mick_Avory,
-#   https://en.wikipedia.org/wiki/Jim_Rodford,
-#   https://en.wikipedia.org/wiki/Ian_Gibbons_(musician),
-#   https://en.wikipedia.org/wiki/Roger_Daltrey,
-#   https://en.wikipedia.org/wiki/Pete_Townshend,
-#   https://en.wikipedia.org/wiki/John_Entwistle,
-#   https://en.wikipedia.org/wiki/Doug_Sandom,
-#   https://en.wikipedia.org/wiki/Keith_Moon,
-#   https://en.wikipedia.org/wiki/Kenney_Jones,
-#   https://en.wikipedia.org/wiki/Roger_McGuinn,
-#   https://en.wikipedia.org/wiki/Gene_Clark,
-#   https://en.wikipedia.org/wiki/David_Crosby,
-#   https://en.wikipedia.org/wiki/Chris_Hillman,
 #   https://en.wikipedia.org/wiki/Gram_Parsons,
-#   https://en.wikipedia.org/wiki/Fred_Cash,
-#   https://en.wikipedia.org/wiki/Sam_Gooden,
 #   https://en.wikipedia.org/wiki/Curtis_Mayfield,
 #   https://en.wikipedia.org/wiki/John_Fogerty,
 #   https://en.wikipedia.org/wiki/Jim_Morrison,
 #   https://en.wikipedia.org/wiki/Ray_Manzarek,
-#   https://en.wikipedia.org/wiki/Robby_Krieger,
-#   https://en.wikipedia.org/wiki/John_Densmore,
 #   https://en.wikipedia.org/wiki/Eric_Burdon,
-#   https://en.wikipedia.org/wiki/Alan_Price,
-#   https://en.wikipedia.org/wiki/Mick_Gallagher,
-#   https://en.wikipedia.org/wiki/Zoot_Money,
-#   https://en.wikipedia.org/wiki/Andy_Summers,
-#   https://en.wikipedia.org/wiki/Jerry_Garcia,
 #   https://en.wikipedia.org/wiki/Bob_Weir,
-#   https://en.wikipedia.org/wiki/Ron_%22Pigpen%22_McKernan,
 #   https://en.wikipedia.org/wiki/Donna_Jean_Godchaux,
-#   https://en.wikipedia.org/wiki/Robert_Plant,
-#   https://en.wikipedia.org/wiki/Martha_Reeves,
-#   https://en.wikipedia.org/wiki/John_Paul_Jones_(musician),
 #   https://en.wikipedia.org/wiki/Sandra_Tilley,
 #   https://en.wikipedia.org/wiki/Signe_Toly_Anderson,
 #   https://en.wikipedia.org/wiki/Paul_Kantner,
@@ -963,7 +935,7 @@ def main():
     # print(birth_date)
 
     # needs to check
-    genres = get_genres("https://en.wikipedia.org/wiki/Renaldo_Benson")
+    genres = get_genres("https://en.wikipedia.org/wiki/John_Paul_Jones_(musician)")
     print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     # print(occups)
