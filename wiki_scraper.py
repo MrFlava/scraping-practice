@@ -580,14 +580,14 @@ def get_genres(performer_url: str) -> List[str]:
         for token in tokens:
             token = token.strip()
 
-            if token and token != '*{{nowrap':
+            if token and token not in ['*{{nowrap', '<br']:
                 token = re.sub(r'\s*\(.*?\)\s*', '', token)  # Remove parentheses
                 token = re.sub(r'\s+music\b', '', token, flags=re.IGNORECASE)  # Remove "music"
                 token = re.sub(r'\s+', ' ', token).strip()  # Normalize spaces
                 if token and token not in seen:
                     seen.add(token)
                     genre_list.append(
-                        token.replace('*', '')
+                        token.replace('*', '').replace('>', '')
                     )
 
     return genre_list
@@ -772,13 +772,8 @@ def hall_of_fame_links_miner():
 # todo check genre parsing for the performers
 # (
 #   https://en.wikipedia.org/wiki/Bob_Weir,
-#   https://en.wikipedia.org/wiki/Donna_Jean_Godchaux,
-#   https://en.wikipedia.org/wiki/Syd_Barrett,
-#   https://en.wikipedia.org/wiki/John_Cale,
-#   https://en.wikipedia.org/wiki/Barry_Gibb,
 #   https://en.wikipedia.org/wiki/Robin_Gibb,
 #   https://en.wikipedia.org/wiki/Michael_Jackson,
-#   https://en.wikipedia.org/wiki/Dave_Mason,
 # )
 # todo https://en.wikipedia.org/wiki/Ben_E._King fix genres
 # todo https://en.wikipedia.org/wiki/Dub_Jones_(singer) fix birthdate parsing
@@ -815,7 +810,7 @@ def main():
     # print(birth_date)
 
     # needs to check
-    genres = get_genres("https://en.wikipedia.org/wiki/Bob_Weir")
+    genres = get_genres("https://en.wikipedia.org/wiki/Dave_Mason")
     print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     # print(occups)
