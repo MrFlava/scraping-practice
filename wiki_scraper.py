@@ -548,20 +548,17 @@ def get_genres(performer_url: str) -> List[str]:
 
     textarea_edit_text = textarea_edit_soup.get_text()
 
-    # Remove <ref> tags and their content
-    textarea_edit_text = re.sub(r'<ref[^>]*>.*?</ref>', '', textarea_edit_text, flags=re.DOTALL)
+    # Remove <ref> tags and their content (if needed)
+    # textarea_edit_text = re.sub(r'<ref[^>]*>.*?</ref>', '', textarea_edit_text, flags=re.DOTALL)
 
-    # Match genre templates like {{hlist|...}} or {{flatlist|...}}
-    genre_unparsed = re.search(r'genre\s*=\s*\{\{.*?\|\s*(.*?)\}\}', textarea_edit_text, re.DOTALL | re.IGNORECASE)
+    # Match genre templates like {{hlist|...}} or {{flatlist|...}}, ignoring comments
+    genre_unparsed = re.search(r'\|\s*genre\s*=\s*(?:<!--.*?-->\s*)?\{\{hlist\s*\|(.+?)\}\}', textarea_edit_text, re.DOTALL | re.IGNORECASE)
 
     # Helper to extract wikilink labels
     def _wikilink_label(m):
         target = m.group(1)
         label = m.group(2)
-        return (label or target).split('|')[-1].strip()
-
-    # Split genres by common separators
-    split_re = r'\s*\|\s*|\s*,\s*|/|;|\n'
+        return (label or target).strip()
 
     if genre_unparsed:
         raw_genres = genre_unparsed.group(1)
@@ -569,29 +566,20 @@ def get_genres(performer_url: str) -> List[str]:
         # Replace wikilinks with their labels
         raw_genres = re.sub(r'\[\[([^\]|]+)(?:\|([^\]]+))?\]\]', _wikilink_label, raw_genres)
 
-        # Remove unwanted patterns like {{nowrap|...}}
-        raw_genres = re.sub(r'\{\{nowrap\|([^}]*)\}\}', r'\1', raw_genres)
-        # Remove any remaining {{...}} patterns
-        raw_genres = re.sub(r'\{\{[^\}]*\}\}', '', raw_genres)
-
-        # Split and clean genres
-        tokens = re.split(split_re, raw_genres)
+        # Split genres by separators
+        tokens = re.split(r'\s*\|\s*', raw_genres)
         seen = set()
         for token in tokens:
             token = token.strip()
-
-            if token and token not in ['*{{nowrap', '<br']:
+            if token and not token.startswith('<br'):
                 token = re.sub(r'\s*\(.*?\)\s*', '', token)  # Remove parentheses
                 token = re.sub(r'\s+music\b', '', token, flags=re.IGNORECASE)  # Remove "music"
                 token = re.sub(r'\s+', ' ', token).strip()  # Normalize spaces
                 if token and token not in seen:
                     seen.add(token)
-                    genre_list.append(
-                        token.replace('*', '').replace('>', '')
-                    )
+                    genre_list.append(token)
 
     return genre_list
-
 
 def get_death_place(performer_url: str) -> str:
     custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
@@ -769,13 +757,7 @@ def hall_of_fame_links_miner():
     print('done')
 
 
-# todo check genre parsing for the performers
-# (
-#   https://en.wikipedia.org/wiki/Bob_Weir,
-#   https://en.wikipedia.org/wiki/Robin_Gibb,
-#   https://en.wikipedia.org/wiki/Michael_Jackson,
-# )
-# todo https://en.wikipedia.org/wiki/Ben_E._King fix genres
+# todo https://en.wikipedia.org/wiki/Robin_Gibb fix genres parsing
 # todo https://en.wikipedia.org/wiki/Dub_Jones_(singer) fix birthdate parsing
 # todo https://en.wikipedia.org/wiki/Barbara_Martin_(singer) fix birthdate parsing
 def main():
@@ -810,7 +792,7 @@ def main():
     # print(birth_date)
 
     # needs to check
-    genres = get_genres("https://en.wikipedia.org/wiki/Dave_Mason")
+    genres = get_genres("https://en.wikipedia.org/wiki/Ben_E._King")
     print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     # print(occups)
