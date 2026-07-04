@@ -575,7 +575,7 @@ def get_genres(performer_url: str) -> List[str]:
                 token = re.sub(r'\s*\(.*?\)\s*', '', token)  # Remove parentheses
                 token = re.sub(r'\s+music\b', '', token, flags=re.IGNORECASE)  # Remove "music"
                 token = re.sub(r'\s+', ' ', token).strip()  # Normalize spaces
-                if token and token not in seen:
+                if token and token not in seen and token not in ["rock<ref>V. Bogdanov, C. Woodstra and S. T. Erlewine, ''All Guide to Rock: the Definitive Guide to Rock, Pop, and Soul'', {{ISBN", "0-87930-653-X"]:
                     seen.add(token)
                     genre_list.append(token)
 
@@ -757,7 +757,6 @@ def hall_of_fame_links_miner():
     print('done')
 
 
-# todo https://en.wikipedia.org/wiki/Robin_Gibb fix genres parsing
 # todo https://en.wikipedia.org/wiki/Dub_Jones_(singer) fix birthdate parsing
 # todo https://en.wikipedia.org/wiki/Barbara_Martin_(singer) fix birthdate parsing
 def main():
@@ -792,7 +791,7 @@ def main():
     # print(birth_date)
 
     # needs to check
-    genres = get_genres("https://en.wikipedia.org/wiki/Ben_E._King")
+    genres = get_genres("https://en.wikipedia.org/wiki/Robin_Gibb")
     print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     # print(occups)
