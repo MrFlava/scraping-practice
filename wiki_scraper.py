@@ -392,6 +392,7 @@ def get_died_date(performer_url: str) -> str:
             if death_date_list[0] == '  November 8, 2011 (aged&nbsp;74)':
                 return "2011-11-08"
             death_date_list.pop(0)
+            # need to fix it: index out of range
             if death_date_list[0] != '':
                 if death_date_list[0] != "mfyes":
                     if death_date_list[0] == "dfy":
@@ -769,11 +770,11 @@ def main():
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
 
-    custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
-                         " Chrome/123.0.0.0 Safari/537.36")
-    headers = {
-        'User-Agent': custom_user_agent
-    }
+    # custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
+    #                      " Chrome/123.0.0.0 Safari/537.36")
+    # headers = {
+    #     'User-Agent': custom_user_agent
+    # }
     # source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Dub_Jones_(singer)' + '?action=edit&veswitched=1', headers=headers).text)
     # textarea_edit_soup = source_edit_soup.find(
     #     'textarea',
@@ -791,8 +792,8 @@ def main():
     # print(birth_date)
 
     # needs to check
-    genres = get_genres("https://en.wikipedia.org/wiki/Robin_Gibb")
-    print(genres)
+    # genres = get_genres("https://en.wikipedia.org/wiki/Robin_Gibb")
+    # print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
     # print(occups)
 
@@ -805,7 +806,7 @@ def main():
     # print(years_active)
     # nickame = get_nickname(soup, 'https://en.wikipedia.org/wiki/David_Ruffin')
     # print(nickame)
-    # mine_bands_wiki_data(band_members_list)
+    mine_bands_wiki_data(band_members_list)
 
 
 
