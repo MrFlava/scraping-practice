@@ -757,7 +757,7 @@ def hall_of_fame_links_miner():
     insert_performers_into_db(band_performers, DB_HALL_OF_FAME_BANDS_COLLECTION)
     print('done')
 
-
+# todo https://en.wikipedia.org/wiki/John_Lennon check occupations
 # todo https://en.wikipedia.org/wiki/Dub_Jones_(singer) fix birthdate parsing
 # todo https://en.wikipedia.org/wiki/Barbara_Martin_(singer) fix birthdate parsing
 def main():
