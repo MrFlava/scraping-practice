@@ -757,6 +757,10 @@ def hall_of_fame_links_miner():
     insert_performers_into_db(band_performers, DB_HALL_OF_FAME_BANDS_COLLECTION)
     print('done')
 
+# todo https://en.wikipedia.org/wiki/David_Ruffin check died_place
+# todo https://en.wikipedia.org/wiki/Cindy_Birdsong check years_active
+# todo https://en.wikipedia.org/wiki/Johnny_Moore_(singer) check nickname
+# todo https://en.wikipedia.org/wiki/Bill_Pinkney check occupations
 # todo https://en.wikipedia.org/wiki/John_Lennon check occupations
 # todo https://en.wikipedia.org/wiki/Dub_Jones_(singer) fix birthdate parsing
 # todo https://en.wikipedia.org/wiki/Barbara_Martin_(singer) fix birthdate parsing
