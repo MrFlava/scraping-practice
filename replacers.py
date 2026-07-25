@@ -55,7 +55,8 @@ REPLACE_OCCUPATION_ELEMENTS_LIST = [
     'Christianminister',
     'filmdirector',
     'occupations=',
-    'Musician;songwriter'
+    'Musician;songwriter',
+    'Performerandsinger',
 ]
 
 OCCUPATION_REPLACEMENTS = {
@@ -78,6 +79,7 @@ OCCUPATION_REPLACEMENTS = {
     'filmdirector': 'film director',
     "[[philanthropyofmichaeljackson', 'philanthropist]]": 'philanthropist',
     'musician;songwriter': 'Musician-songwriter',
+    'performerandsinger': 'Performer-singer',
     'hlist': REPLACE_DEFAULT,
     'flatlist': REPLACE_DEFAULT,
     'occupation=': REPLACE_DEFAULT,

@@ -595,18 +595,29 @@ def get_death_place(performer_url: str) -> str:
     )
 
     textarea_edit_text = textarea_edit_soup.get_text()
-    death_place_unparsed = re.search(r'death_place (.*)', textarea_edit_text)
-    print(death_place_unparsed)
+    death_place_unparsed = re.search(r'death_place\s*=\s*(.*)', textarea_edit_text)
 
     if death_place_unparsed:
-        death_place_str = death_place_unparsed[0]
+        death_place_str = death_place_unparsed.group(1)
 
         for k, v in DEATH_PLACE_ELEMENTS.items():
             death_place_str = death_place_str.replace(k, v)
 
-        return death_place_str
+        # Remove duplicate words
+        death_place_str = re.sub(r'\b(\w+)\b\s*(?=.*\b\1\b)', '', death_place_str).strip()
+
+        # Normalize commas and spaces
+        death_place_str = re.sub(r'\s*,\s*', ', ', death_place_str)
+        death_place_str = re.sub(r'\s+', ' ', death_place_str)
+
+        # Ensure proper formatting for "City, State, Country"
+        death_place_str = re.sub(r'(, )+', ', ', death_place_str)
+
+        return death_place_str.replace("WestPhiladelphiaWestPhiladelphia", "West Philadelphia")
 
     return ''
+
+
 
 def get_years_active_flatlist(wikitext: str):
     pattern = re.compile(
@@ -669,7 +680,7 @@ def get_years_activity(performer_url: str) -> str:
         # todo: idk why it's not replaced, remove this stuff later
         years_active_str = years_active_str.replace('  ', '')
 
-        return years_active_str
+        return years_active_str.replace("<br>", " ")
 
     return ''
 
@@ -757,10 +768,6 @@ def hall_of_fame_links_miner():
     insert_performers_into_db(band_performers, DB_HALL_OF_FAME_BANDS_COLLECTION)
     print('done')
 
-# todo https://en.wikipedia.org/wiki/David_Ruffin check died_place
-# todo https://en.wikipedia.org/wiki/Cindy_Birdsong check years_active
-# todo https://en.wikipedia.org/wiki/Johnny_Moore_(singer) check nickname
-# todo https://en.wikipedia.org/wiki/Bill_Pinkney check occupations
 # todo https://en.wikipedia.org/wiki/John_Lennon check occupations
 # todo https://en.wikipedia.org/wiki/Dub_Jones_(singer) fix birthdate parsing
 # todo https://en.wikipedia.org/wiki/Barbara_Martin_(singer) fix birthdate parsing
@@ -771,15 +778,15 @@ def main():
     # print(mine_performers_wiki_data(performers_list))
 
 
-    band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
-    band_members_list =  get_performers_from_db(band_members_collection, None)
+    # band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
+    # band_members_list =  get_performers_from_db(band_members_collection, None)
 
     # custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
     #                      " Chrome/123.0.0.0 Safari/537.36")
     # headers = {
     #     'User-Agent': custom_user_agent
     # }
-    # source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Dub_Jones_(singer)' + '?action=edit&veswitched=1', headers=headers).text)
+    # source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Johnny_Moore_(singer)' + '?action=edit&veswitched=1', headers=headers).text)
     # textarea_edit_soup = source_edit_soup.find(
     #     'textarea',
     #     attrs={'id': 'wpTextbox1'}
@@ -798,19 +805,20 @@ def main():
     # needs to check
     # genres = get_genres("https://en.wikipedia.org/wiki/Robin_Gibb")
     # print(genres)
-    # occups = get_occupations("https://en.wikipedia.org/wiki/Bob_Weir")
-    # print(occups)
+    occups = get_occupations("https://en.wikipedia.org/wiki/John_Lennon")
+    print(occups)
 
     # died_date = get_died_date("https://en.wikipedia.org/wiki/David_Brown_(American_musician)")
     # print(died_date)
 
-    # died_place = get_death_place("https://en.wikipedia.org/wiki/John_Weider")
+    # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
     # print(died_place)
-    # years_active = get_years_activity("https://en.wikipedia.org/wiki/Moe_Tucker")
+    # years_active = get_years_activity("https://en.wikipedia.org/wiki/Cindy_Birdsong")
     # print(years_active)
-    # nickame = get_nickname(soup, 'https://en.wikipedia.org/wiki/David_Ruffin')
+    # nickame = get_nickname(source_edit_soup, 'https://en.wikipedia.org/wiki/Johnny_Moore_(singer)')
     # print(nickame)
-    mine_bands_wiki_data(band_members_list)
+
+    # mine_bands_wiki_data(band_members_list)
 
 
 
