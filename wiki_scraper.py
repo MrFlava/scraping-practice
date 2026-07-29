@@ -485,8 +485,9 @@ def parse_flatlist_occups(wikitext: str):
 
         clean_name = item.strip()
         if clean_name:
-            clean_name = clean_name.replace('{{nowrap|', '')
-            occupations.append(clean_name)
+            clean_name = clean_name.replace('{{nowrap|', '').replace('<ref>{{Cite web', '')
+            if clean_name not in ['last=Christgau', 'first=Robert', 'author-link=Robert Christgau', 'title=John Lennon {{!']:
+                occupations.append(clean_name)
 
     return occupations
 
@@ -768,7 +769,6 @@ def hall_of_fame_links_miner():
     insert_performers_into_db(band_performers, DB_HALL_OF_FAME_BANDS_COLLECTION)
     print('done')
 
-# todo https://en.wikipedia.org/wiki/John_Lennon check occupations
 # todo https://en.wikipedia.org/wiki/Dub_Jones_(singer) fix birthdate parsing
 # todo https://en.wikipedia.org/wiki/Barbara_Martin_(singer) fix birthdate parsing
 def main():
