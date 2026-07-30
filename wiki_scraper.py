@@ -351,16 +351,19 @@ def get_birth_day(soup: BeautifulSoup, performer_url: str) -> str:
             source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1', headers=headers).text)
             textarea_edit_soup = source_edit_soup.find(
                 'textarea',
-                attrs= {'id':'wpTextbox1'}
+                attrs={'id': 'wpTextbox1'}
             )
             textarea_edit_text = textarea_edit_soup.get_text()
-            print(textarea_edit_text)
-            birth_day_unparsed = re.search(r'birth_date (.*)', textarea_edit_text)
-            return birth_day_unparsed[0].replace('  ', '').replace('birth_date = ', '').replace('birth_date= June 30, 1941', '1941-06-30').replace('birth_date= June 7, 1944', '1944-07-30')
-        return birth_day.text
 
-    else:
-        return ''
+            birth_date_match = re.search(r'birth_date\s*=\s*\{\{Birth date\|(\d{4})\|(\d{2})\|(\d{2})\}\}', textarea_edit_text)
+            if birth_date_match:
+                year, month, day = birth_date_match.groups()
+                return f"{year}-{month}-{day}"
+
+        return birth_day.text if birth_day else ''
+
+    return ''
+
 
 def get_died_date(performer_url: str) -> str:
     print(performer_url + '?action=edit&veswitched=1')
@@ -769,7 +772,6 @@ def hall_of_fame_links_miner():
     insert_performers_into_db(band_performers, DB_HALL_OF_FAME_BANDS_COLLECTION)
     print('done')
 
-# todo https://en.wikipedia.org/wiki/Dub_Jones_(singer) fix birthdate parsing
 # todo https://en.wikipedia.org/wiki/Barbara_Martin_(singer) fix birthdate parsing
 def main():
     # hall_of_fame_links_miner()
@@ -781,12 +783,12 @@ def main():
     # band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     # band_members_list =  get_performers_from_db(band_members_collection, None)
 
-    # custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
-    #                      " Chrome/123.0.0.0 Safari/537.36")
-    # headers = {
-    #     'User-Agent': custom_user_agent
-    # }
-    # source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Johnny_Moore_(singer)' + '?action=edit&veswitched=1', headers=headers).text)
+    custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
+                         " Chrome/123.0.0.0 Safari/537.36")
+    headers = {
+        'User-Agent': custom_user_agent
+    }
+    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Barbara_Martin_(singer)' + '?action=edit&veswitched=1', headers=headers).text)
     # textarea_edit_soup = source_edit_soup.find(
     #     'textarea',
     #     attrs={'id': 'wpTextbox1'}
@@ -799,14 +801,14 @@ def main():
     #
     # birth_place = get_birthplace(soup, performer_url="https://en.wikipedia.org/wiki/John_Entwistle")
     # print(birth_place)
-    # birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Dub_Jones_(singer)')
-    # print(birth_date)
+    birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Barbara_Martin_(singer)')
+    print(birth_date)
 
     # needs to check
     # genres = get_genres("https://en.wikipedia.org/wiki/Robin_Gibb")
     # print(genres)
-    occups = get_occupations("https://en.wikipedia.org/wiki/John_Lennon")
-    print(occups)
+    # occups = get_occupations("https://en.wikipedia.org/wiki/John_Lennon")
+    # print(occups)
 
     # died_date = get_died_date("https://en.wikipedia.org/wiki/David_Brown_(American_musician)")
     # print(died_date)
