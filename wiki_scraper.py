@@ -355,9 +355,10 @@ def get_birth_day(soup: BeautifulSoup, performer_url: str) -> str:
             )
             textarea_edit_text = textarea_edit_soup.get_text()
 
-            birth_date_match = re.search(r'birth_date\s*=\s*\{\{Birth date\|(\d{4})\|(\d{2})\|(\d{2})\}\}', textarea_edit_text)
+            birth_date_match = re.search(r'birth_date\s*=\s*\{\{birth date\|(\d{4})\|(\d{2})\|(\d{2,3})\}\}', textarea_edit_text)
             if birth_date_match:
                 year, month, day = birth_date_match.groups()
+                day = day.zfill(2)[-2:]  # Normalize day to two digits
                 return f"{year}-{month}-{day}"
 
         return birth_day.text if birth_day else ''
@@ -772,7 +773,6 @@ def hall_of_fame_links_miner():
     insert_performers_into_db(band_performers, DB_HALL_OF_FAME_BANDS_COLLECTION)
     print('done')
 
-# todo https://en.wikipedia.org/wiki/Barbara_Martin_(singer) fix birthdate parsing
 def main():
     # hall_of_fame_links_miner()
     # performers_collection =  get_performers_collection(DB_HALL_OF_FAME_PERFORMERS_COLLECTION)
