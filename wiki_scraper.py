@@ -338,32 +338,34 @@ def get_nickname(soup: BeautifulSoup, name: str) -> str:
         return ''
 
 def get_birth_day(soup: BeautifulSoup, performer_url: str) -> str:
-    if soup:
-        birth_day = soup.find('span', class_='bday')
+    if not soup:
+        return ''
 
-        custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
-                             " Chrome/123.0.0.0 Safari/537.36")
-        headers = {
-            'User-Agent': custom_user_agent
-        }
+    # Check for 'bday' span in the soup
+    birth_day = soup.find('span', class_='bday')
+    if birth_day:
+        return birth_day.text
 
-        if not birth_day:
-            source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1', headers=headers).text)
-            textarea_edit_soup = source_edit_soup.find(
-                'textarea',
-                attrs={'id': 'wpTextbox1'}
-            )
-            textarea_edit_text = textarea_edit_soup.get_text()
+    # If not found, fetch the edit page and parse the birth date
+    custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
+                         " Chrome/123.0.0.0 Safari/537.36")
+    headers = {'User-Agent': custom_user_agent}
+    response = requests.get(f"{performer_url}?action=edit&veswitched=1", headers=headers)
+    edit_soup = BeautifulSoup(response.text, 'html.parser')
+    textarea = edit_soup.find('textarea', attrs={'id': 'wpTextbox1'})
 
-            birth_date_match = re.search(r'birth_date\s*=\s*\{\{birth date\|(\d{4})\|(\d{2})\|(\d{2,3})\}\}', textarea_edit_text)
-            if birth_date_match:
-                year, month, day = birth_date_match.groups()
-                day = day.zfill(2)[-2:]  # Normalize day to two digits
-                return f"{year}-{month}-{day}"
+    if not textarea:
+        return ''
 
-        return birth_day.text if birth_day else ''
+    # Extract birth date using regex
+    birth_date_match = re.search(r'birth_date\s*=\s*\{\{birth date\|(\d{4})\|(\d{2})\|(\d{2,3})\}\}', textarea.get_text())
+    if birth_date_match:
+        year, month, day = birth_date_match.groups()
+        day = day.zfill(2)[-2:]  # Normalize day to two digits
+        return f"{year}-{month}-{day}"
 
     return ''
+
 
 
 def get_died_date(performer_url: str) -> str:
