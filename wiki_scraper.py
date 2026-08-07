@@ -294,37 +294,31 @@ def get_table_soup(soup: BeautifulSoup) -> BeautifulSoup:
     return table_soup
 
 def get_birthplace(soup: BeautifulSoup, performer_url: Optional[str]) -> str:
-    if soup:
-        birthplace = soup.find('div', class_='birthplace')
-        # todo fix this url https://en.wikipedia.org/wiki/Dub_Jones_(singer)
-        custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
-                             " Chrome/123.0.0.0 Safari/537.36")
-        headers = {
-            'User-Agent': custom_user_agent
-        }
-        if not birthplace:
-            source_edit_soup = BeautifulSoup(requests.get(performer_url+'?action=edit&veswitched=1', headers=headers).text)
-            textarea_edit_soup = source_edit_soup.find(
-                'textarea',
-                attrs= {'id':'wpTextbox1'}
-            )
-            textarea_edit_text = textarea_edit_soup.get_text()
-
-            birth_place_unparsed = re.search(r'birth_place (.*)', textarea_edit_text)
-            if birth_place_unparsed:
-                birth_place = birth_place_unparsed[0]
-
-                for k,v in REPLACE_BIRTH_PLACE_ELEMENTS.items():
-                    birth_place = birth_place.replace(k, v)
-
-                return birth_place
-            else:
-                return ''
-
-        return birthplace.text
-
-    else:
+    if not soup:
         return ''
+
+    birthplace = soup.find('div', class_='birthplace')
+    if birthplace:
+        return birthplace.text.strip()
+
+    # Fetch edit page and parse birthplace
+    headers = {'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"}
+    response = requests.get(f"{performer_url}?action=edit&veswitched=1", headers=headers)
+    edit_soup = BeautifulSoup(response.text, 'html.parser')
+    textarea = edit_soup.find('textarea', attrs={'id': 'wpTextbox1'})
+
+    if not textarea:
+        return ''
+
+    birth_place_match = re.search(r'birth_place\s*=\s*(.*)', textarea.get_text())
+    if birth_place_match:
+        birth_place = birth_place_match.group(1)
+        for k, v in REPLACE_BIRTH_PLACE_ELEMENTS.items():
+            birth_place = birth_place.replace(k, v)
+        return birth_place.strip()
+
+    return ''
+
 
 def get_nickname(soup: BeautifulSoup, name: str) -> str:
     if soup:
@@ -498,96 +492,48 @@ def parse_flatlist_occups(wikitext: str):
     return occupations
 
 def get_occupations(performer_url: str) -> List[str]:
-    custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
-                         " Chrome/123.0.0.0 Safari/537.36")
-    headers = {
-        'User-Agent': custom_user_agent
-    }
-    source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1', headers=headers).text)
-    textarea_edit_soup = source_edit_soup.find(
-        'textarea',
-        attrs={'id': 'wpTextbox1'}
-    )
+    headers = {'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"}
+    response = requests.get(f"{performer_url}?action=edit&veswitched=1", headers=headers)
+    edit_soup = BeautifulSoup(response.text, 'html.parser')
+    textarea = edit_soup.find('textarea', attrs={'id': 'wpTextbox1'})
 
-    textarea_edit_text = textarea_edit_soup.get_text()
-    flatlist_occupations = parse_flatlist_occups(textarea_edit_text)
+    if not textarea:
+        return []
 
-    if flatlist_occupations:
-        return flatlist_occupations
+    text = textarea.get_text()
+    occupations = parse_flatlist_occups(text)
+    if occupations:
+        return occupations
 
-    occupations_unparsed = re.search(r'occupation (.*)', textarea_edit_text)
-
-    occupations_unparsed_v2 = re.search(r'occupations (.*)', textarea_edit_text)
-
-    if occupations_unparsed:
-        occupations_str = occupations_unparsed[0]
+    occupation_match = re.search(r'(?:occupation|occupations)\s*=\s*(.*)', text)
+    if occupation_match:
+        occupations_str = occupation_match.group(1)
         for k, v in REPLACE_OCCUPATION_ELEMENTS.items():
             occupations_str = occupations_str.replace(k, v)
+        return [occ.strip() for occ in occupations_str.split(',') if occ.strip()]
 
-        if occupations_str == '':
-            return []
-        occupations_str = occupations_str[1:] if occupations_str[0] == ',' else occupations_str
-        if occupations_str != '':
-            return [occupation for occupation in occupations_str.split(',') if occupation]
-    elif occupations_unparsed_v2:
-        occupations_str = occupations_unparsed_v2[0]
-        for k, v in REPLACE_OCCUPATION_ELEMENTS.items():
-            occupations_str = occupations_str.replace(k, v)
-
-        if occupations_str == '':
-            return []
-        occupations_str = occupations_str[1:] if occupations_str[0] == ',' else occupations_str
-        if occupations_str != '':
-            return [occupation for occupation in occupations_str.split(',') if occupation]
     return []
 
+
 def get_genres(performer_url: str) -> List[str]:
-    custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
-                         " Chrome/123.0.0.0 Safari/537.36")
-    headers = {
-        'User-Agent': custom_user_agent
-    }
-    source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1', headers=headers).text)
-    textarea_edit_soup = source_edit_soup.find(
-        'textarea',
-        attrs={'id': 'wpTextbox1'}
-    )
-    genre_list = []
+    headers = {'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"}
+    response = requests.get(f"{performer_url}?action=edit&veswitched=1", headers=headers)
+    edit_soup = BeautifulSoup(response.text, 'html.parser')
+    textarea = edit_soup.find('textarea', attrs={'id': 'wpTextbox1'})
 
-    textarea_edit_text = textarea_edit_soup.get_text()
+    if not textarea:
+        return []
 
-    # Remove <ref> tags and their content (if needed)
-    # textarea_edit_text = re.sub(r'<ref[^>]*>.*?</ref>', '', textarea_edit_text, flags=re.DOTALL)
+    text = textarea.get_text()
+    genre_match = re.search(r'\|\s*genre\s*=\s*\{\{hlist\s*\|(.+?)\}\}', text, re.DOTALL | re.IGNORECASE)
+    if genre_match:
+        raw_genres = genre_match.group(1)
+        raw_genres = re.sub(r'\[\[([^\]|]+)(?:\|([^\]]+))?\]\]', lambda m: m.group(2) or m.group(1), raw_genres)
+        genres = [re.sub(r'\s*\(.*?\)\s*', '', g.strip()) for g in raw_genres.split('|') if g.strip()]
+        return list(set(genres))  # Remove duplicates
 
-    # Match genre templates like {{hlist|...}} or {{flatlist|...}}, ignoring comments
-    genre_unparsed = re.search(r'\|\s*genre\s*=\s*(?:<!--.*?-->\s*)?\{\{hlist\s*\|(.+?)\}\}', textarea_edit_text, re.DOTALL | re.IGNORECASE)
+    return []
 
-    # Helper to extract wikilink labels
-    def _wikilink_label(m):
-        target = m.group(1)
-        label = m.group(2)
-        return (label or target).strip()
-
-    if genre_unparsed:
-        raw_genres = genre_unparsed.group(1)
-
-        # Replace wikilinks with their labels
-        raw_genres = re.sub(r'\[\[([^\]|]+)(?:\|([^\]]+))?\]\]', _wikilink_label, raw_genres)
-
-        # Split genres by separators
-        tokens = re.split(r'\s*\|\s*', raw_genres)
-        seen = set()
-        for token in tokens:
-            token = token.strip()
-            if token and not token.startswith('<br'):
-                token = re.sub(r'\s*\(.*?\)\s*', '', token)  # Remove parentheses
-                token = re.sub(r'\s+music\b', '', token, flags=re.IGNORECASE)  # Remove "music"
-                token = re.sub(r'\s+', ' ', token).strip()  # Normalize spaces
-                if token and token not in seen and token not in ["rock<ref>V. Bogdanov, C. Woodstra and S. T. Erlewine, ''All Guide to Rock: the Definitive Guide to Rock, Pop, and Soul'', {{ISBN", "0-87930-653-X"]:
-                    seen.add(token)
-                    genre_list.append(token)
-
-    return genre_list
 
 def get_death_place(performer_url: str) -> str:
     custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
