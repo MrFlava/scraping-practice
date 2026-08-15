@@ -516,7 +516,10 @@ def get_occupations(performer_url: str) -> List[str]:
 
 
 def get_genres(performer_url: str) -> List[str]:
-    headers = {'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"}
+    headers = {
+        'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+                      " (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+    }
     response = requests.get(f"{performer_url}?action=edit&veswitched=1", headers=headers)
     edit_soup = BeautifulSoup(response.text, 'html.parser')
     textarea = edit_soup.find('textarea', attrs={'id': 'wpTextbox1'})
@@ -536,12 +539,16 @@ def get_genres(performer_url: str) -> List[str]:
 
 
 def get_death_place(performer_url: str) -> str:
-    custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
-                         " Chrome/123.0.0.0 Safari/537.36")
     headers = {
-        'User-Agent': custom_user_agent
+        'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
+                         " Chrome/123.0.0.0 Safari/537.36"
     }
-    source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1', headers=headers).text)
+    source_edit_soup = BeautifulSoup(
+        requests.get(
+            performer_url + '?action=edit&veswitched=1',
+            headers=headers
+        ).text
+    )
     textarea_edit_soup = source_edit_soup.find(
         'textarea',
         attrs={'id': 'wpTextbox1'}
