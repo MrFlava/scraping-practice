@@ -319,17 +319,15 @@ def get_birthplace(soup: BeautifulSoup, performer_url: Optional[str]) -> str:
 
     return ''
 
-
 def get_nickname(soup: BeautifulSoup, name: str) -> str:
-    if soup:
-        nickname = soup.find('div', class_='nickname')
+    if not soup:
+        return name
 
-        if not nickname:
-            return name
+    nickname = soup.find('div', class_='nickname')
+    if nickname:
+        return re.sub(r'\[.*?\]', '', nickname.text).strip()
 
-        return nickname.text.replace('[a]', '').replace('[citation needed]', '').replace('[1]', '')
-    else:
-        return ''
+    return name
 
 def get_birth_day(soup: BeautifulSoup, performer_url: str) -> str:
     if not soup:
@@ -360,136 +358,46 @@ def get_birth_day(soup: BeautifulSoup, performer_url: str) -> str:
 
     return ''
 
-
-
 def get_died_date(performer_url: str) -> str:
-    print(performer_url + '?action=edit&veswitched=1')
-    custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
-                         " Chrome/123.0.0.0 Safari/537.36")
     headers = {
-        'User-Agent': custom_user_agent
+        'User-Agent': ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+                       "(KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
     }
-    source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1', headers=headers).text)
-    textarea_edit_soup = source_edit_soup.find(
-        'textarea',
-        attrs={'id': 'wpTextbox1'}
-    )
-    if not textarea_edit_soup:
-        print(performer_url + '?action=edit&veswitched=1')
-    textarea_edit_text = textarea_edit_soup.get_text()
+    response = requests.get(f"{performer_url}?action=edit&veswitched=1", headers=headers)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    textarea = soup.find('textarea', attrs={'id': 'wpTextbox1'})
 
-    death_day_unparsed = re.search(r'death_date (.*)', textarea_edit_text)
-    death_day_unparsed_v2 = re.search(r'death_date=(.*)', textarea_edit_text)
+    if not textarea:
+        return ''
 
-    if death_day_unparsed:
-        death_str = death_day_unparsed[0]
-
-        for k, v in DEATH_DATE_ELEMENTS.items():
-            death_str = death_str.replace(k, v)
-
-        if death_str:
-            death_date_list = death_str.split('|')
-            if death_date_list[0] == '  November 8, 2011 (aged&nbsp;74)':
-                return "2011-11-08"
-            death_date_list.pop(0)
-            # need to fix it: index out of range
-            if death_date_list[0] != '':
-                if death_date_list[0] != "mfyes":
-                    if death_date_list[0] == "dfy":
-                        death_str = '-'.join(death_date_list[1:4])
-                    else:
-                        death_str = '-'.join(death_date_list[0:3])
-                else:
-
-                    death_str = '-'.join(death_date_list[1:4])
-            else:
-                if death_date_list[0] == '' and death_date_list[1] == '':
-                    death_str = '-'.join(death_date_list[2:5])
-                else:
-                    death_str = '-'.join(death_date_list[1:4])
-
-        return death_str
-
-    elif death_day_unparsed_v2:
-
-        death_str = death_day_unparsed_v2[0]
-
-        for k, v in DEATH_DATE_ELEMENTS.items():
-            death_str = death_str.replace(k, v)
-
-        if death_str:
-            death_date_list = death_str.split('|')
-            death_date_list.pop(0)
-
-            death_str = '-'.join(death_date_list[0:3])
-
-        return death_str
+    text = textarea.get_text()
+    death_date_match = re.search(r'death_date\s*=\s*\{\{.*?\|(\d{4})\|(\d{2})\|(\d{2})\}\}', text)
+    if death_date_match:
+        year, month, day = death_date_match.groups()
+        return f"{year}-{month}-{day}"
 
     return ''
 
-def parse_flatlist_occups(wikitext: str):
-    pattern = re.compile(
+def parse_flatlist_occups(wikitext: str) -> list:
+    patterns = [
         r'\|\s*occupation\s*=\s*\{\{flatlist\s*\|\s*(.*?)\}\}',
-        re.DOTALL | re.IGNORECASE
-    )
-
-    pattern2 = re.compile(
         r'\|\s*occupation\s*=\s*\{\{flat list\s*\|\s*(.*?)\}\}',
-        re.DOTALL | re.IGNORECASE
-    )
-
-    pattern3 = re.compile(
         r'\|\s*occupation\s*=\s*\{\{plainlist\s*\|\s*(.*?)\}\}',
-        re.DOTALL | re.IGNORECASE
-    )
-
-    pattern4 = re.compile(
         r'\|\s*occupations\s*=\s*\{\{flat list\s*\|\s*(.*?)\}\}',
-        re.DOTALL | re.IGNORECASE
-    )
-
-    pattern5 = re.compile(
         r'\|\s*occupation\s*=\s*\{\{hlist\s*\|\s*(.*?)\}\}',
-        re.DOTALL | re.IGNORECASE
-    )
+        r'\|\s*occupations\s*=\s*\{\{flatlist\s*\|\s*(.*?)\}\}'
+    ]
 
-    pattern6 = re.compile(
-        r'\|\s*occupations\s*=\s*\{\{flatlist\s*\|\s*(.*?)\}\}',
-        re.DOTALL | re.IGNORECASE
-    )
-
-    pattern7 = re.compile(
-        r'\|\s*occupations\s*=\s*\{\{flatlist\s*\|\s*(.*?)\}\}',
-        re.DOTALL | re.IGNORECASE
-    )
-
-    match = pattern.search(wikitext) or pattern2.search(wikitext) or pattern3.search(wikitext) or pattern4.search(wikitext) or pattern5.search(wikitext) or pattern6.search(wikitext) or pattern7.search(wikitext)
-    if not match:
-        return []
-
-    content = match.group(1)
-
-    raw_items = re.split(r'\n\*|\*|\n\||\|', content)
-
-    occupations = []
-    for item in raw_items:
-        # remove leading/trailing whitespace and any leftover separators
-        item = item.strip().lstrip('|').lstrip('*').strip()
-
-        # Очищення від вікі-посилань: [[Стаття|Текст]] -> Текст
-        item = re.sub(r'\[\[[^|\]]+\|([^\]]+)\]\]', r'\1', item)
-        # Очищення від простих посилань: [[Стаття]] -> Стаття
-        item = re.sub(r'\[\[([^\]]+)\]\]', r'\1', item)
-        # Видалення залишків шаблонів та зайвих символів
-        item = re.sub(r'\{\{.*?\}\}', '', item)
-
-        clean_name = item.strip()
-        if clean_name:
-            clean_name = clean_name.replace('{{nowrap|', '').replace('<ref>{{Cite web', '')
-            if clean_name not in ['last=Christgau', 'first=Robert', 'author-link=Robert Christgau', 'title=John Lennon {{!']:
-                occupations.append(clean_name)
-
-    return occupations
+    for pattern in patterns:
+        match = re.search(pattern, wikitext, re.DOTALL | re.IGNORECASE)
+        if match:
+            content = match.group(1)
+            raw_items = re.split(r'\n\*|\*|\n\||\|', content)
+            return [
+                re.sub(r'\[\[[^|\]]+\|([^\]]+)\]\]|\[\[([^\]]+)\]\]|\{\{.*?\}\}', '', item).strip()
+                for item in raw_items if item.strip()
+            ]
+    return []
 
 def get_occupations(performer_url: str) -> List[str]:
     headers = {'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"}
@@ -611,36 +519,36 @@ def get_years_active_flatlist(wikitext: str):
     return ",".join(years_active)
 
 def get_years_activity(performer_url: str) -> str:
-    custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
-                         " Chrome/123.0.0.0 Safari/537.36")
     headers = {
-        'User-Agent': custom_user_agent
+        'User-Agent': ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+                       "(KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
     }
-    source_edit_soup = BeautifulSoup(requests.get(performer_url + '?action=edit&veswitched=1', headers=headers).text)
-    textarea_edit_soup = source_edit_soup.find(
-        'textarea',
-        attrs={'id': 'wpTextbox1'}
-    )
+    response = requests.get(f"{performer_url}?action=edit&veswitched=1", headers=headers)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    textarea = soup.find('textarea', attrs={'id': 'wpTextbox1'})
 
-    textarea_edit_text = textarea_edit_soup.get_text()
-    flatlist_years_active = get_years_active_flatlist(textarea_edit_text)
+    if not textarea:
+        return ''
 
-    if flatlist_years_active:
-        return flatlist_years_active
+    wikitext = textarea.get_text()
 
-    years_active_unparsed = re.search(r'years_active (.*)', textarea_edit_text)
+    # Check for years active in flatlist format
+    years_active = get_years_active_flatlist(wikitext)
+    if years_active:
+        return years_active
 
-    if years_active_unparsed:
-        print(years_active_unparsed)
-        years_active_str = years_active_unparsed[0]
+    # Extract years active directly
+    match = re.search(r'years_active\s*=\s*(.*)', wikitext, re.IGNORECASE)
+    if match:
+        years_active = match.group(1).strip()
 
-        for k, v in YEARS_ACTIVE_ELEMENTS.items():
-            years_active_str = years_active_str.replace(k, v)
+        # Replace unwanted elements
+        for key, value in YEARS_ACTIVE_ELEMENTS.items():
+            years_active = years_active.replace(key, value)
 
-        # todo: idk why it's not replaced, remove this stuff later
-        years_active_str = years_active_str.replace('  ', '')
-
-        return years_active_str.replace("<br>", " ")
+        # Normalize spaces and line breaks
+        years_active = years_active.replace('<br>', ' ').strip()
+        return years_active
 
     return ''
 
