@@ -40,34 +40,37 @@ def parse_persons(performers: list, persons: list, soup: BeautifulSoup):
         performers.append({'performer': person, 'url': WIKI_MAIN_URL+url['href']})
 
 def parse_band_members(band_performers: list, bands: list, soup: BeautifulSoup):
+    def get_band_url(band: str) -> str:
+        if band in BAND_NAME_VARIANTS:
+            band = BAND_NAME_VARIANTS[band]
+        return WIKI_MAIN_URL + soup.find('a', attrs={'title': band})['href']
+
+    def fetch_band_soup(url: str) -> BeautifulSoup:
+        response = requests.get(url)
+        return BeautifulSoup(response.text, 'html.parser')
+
+    def extract_members(table_soup: BeautifulSoup) -> list:
+        members = []
+        rows = table_soup.find_all('tr')
+        for row in rows:
+            th_row = row.find('th', attrs={'class': 'infobox-label'})
+            if th_row and th_row.text in {"Past members", "Members"}:
+                unparsed_members = row.find_all('a')
+                for member in unparsed_members:
+                    if member.text not in NON_PARSING_ELEMENTS:
+                        members.append({
+                            'name': member['title'],
+                            'url': WIKI_MAIN_URL + member['href']
+                        })
+        return members
 
     for band in bands:
-
-        if band in BAND_NAME_VARIANTS.keys():
-            band = BAND_NAME_VARIANTS[band]
-
-        url = WIKI_MAIN_URL+soup.find_all('a', attrs={'title': band})[0]['href']
-        band_soup = BeautifulSoup(requests.get(url).text)
-        table_soup =  band_soup.find('table', attrs={'class': 'infobox vcard plainlist'}).find_all('tr')
-
-        members_main = []
-        for row in table_soup:
-            th_row = row.find('th', attrs={'class': 'infobox-label'})
-            unparsed_members = []
-            if th_row:
-
-                if th_row.text == "Past members" or th_row.text == "Members":
-                    unparsed_members += row.find_all('a')
-
-            for member in unparsed_members:
-                if member.text not in NON_PARSING_ELEMENTS:
-                    members_main.append({
-                        'name': member['title'],
-                        'url': WIKI_MAIN_URL+member['href']
-                    })
-
-
-        band_performers.append({'band_name': band, 'members': members_main})
+        band_url = get_band_url(band)
+        band_soup = fetch_band_soup(band_url)
+        table_soup = band_soup.find('table', attrs={'class': 'infobox vcard plainlist'})
+        if table_soup:
+            members = extract_members(table_soup)
+            band_performers.append({'band_name': band, 'members': members})
 
 def mine_urls() -> tuple[list, list]:
     performers = []
