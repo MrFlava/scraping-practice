@@ -551,15 +551,15 @@ def main():
     # print(mine_performers_wiki_data(performers_list))
 
 
-    # band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
-    # band_members_list =  get_performers_from_db(band_members_collection, None)
+    band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
+    band_members_list =  get_performers_from_db(band_members_collection, None)
 
-    custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
-                         " Chrome/123.0.0.0 Safari/537.36")
-    headers = {
-        'User-Agent': custom_user_agent
-    }
-    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Barbara_Martin_(singer)' + '?action=edit&veswitched=1', headers=headers).text)
+    # custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
+    #                      " Chrome/123.0.0.0 Safari/537.36")
+    # headers = {
+    #     'User-Agent': custom_user_agent
+    # }
+    # source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Barbara_Martin_(singer)' + '?action=edit&veswitched=1', headers=headers).text)
     # textarea_edit_soup = source_edit_soup.find(
     #     'textarea',
     #     attrs={'id': 'wpTextbox1'}
@@ -572,8 +572,8 @@ def main():
     #
     # birth_place = get_birthplace(soup, performer_url="https://en.wikipedia.org/wiki/John_Entwistle")
     # print(birth_place)
-    birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Barbara_Martin_(singer)')
-    print(birth_date)
+    # birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Barbara_Martin_(singer)')
+    # print(birth_date)
 
     # needs to check
     # genres = get_genres("https://en.wikipedia.org/wiki/Robin_Gibb")
@@ -591,7 +591,7 @@ def main():
     # nickame = get_nickname(source_edit_soup, 'https://en.wikipedia.org/wiki/Johnny_Moore_(singer)')
     # print(nickame)
 
-    # mine_bands_wiki_data(band_members_list)
+    mine_bands_wiki_data(band_members_list)
 
 
 
