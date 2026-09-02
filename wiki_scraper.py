@@ -580,9 +580,9 @@ def main():
     # print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/John_Lennon")
     # print(occups)
-
-    # died_date = get_died_date("https://en.wikipedia.org/wiki/David_Brown_(American_musician)")
-    # print(died_date)
+    #TODO:  check died date because apperantly after fix we have no data about that
+    died_date = get_died_date("https://en.wikipedia.org/wiki/David_Brown_(American_musician)")
+    print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
     # print(died_place)
@@ -591,7 +591,7 @@ def main():
     # nickame = get_nickname(source_edit_soup, 'https://en.wikipedia.org/wiki/Johnny_Moore_(singer)')
     # print(nickame)
 
-    mine_bands_wiki_data(band_members_list)
+    # mine_bands_wiki_data(band_members_list)
 
 
 
