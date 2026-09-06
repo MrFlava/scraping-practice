@@ -580,8 +580,42 @@ def main():
     # print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/John_Lennon")
     # print(occups)
-    #TODO:  check died date because apperantly after fix we have no data about that
-    died_date = get_died_date("https://en.wikipedia.org/wiki/David_Brown_(American_musician)")
+    #TODO:  check died date because apperantly after fix we have no data about that:
+    # https://en.wikipedia.org/wiki/Cass_Elliot
+    # https://en.wikipedia.org/wiki/Dave_Mason
+    # https://en.wikipedia.org/wiki/Bob_Weston_(guitarist)
+    # https://en.wikipedia.org/wiki/Bob_Welch_(musician)
+    # https://en.wikipedia.org/wiki/Danny_Kirwan
+    # https://en.wikipedia.org/wiki/Peter_Green_(musician)
+    # https://en.wikipedia.org/wiki/Randy_Meisner
+    # https://en.wikipedia.org/wiki/Glenn_Frey
+    # https://en.wikipedia.org/wiki/Randy_Jackson_(Jacksons_singer)
+    # https://en.wikipedia.org/wiki/Michael_Jackson
+    # https://en.wikipedia.org/wiki/Jermaine_Jackson
+    # https://en.wikipedia.org/wiki/Tito_Jackson
+    # https://en.wikipedia.org/wiki/Bruce_Palmer
+    # https://en.wikipedia.org/wiki/Dewey_Martin_(musician)
+    # https://en.wikipedia.org/wiki/Colin_Petersen
+    # https://en.wikipedia.org/wiki/Maurice_Gibb
+    # https://en.wikipedia.org/wiki/Walter_Powers_(musician)
+    # https://en.wikipedia.org/wiki/Angus_MacLise
+    # https://en.wikipedia.org/wiki/Sterling_Morrison
+    # https://en.wikipedia.org/wiki/Lou_Reed
+    # https://en.wikipedia.org/wiki/Syd_Barrett
+    # https://en.wikipedia.org/wiki/Richard_Wright_(musician)
+    # https://en.wikipedia.org/wiki/John_Barbata
+    # https://en.wikipedia.org/wiki/Papa_John_Creach
+    # https://en.wikipedia.org/wiki/Joey_Covington
+    # https://en.wikipedia.org/wiki/Spencer_Dryden
+    # https://en.wikipedia.org/wiki/Paul_Kantner
+    # https://en.wikipedia.org/wiki/Marty_Balin
+    # https://en.wikipedia.org/wiki/Signe_Toly_Anderson
+    # https://en.wikipedia.org/wiki/Sandra_Tilley
+    # https://en.wikipedia.org/wiki/Gloria_Williams
+    # https://en.wikipedia.org/wiki/John_Bonham
+    # https://en.wikipedia.org/wiki/Vince_Welnick
+    # https://en.wikipedia.org/wiki/Donna_Jean_Godchaux
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Donna_Jean_Godchaux")
     print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
