@@ -615,7 +615,16 @@ def main():
     # https://en.wikipedia.org/wiki/John_Bonham
     # https://en.wikipedia.org/wiki/Vince_Welnick
     # https://en.wikipedia.org/wiki/Donna_Jean_Godchaux
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Donna_Jean_Godchaux")
+    # https://en.wikipedia.org/wiki/Keith_Godchaux
+    # https://en.wikipedia.org/wiki/Ron_%22Pigpen%22_McKernan
+    # https://en.wikipedia.org/wiki/Jerry_Garcia
+    # https://en.wikipedia.org/wiki/Zoot_Money
+    # https://en.wikipedia.org/wiki/Danny_McCulloch
+    # https://en.wikipedia.org/wiki/Vic_Briggs
+    # https://en.wikipedia.org/wiki/John_Weider
+    # https://en.wikipedia.org/wiki/Barry_Jenkins_(musician)
+    # https://en.wikipedia.org/wiki/Ray_Manzarek
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Ray_Manzarek")
     print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
