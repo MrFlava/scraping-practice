@@ -624,7 +624,18 @@ def main():
     # https://en.wikipedia.org/wiki/John_Weider
     # https://en.wikipedia.org/wiki/Barry_Jenkins_(musician)
     # https://en.wikipedia.org/wiki/Ray_Manzarek
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Ray_Manzarek")
+    # https://en.wikipedia.org/wiki/Jim_Morrison
+    # https://en.wikipedia.org/wiki/Tom_Fogerty
+    # https://en.wikipedia.org/wiki/Ginger_Baker
+    # https://en.wikipedia.org/wiki/Jack_Bruce
+    # https://en.wikipedia.org/wiki/Leroy_Hutson
+    # https://en.wikipedia.org/wiki/Curtis_Mayfield
+    # https://en.wikipedia.org/wiki/Jerry_Butler
+    # https://en.wikipedia.org/wiki/Sam_Gooden
+    # https://en.wikipedia.org/wiki/Clarence_White
+    # https://en.wikipedia.org/wiki/Gram_Parsons
+    # https://en.wikipedia.org/wiki/Kevin_Kelley_(musician)
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Kevin_Kelley_(musician)")
     print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
