@@ -635,7 +635,12 @@ def main():
     # https://en.wikipedia.org/wiki/Clarence_White
     # https://en.wikipedia.org/wiki/Gram_Parsons
     # https://en.wikipedia.org/wiki/Kevin_Kelley_(musician)
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Kevin_Kelley_(musician)")
+    # https://en.wikipedia.org/wiki/Michael_Clarke_(musician)
+    # https://en.wikipedia.org/wiki/David_Crosby
+    # https://en.wikipedia.org/wiki/Gene_Clark - gets birth date and no died date (few cases were the same before)
+    # https://en.wikipedia.org/wiki/Keith_Moon
+    # https://en.wikipedia.org/wiki/Doug_Sandom
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Doug_Sandom")
     print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
