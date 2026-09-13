@@ -640,7 +640,24 @@ def main():
     # https://en.wikipedia.org/wiki/Gene_Clark - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/Keith_Moon
     # https://en.wikipedia.org/wiki/Doug_Sandom
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Doug_Sandom")
+    # https://en.wikipedia.org/wiki/John_Entwistle - gets birth date and no died date (few cases were the same before)
+    # https://en.wikipedia.org/wiki/Ian_Gibbons_(musician)
+    # https://en.wikipedia.org/wiki/Jim_Rodford
+    # https://en.wikipedia.org/wiki/John_Gosling_(The_Kinks_musician)
+    # https://en.wikipedia.org/wiki/Pete_Quaife
+    # https://en.wikipedia.org/wiki/Lawrence_Payton
+    # https://en.wikipedia.org/wiki/Renaldo_Benson
+    # https://en.wikipedia.org/wiki/Duke_Fakir
+    # https://en.wikipedia.org/wiki/Levi_Stubbs
+    # https://en.wikipedia.org/wiki/Bruce_Williamson_(singer) - gets birth date and no died date (few cases were the same before)
+    # https://en.wikipedia.org/wiki/Ali-Ollie_Woodson
+    # https://en.wikipedia.org/wiki/Damon_Harris
+    # https://en.wikipedia.org/wiki/Richard_Street
+    # https://en.wikipedia.org/wiki/Dennis_Edwards
+    # https://en.wikipedia.org/wiki/David_Ruffin
+    # https://en.wikipedia.org/wiki/Paul_Williams_(The_Temptations_singer)
+    # https://en.wikipedia.org/wiki/Eddie_Kendricks - gets birth date and no died date (few cases were the same before)
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Eddie_Kendricks")
     print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
