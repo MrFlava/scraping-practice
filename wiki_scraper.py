@@ -657,7 +657,10 @@ def main():
     # https://en.wikipedia.org/wiki/David_Ruffin
     # https://en.wikipedia.org/wiki/Paul_Williams_(The_Temptations_singer)
     # https://en.wikipedia.org/wiki/Eddie_Kendricks - gets birth date and no died date (few cases were the same before)
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Eddie_Kendricks")
+    # https://en.wikipedia.org/wiki/Melvin_Franklin - gets birth date and no died date (few cases were the same before)
+    # https://en.wikipedia.org/wiki/Eddie_Kendricks - gets birth date and no died date (few cases were the same before)
+    # https://en.wikipedia.org/wiki/Charlie_Watts
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Charlie_Watts")
     print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
