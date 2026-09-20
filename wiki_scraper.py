@@ -664,7 +664,17 @@ def main():
     # https://en.wikipedia.org/wiki/Brian_Jones
     # https://en.wikipedia.org/wiki/Barbara_Martin_(singer)
     # https://en.wikipedia.org/wiki/Betty_McGlown
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Betty_McGlown")
+    # https://en.wikipedia.org/wiki/Florence_Ballard
+    # https://en.wikipedia.org/wiki/Mary_Wilson_(singer)
+    # https://en.wikipedia.org/wiki/Jimmy_Lewis_(musician)
+    # https://en.wikipedia.org/wiki/Bobby_Hendricks
+    # https://en.wikipedia.org/wiki/Johnny_Moore_(singer) - gets birth date and no died date (few cases were the same before)
+    # https://en.wikipedia.org/wiki/Rudy_Lewis
+    # https://en.wikipedia.org/wiki/Charlie_Thomas_(musician)
+    # https://en.wikipedia.org/wiki/Ben_E._King - gets birth date and no died date (few cases were the same before)
+    # https://en.wikipedia.org/wiki/Bill_Pinkney
+    # https://en.wikipedia.org/wiki/Clyde_McPhatter - gets birth date and no died date (few cases were the same before)
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Clyde_McPhatter")
     print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
