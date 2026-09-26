@@ -674,7 +674,14 @@ def main():
     # https://en.wikipedia.org/wiki/Ben_E._King - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/Bill_Pinkney
     # https://en.wikipedia.org/wiki/Clyde_McPhatter - gets birth date and no died date (few cases were the same before)
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Clyde_McPhatter")
+    # https://en.wikipedia.org/wiki/George_Harrison
+    # https://en.wikipedia.org/wiki/John_Lennon
+    # https://en.wikipedia.org/wiki/Dennis_Wilson
+    # https://en.wikipedia.org/wiki/Carl_Wilson - gets birth date and no died date (few cases were the same before)
+    # https://en.wikipedia.org/wiki/Brian_Wilson - gets birth date and no died date (few cases were the same before)
+    # https://en.wikipedia.org/wiki/Jimmy_Norman
+    # https://en.wikipedia.org/wiki/Ronnie_Bright  - gets birth date and no died date (few cases were the same before)
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Ronnie_Bright")
     print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
