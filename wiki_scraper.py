@@ -681,7 +681,10 @@ def main():
     # https://en.wikipedia.org/wiki/Brian_Wilson - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/Jimmy_Norman
     # https://en.wikipedia.org/wiki/Ronnie_Bright  - gets birth date and no died date (few cases were the same before)
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Ronnie_Bright")
+    # https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist)
+    # https://en.wikipedia.org/wiki/Cornell_Gunter  - gets birth date and no died date (few cases were the same before)
+    # https://en.wikipedia.org/wiki/Dub_Jones_(singer)  - gets birth date and no died date (few cases were the same before)
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Dub_Jones_(singer)")
     print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
