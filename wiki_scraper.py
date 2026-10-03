@@ -686,7 +686,11 @@ def main():
     # https://en.wikipedia.org/wiki/Dub_Jones_(singer)  - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/Young_Jessie
     # https://en.wikipedia.org/wiki/Leon_Hughes
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Leon_Hughes")
+    # https://en.wikipedia.org/wiki/Billy_Guy
+    # https://en.wikipedia.org/wiki/Carl_Gardner
+    # https://en.wikipedia.org/wiki/Phil_Everly
+    # https://en.wikipedia.org/wiki/Don_Everly
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Don_Everly")
     print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
