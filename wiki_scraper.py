@@ -279,12 +279,28 @@ def get_died_date(performer_url: str) -> str:
         return ''
 
     text = textarea.get_text()
-    death_date_match = re.search(r'death_date\s*=\s*\{\{.*?\|(\d{4})\|(\d{2})\|(\d{2})\}\}', text)
+
+    # Regex to match death_date in various formats
+    death_date_match = re.search(
+        r'death_date\s*=\s*\{\{.*?\|(\d{4})\|(\d{1,2})\|(\d{1,2})\}\}', text
+    )
     if death_date_match:
         year, month, day = death_date_match.groups()
-        return f"{year}-{month}-{day}"
+        return f"{year}-{month.zfill(2)}-{day.zfill(2)}"
+
+    # Fallback: Check for death_date in plain text
+    death_date_plain_match = re.search(
+        r'death_date\s*=\s*(\d{4}-\d{1,2}-\d{1,2})', text
+    )
+    if death_date_plain_match:
+        return death_date_plain_match.group(1)
+
+    # Ensure no birth_date is returned mistakenly
+    if 'birth_date' in text:
+        return ''
 
     return ''
+
 
 def parse_flatlist_occups(wikitext: str) -> list:
     patterns = [
@@ -690,7 +706,7 @@ def main():
     # https://en.wikipedia.org/wiki/Carl_Gardner
     # https://en.wikipedia.org/wiki/Phil_Everly
     # https://en.wikipedia.org/wiki/Don_Everly
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Don_Everly")
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Phil_Everly")
     print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
