@@ -280,9 +280,9 @@ def get_died_date(performer_url: str) -> str:
 
     text = textarea.get_text()
 
-    # Regex to match death_date in various formats
+    # Regex to match death_date in the format {{Death date and age|YYYY|MM|DD|YYYY|MM|DD}}
     death_date_match = re.search(
-        r'death_date\s*=\s*\{\{.*?\|(\d{4})\|(\d{1,2})\|(\d{1,2})\}\}', text
+        r'death_date\s*=\s*\{\{Death date and age\|(\d{4})\|(\d{1,2})\|(\d{1,2})', text
     )
     if death_date_match:
         year, month, day = death_date_match.groups()
@@ -294,10 +294,6 @@ def get_died_date(performer_url: str) -> str:
     )
     if death_date_plain_match:
         return death_date_plain_match.group(1)
-
-    # Ensure no birth_date is returned mistakenly
-    if 'birth_date' in text:
-        return ''
 
     return ''
 
@@ -698,15 +694,10 @@ def main():
     # https://en.wikipedia.org/wiki/Jimmy_Norman
     # https://en.wikipedia.org/wiki/Ronnie_Bright  - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist)
-    # https://en.wikipedia.org/wiki/Cornell_Gunter  - gets birth date and no died date (few cases were the same before)
-    # https://en.wikipedia.org/wiki/Dub_Jones_(singer)  - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/Young_Jessie
     # https://en.wikipedia.org/wiki/Leon_Hughes
-    # https://en.wikipedia.org/wiki/Billy_Guy
     # https://en.wikipedia.org/wiki/Carl_Gardner
-    # https://en.wikipedia.org/wiki/Phil_Everly
-    # https://en.wikipedia.org/wiki/Don_Everly
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Phil_Everly")
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Cornell_Gunter")
     print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
