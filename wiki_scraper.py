@@ -593,7 +593,6 @@ def main():
     # occups = get_occupations("https://en.wikipedia.org/wiki/John_Lennon")
     # print(occups)
     #TODO:  check died date because apperantly after fix we have no data about that:
-    # https://en.wikipedia.org/wiki/Cass_Elliot
     # https://en.wikipedia.org/wiki/Dave_Mason
     # https://en.wikipedia.org/wiki/Bob_Weston_(guitarist)
     # https://en.wikipedia.org/wiki/Bob_Welch_(musician)
@@ -630,7 +629,6 @@ def main():
     # https://en.wikipedia.org/wiki/Keith_Godchaux
     # https://en.wikipedia.org/wiki/Ron_%22Pigpen%22_McKernan
     # https://en.wikipedia.org/wiki/Jerry_Garcia
-    # https://en.wikipedia.org/wiki/Zoot_Money
     # https://en.wikipedia.org/wiki/Danny_McCulloch
     # https://en.wikipedia.org/wiki/Vic_Briggs
     # https://en.wikipedia.org/wiki/John_Weider
@@ -654,13 +652,10 @@ def main():
     # https://en.wikipedia.org/wiki/Doug_Sandom
     # https://en.wikipedia.org/wiki/John_Entwistle - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/Ian_Gibbons_(musician)
-    # https://en.wikipedia.org/wiki/Jim_Rodford
     # https://en.wikipedia.org/wiki/John_Gosling_(The_Kinks_musician)
-    # https://en.wikipedia.org/wiki/Pete_Quaife
     # https://en.wikipedia.org/wiki/Lawrence_Payton
     # https://en.wikipedia.org/wiki/Renaldo_Benson
     # https://en.wikipedia.org/wiki/Duke_Fakir
-    # https://en.wikipedia.org/wiki/Levi_Stubbs
     # https://en.wikipedia.org/wiki/Bruce_Williamson_(singer) - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/Ali-Ollie_Woodson
     # https://en.wikipedia.org/wiki/Damon_Harris
@@ -678,14 +673,11 @@ def main():
     # https://en.wikipedia.org/wiki/Betty_McGlown
     # https://en.wikipedia.org/wiki/Florence_Ballard
     # https://en.wikipedia.org/wiki/Mary_Wilson_(singer)
-    # https://en.wikipedia.org/wiki/Jimmy_Lewis_(musician)
     # https://en.wikipedia.org/wiki/Bobby_Hendricks
     # https://en.wikipedia.org/wiki/Johnny_Moore_(singer) - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/Rudy_Lewis
     # https://en.wikipedia.org/wiki/Charlie_Thomas_(musician)
     # https://en.wikipedia.org/wiki/Ben_E._King - gets birth date and no died date (few cases were the same before)
-    # https://en.wikipedia.org/wiki/Bill_Pinkney
-    # https://en.wikipedia.org/wiki/Clyde_McPhatter - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/George_Harrison
     # https://en.wikipedia.org/wiki/John_Lennon
     # https://en.wikipedia.org/wiki/Dennis_Wilson
@@ -697,7 +689,7 @@ def main():
     # https://en.wikipedia.org/wiki/Young_Jessie
     # https://en.wikipedia.org/wiki/Leon_Hughes
     # https://en.wikipedia.org/wiki/Carl_Gardner
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Cornell_Gunter")
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Jim_Rodford")
     print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
