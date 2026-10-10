@@ -1,6 +1,5 @@
 import re
 import json
-import resource
 
 import  requests
 from pymongo.collection import  Collection
@@ -599,7 +598,6 @@ def main():
     # https://en.wikipedia.org/wiki/Danny_Kirwan
     # https://en.wikipedia.org/wiki/Peter_Green_(musician)
     # https://en.wikipedia.org/wiki/Randy_Meisner
-    # https://en.wikipedia.org/wiki/Glenn_Frey
     # https://en.wikipedia.org/wiki/Randy_Jackson_(Jacksons_singer)
     # https://en.wikipedia.org/wiki/Michael_Jackson
     # https://en.wikipedia.org/wiki/Jermaine_Jackson
@@ -630,7 +628,6 @@ def main():
     # https://en.wikipedia.org/wiki/Ron_%22Pigpen%22_McKernan
     # https://en.wikipedia.org/wiki/Jerry_Garcia
     # https://en.wikipedia.org/wiki/Danny_McCulloch
-    # https://en.wikipedia.org/wiki/Vic_Briggs
     # https://en.wikipedia.org/wiki/John_Weider
     # https://en.wikipedia.org/wiki/Barry_Jenkins_(musician)
     # https://en.wikipedia.org/wiki/Ray_Manzarek
@@ -670,7 +667,6 @@ def main():
     # https://en.wikipedia.org/wiki/Ian_Stewart_(musician)
     # https://en.wikipedia.org/wiki/Brian_Jones
     # https://en.wikipedia.org/wiki/Barbara_Martin_(singer)
-    # https://en.wikipedia.org/wiki/Betty_McGlown
     # https://en.wikipedia.org/wiki/Florence_Ballard
     # https://en.wikipedia.org/wiki/Mary_Wilson_(singer)
     # https://en.wikipedia.org/wiki/Bobby_Hendricks
@@ -689,7 +685,7 @@ def main():
     # https://en.wikipedia.org/wiki/Young_Jessie
     # https://en.wikipedia.org/wiki/Leon_Hughes
     # https://en.wikipedia.org/wiki/Carl_Gardner
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Jim_Rodford")
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Gene_Clark")
     print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
