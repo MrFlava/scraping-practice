@@ -624,11 +624,8 @@ def main():
     # https://en.wikipedia.org/wiki/Jerry_Garcia
     # https://en.wikipedia.org/wiki/Danny_McCulloch
     # https://en.wikipedia.org/wiki/John_Weider
-    # https://en.wikipedia.org/wiki/Barry_Jenkins_(musician)
     # https://en.wikipedia.org/wiki/Ray_Manzarek
-    # https://en.wikipedia.org/wiki/Jim_Morrison
     # https://en.wikipedia.org/wiki/Tom_Fogerty
-    # https://en.wikipedia.org/wiki/Ginger_Baker
     # https://en.wikipedia.org/wiki/Jack_Bruce
     # https://en.wikipedia.org/wiki/Leroy_Hutson
     # https://en.wikipedia.org/wiki/Curtis_Mayfield
@@ -651,11 +648,9 @@ def main():
     # https://en.wikipedia.org/wiki/Bruce_Williamson_(singer) - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/Ali-Ollie_Woodson
     # https://en.wikipedia.org/wiki/Damon_Harris
-    # https://en.wikipedia.org/wiki/Richard_Street
     # https://en.wikipedia.org/wiki/Dennis_Edwards
     # https://en.wikipedia.org/wiki/David_Ruffin
     # https://en.wikipedia.org/wiki/Paul_Williams_(The_Temptations_singer)
-    # https://en.wikipedia.org/wiki/Eddie_Kendricks - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/Melvin_Franklin - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/Eddie_Kendricks - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/Charlie_Watts
@@ -680,7 +675,7 @@ def main():
     # https://en.wikipedia.org/wiki/Young_Jessie
     # https://en.wikipedia.org/wiki/Leon_Hughes
     # https://en.wikipedia.org/wiki/Carl_Gardner
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Jerry_Garcia")
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Eddie_Kendricks")
     print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
