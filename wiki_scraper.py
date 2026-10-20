@@ -279,9 +279,9 @@ def get_died_date(performer_url: str) -> str:
 
     text = textarea.get_text()
 
-    # Regex to match death_date in the format {{Death date and age|YYYY|MM|DD|YYYY|MM|DD}}
+    # Regex to match death_date in the format {{death date and age|YYYY|MM|DD|YYYY|MM|DD}}
     death_date_match = re.search(
-        r'death_date\s*=\s*\{\{Death date and age\|(\d{4})\|(\d{1,2})\|(\d{1,2})', text
+        r'death_date\s*=\s*\{\{[Dd]eath date and age\|(\d{4})\|(\d{1,2})\|(\d{1,2})', text
     )
     if death_date_match:
         year, month, day = death_date_match.groups()
@@ -295,6 +295,7 @@ def get_died_date(performer_url: str) -> str:
         return death_date_plain_match.group(1)
 
     return ''
+
 
 
 def parse_flatlist_occups(wikitext: str) -> list:
@@ -644,38 +645,15 @@ def main():
     # https://en.wikipedia.org/wiki/John_Gosling_(The_Kinks_musician)
     # https://en.wikipedia.org/wiki/Lawrence_Payton
     # https://en.wikipedia.org/wiki/Renaldo_Benson
-    # https://en.wikipedia.org/wiki/Duke_Fakir
     # https://en.wikipedia.org/wiki/Bruce_Williamson_(singer) - gets birth date and no died date (few cases were the same before)
-    # https://en.wikipedia.org/wiki/Ali-Ollie_Woodson
-    # https://en.wikipedia.org/wiki/Damon_Harris
     # https://en.wikipedia.org/wiki/Dennis_Edwards
-    # https://en.wikipedia.org/wiki/David_Ruffin
-    # https://en.wikipedia.org/wiki/Paul_Williams_(The_Temptations_singer)
-    # https://en.wikipedia.org/wiki/Melvin_Franklin - gets birth date and no died date (few cases were the same before)
-    # https://en.wikipedia.org/wiki/Eddie_Kendricks - gets birth date and no died date (few cases were the same before)
-    # https://en.wikipedia.org/wiki/Charlie_Watts
-    # https://en.wikipedia.org/wiki/Ian_Stewart_(musician)
-    # https://en.wikipedia.org/wiki/Brian_Jones
-    # https://en.wikipedia.org/wiki/Barbara_Martin_(singer)
-    # https://en.wikipedia.org/wiki/Florence_Ballard
     # https://en.wikipedia.org/wiki/Mary_Wilson_(singer)
     # https://en.wikipedia.org/wiki/Bobby_Hendricks
-    # https://en.wikipedia.org/wiki/Johnny_Moore_(singer) - gets birth date and no died date (few cases were the same before)
-    # https://en.wikipedia.org/wiki/Rudy_Lewis
-    # https://en.wikipedia.org/wiki/Charlie_Thomas_(musician)
-    # https://en.wikipedia.org/wiki/Ben_E._King - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/George_Harrison
-    # https://en.wikipedia.org/wiki/John_Lennon
-    # https://en.wikipedia.org/wiki/Dennis_Wilson
     # https://en.wikipedia.org/wiki/Carl_Wilson - gets birth date and no died date (few cases were the same before)
-    # https://en.wikipedia.org/wiki/Brian_Wilson - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/Jimmy_Norman
-    # https://en.wikipedia.org/wiki/Ronnie_Bright  - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist)
-    # https://en.wikipedia.org/wiki/Young_Jessie
-    # https://en.wikipedia.org/wiki/Leon_Hughes
-    # https://en.wikipedia.org/wiki/Carl_Gardner
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Carl_Gardner")
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Duke_Fakir")
     print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
