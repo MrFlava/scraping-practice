@@ -593,58 +593,20 @@ def main():
     # occups = get_occupations("https://en.wikipedia.org/wiki/John_Lennon")
     # print(occups)
     #TODO:  check died date because apperantly after fix we have no data about that:
-    # https://en.wikipedia.org/wiki/Dave_Mason
     # https://en.wikipedia.org/wiki/Bob_Weston_(guitarist)
-    # https://en.wikipedia.org/wiki/Bob_Welch_(musician)
     # https://en.wikipedia.org/wiki/Danny_Kirwan
-    # https://en.wikipedia.org/wiki/Peter_Green_(musician)
-    # https://en.wikipedia.org/wiki/Randy_Meisner
-    # https://en.wikipedia.org/wiki/Michael_Jackson
     # https://en.wikipedia.org/wiki/Tito_Jackson
-    # https://en.wikipedia.org/wiki/Bruce_Palmer
-    # https://en.wikipedia.org/wiki/Dewey_Martin_(musician)
     # https://en.wikipedia.org/wiki/Colin_Petersen
     # https://en.wikipedia.org/wiki/Maurice_Gibb
-    # https://en.wikipedia.org/wiki/Angus_MacLise
-    # https://en.wikipedia.org/wiki/Sterling_Morrison
-    # https://en.wikipedia.org/wiki/Syd_Barrett
     # https://en.wikipedia.org/wiki/Richard_Wright_(musician)
-    # https://en.wikipedia.org/wiki/John_Barbata
-    # https://en.wikipedia.org/wiki/Papa_John_Creach
-    # https://en.wikipedia.org/wiki/Spencer_Dryden
-    # https://en.wikipedia.org/wiki/Paul_Kantner
-    # https://en.wikipedia.org/wiki/Marty_Balin
-    # https://en.wikipedia.org/wiki/Signe_Toly_Anderson
-    # https://en.wikipedia.org/wiki/Sandra_Tilley
-    # https://en.wikipedia.org/wiki/Gloria_Williams
     # https://en.wikipedia.org/wiki/John_Bonham
-    # https://en.wikipedia.org/wiki/Vince_Welnick
-    # https://en.wikipedia.org/wiki/Donna_Jean_Godchaux
-    # https://en.wikipedia.org/wiki/Keith_Godchaux
-    # https://en.wikipedia.org/wiki/Ron_%22Pigpen%22_McKernan
     # https://en.wikipedia.org/wiki/Jerry_Garcia
     # https://en.wikipedia.org/wiki/Danny_McCulloch
     # https://en.wikipedia.org/wiki/John_Weider
-    # https://en.wikipedia.org/wiki/Ray_Manzarek
-    # https://en.wikipedia.org/wiki/Tom_Fogerty
-    # https://en.wikipedia.org/wiki/Jack_Bruce
     # https://en.wikipedia.org/wiki/Leroy_Hutson
-    # https://en.wikipedia.org/wiki/Curtis_Mayfield
-    # https://en.wikipedia.org/wiki/Jerry_Butler
     # https://en.wikipedia.org/wiki/Sam_Gooden
-    # https://en.wikipedia.org/wiki/Clarence_White
-    # https://en.wikipedia.org/wiki/Gram_Parsons
-    # https://en.wikipedia.org/wiki/Kevin_Kelley_(musician)
-    # https://en.wikipedia.org/wiki/Michael_Clarke_(musician)
-    # https://en.wikipedia.org/wiki/David_Crosby
-    # https://en.wikipedia.org/wiki/Gene_Clark - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/Keith_Moon
-    # https://en.wikipedia.org/wiki/Doug_Sandom
     # https://en.wikipedia.org/wiki/John_Entwistle - gets birth date and no died date (few cases were the same before)
-    # https://en.wikipedia.org/wiki/Ian_Gibbons_(musician)
-    # https://en.wikipedia.org/wiki/John_Gosling_(The_Kinks_musician)
-    # https://en.wikipedia.org/wiki/Lawrence_Payton
-    # https://en.wikipedia.org/wiki/Renaldo_Benson
     # https://en.wikipedia.org/wiki/Bruce_Williamson_(singer) - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/Dennis_Edwards
     # https://en.wikipedia.org/wiki/Mary_Wilson_(singer)
@@ -653,7 +615,7 @@ def main():
     # https://en.wikipedia.org/wiki/Carl_Wilson - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/Jimmy_Norman
     # https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist)
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Duke_Fakir")
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist)")
     print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
