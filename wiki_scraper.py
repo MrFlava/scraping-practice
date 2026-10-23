@@ -279,13 +279,38 @@ def get_died_date(performer_url: str) -> str:
 
     text = textarea.get_text()
 
-    # Regex to match death_date in the format {{death date and age|YYYY|MM|DD|YYYY|MM|DD}}
+    # Regex to match death_date with nowrap and Death date and age
     death_date_match = re.search(
-        r'death_date\s*=\s*\{\{[Dd]eath date and age\|(\d{4})\|(\d{1,2})\|(\d{1,2})', text
+        r'death_date\s*=\s*\{\{nowrap\|\{\{[Dd]eath date and age\|(\d{4})\|(\d{1,2})\|(\d{1,2})',
+        text
     )
     if death_date_match:
         year, month, day = death_date_match.groups()
         return f"{year}-{month.zfill(2)}-{day.zfill(2)}"
+
+    # Regex to match death_date in the format {{death date and age|YYYY|MM|DD|YYYY|MM|DD}}
+    death_date_match = re.search(
+        r'death_date\s*=\s*\{\{[Dd]eath date and age\|(?:mf=yes\|)?(\d{4})\|(\d{1,2})\|(\d{1,2})',
+        text
+    )
+    if death_date_match:
+        year, month, day = death_date_match.groups()
+        return f"{year}-{month.zfill(2)}-{day.zfill(2)}"
+
+    # Regex to match death_date in plain text format: Month Day, Year (aged&nbsp;XX)
+    plain_text_match = re.search(
+        r'death_date\s*=\s*([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})',
+        text
+    )
+    if plain_text_match:
+        month, day, year = plain_text_match.groups()
+        month_map = {
+            "January": "01", "February": "02", "March": "03", "April": "04",
+            "May": "05", "June": "06", "July": "07", "August": "08",
+            "September": "09", "October": "10", "November": "11", "December": "12"
+        }
+        month = month_map.get(month, "00")
+        return f"{year}-{month}-{day.zfill(2)}"
 
     # Fallback: Check for death_date in plain text
     death_date_plain_match = re.search(
@@ -295,8 +320,6 @@ def get_died_date(performer_url: str) -> str:
         return death_date_plain_match.group(1)
 
     return ''
-
-
 
 def parse_flatlist_occups(wikitext: str) -> list:
     patterns = [
@@ -595,27 +618,18 @@ def main():
     #TODO:  check died date because apperantly after fix we have no data about that:
     # https://en.wikipedia.org/wiki/Bob_Weston_(guitarist)
     # https://en.wikipedia.org/wiki/Danny_Kirwan
-    # https://en.wikipedia.org/wiki/Tito_Jackson
     # https://en.wikipedia.org/wiki/Colin_Petersen
     # https://en.wikipedia.org/wiki/Maurice_Gibb
     # https://en.wikipedia.org/wiki/Richard_Wright_(musician)
-    # https://en.wikipedia.org/wiki/John_Bonham
-    # https://en.wikipedia.org/wiki/Jerry_Garcia
     # https://en.wikipedia.org/wiki/Danny_McCulloch
     # https://en.wikipedia.org/wiki/John_Weider
     # https://en.wikipedia.org/wiki/Leroy_Hutson
-    # https://en.wikipedia.org/wiki/Sam_Gooden
     # https://en.wikipedia.org/wiki/Keith_Moon
     # https://en.wikipedia.org/wiki/John_Entwistle - gets birth date and no died date (few cases were the same before)
-    # https://en.wikipedia.org/wiki/Bruce_Williamson_(singer) - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/Dennis_Edwards
-    # https://en.wikipedia.org/wiki/Mary_Wilson_(singer)
-    # https://en.wikipedia.org/wiki/Bobby_Hendricks
     # https://en.wikipedia.org/wiki/George_Harrison
-    # https://en.wikipedia.org/wiki/Carl_Wilson - gets birth date and no died date (few cases were the same before)
-    # https://en.wikipedia.org/wiki/Jimmy_Norman
-    # https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist)
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist)")
+
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Bob_Weston_(guitarist)")
     print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
