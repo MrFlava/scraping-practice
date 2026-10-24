@@ -297,6 +297,15 @@ def get_died_date(performer_url: str) -> str:
         year, month, day = death_date_match.groups()
         return f"{year}-{month.zfill(2)}-{day.zfill(2)}"
 
+    # Regex to match death_date with c. prefix
+    circa_match = re.search(
+        r'death_date\s*=\s*c\.\s*\{\{[Dd]eath date and age\|(?:df=yes\|)?(\d{4})\|(\d{1,2})\|(\d{1,2})',
+        text
+    )
+    if circa_match:
+        year, month, day = circa_match.groups()
+        return f"{year}-{month.zfill(2)}-{day.zfill(2)}"
+
     # Regex to match death_date in plain text format: Month Day, Year (aged&nbsp;XX)
     plain_text_match = re.search(
         r'death_date\s*=\s*([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})',
@@ -616,7 +625,6 @@ def main():
     # occups = get_occupations("https://en.wikipedia.org/wiki/John_Lennon")
     # print(occups)
     #TODO:  check died date because apperantly after fix we have no data about that:
-    # https://en.wikipedia.org/wiki/Bob_Weston_(guitarist)
     # https://en.wikipedia.org/wiki/Danny_Kirwan
     # https://en.wikipedia.org/wiki/Colin_Petersen
     # https://en.wikipedia.org/wiki/Maurice_Gibb
@@ -629,7 +637,7 @@ def main():
     # https://en.wikipedia.org/wiki/Dennis_Edwards
     # https://en.wikipedia.org/wiki/George_Harrison
 
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Bob_Weston_(guitarist)")
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Maurice_Gibb")
     print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
