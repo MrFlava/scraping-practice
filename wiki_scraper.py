@@ -281,7 +281,7 @@ def get_died_date(performer_url: str) -> str:
 
     # Regex to match death_date with nowrap and Death date and age
     death_date_match = re.search(
-        r'death_date\s*=\s*\{\{nowrap\|\{\{[Dd]eath date and age\|(\d{4})\|(\d{1,2})\|(\d{1,2})',
+        r'death_date\s*=\s*\{\{nowrap\|\{\{[Dd]eath date and age\|(?:mf=yes\|)?(\d{4})\|(\d{1,2})\|(\d{1,2})',
         text
     )
     if death_date_match:
@@ -290,7 +290,7 @@ def get_died_date(performer_url: str) -> str:
 
     # Regex to match death_date in the format {{death date and age|YYYY|MM|DD|YYYY|MM|DD}}
     death_date_match = re.search(
-        r'death_date\s*=\s*\{\{[Dd]eath date and age\|(?:mf=yes\|)?(\d{4})\|(\d{1,2})\|(\d{1,2})',
+        r'death_date\s*=\s*\{\{[Dd]eath date and age\|(?:mf=yes\|)?(?:df=y(?:es)?\|)?(\d{4})\|(\d{1,2})\|(\d{1,2})',
         text
     )
     if death_date_match:
@@ -299,7 +299,7 @@ def get_died_date(performer_url: str) -> str:
 
     # Regex to match death_date with c. prefix
     circa_match = re.search(
-        r'death_date\s*=\s*c\.\s*\{\{[Dd]eath date and age\|(?:df=yes\|)?(\d{4})\|(\d{1,2})\|(\d{1,2})',
+        r'death_date\s*=\s*c\.\s*\{\{[Dd]eath date and age\|(?:mf=yes\|)?(?:df=y(?:es)?\|)?(\d{4})\|(\d{1,2})\|(\d{1,2})',
         text
     )
     if circa_match:
@@ -329,6 +329,7 @@ def get_died_date(performer_url: str) -> str:
         return death_date_plain_match.group(1)
 
     return ''
+
 
 def parse_flatlist_occups(wikitext: str) -> list:
     patterns = [
@@ -625,19 +626,11 @@ def main():
     # occups = get_occupations("https://en.wikipedia.org/wiki/John_Lennon")
     # print(occups)
     #TODO:  check died date because apperantly after fix we have no data about that:
-    # https://en.wikipedia.org/wiki/Danny_Kirwan
-    # https://en.wikipedia.org/wiki/Colin_Petersen
-    # https://en.wikipedia.org/wiki/Maurice_Gibb
-    # https://en.wikipedia.org/wiki/Richard_Wright_(musician)
-    # https://en.wikipedia.org/wiki/Danny_McCulloch
     # https://en.wikipedia.org/wiki/John_Weider
     # https://en.wikipedia.org/wiki/Leroy_Hutson
-    # https://en.wikipedia.org/wiki/Keith_Moon
-    # https://en.wikipedia.org/wiki/John_Entwistle - gets birth date and no died date (few cases were the same before)
     # https://en.wikipedia.org/wiki/Dennis_Edwards
-    # https://en.wikipedia.org/wiki/George_Harrison
 
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Maurice_Gibb")
+    died_date = get_died_date("https://en.wikipedia.org/wiki/George_Harrison")
     print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
