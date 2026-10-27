@@ -279,34 +279,18 @@ def get_died_date(performer_url: str) -> str:
 
     text = textarea.get_text()
 
-    # Regex to match death_date with nowrap and Death date and age
+    # Regex to match death_date with Death date and age, allowing missing day or month
     death_date_match = re.search(
-        r'death_date\s*=\s*\{\{nowrap\|\{\{[Dd]eath date and age\|(?:mf=yes\|)?(\d{4})\|(\d{1,2})\|(\d{1,2})',
+        r'death_date\s*=\s*\{\{[Dd]eath date and age\s*\|\s*(?:df=y(?:es)?\s*\|\s*)?(\d{4})\s*\|\s*(\d{0,2})\s*\|\s*(\d{0,2})',
         text
     )
     if death_date_match:
         year, month, day = death_date_match.groups()
-        return f"{year}-{month.zfill(2)}-{day.zfill(2)}"
+        month = month.zfill(2) if month else "01"
+        day = day.zfill(2) if day else "01"
+        return f"{year}-{month}-{day}"
 
-    # Regex to match death_date in the format {{death date and age|YYYY|MM|DD|YYYY|MM|DD}}
-    death_date_match = re.search(
-        r'death_date\s*=\s*\{\{[Dd]eath date and age\|(?:mf=yes\|)?(?:df=y(?:es)?\|)?(\d{4})\|(\d{1,2})\|(\d{1,2})',
-        text
-    )
-    if death_date_match:
-        year, month, day = death_date_match.groups()
-        return f"{year}-{month.zfill(2)}-{day.zfill(2)}"
-
-    # Regex to match death_date with c. prefix
-    circa_match = re.search(
-        r'death_date\s*=\s*c\.\s*\{\{[Dd]eath date and age\|(?:mf=yes\|)?(?:df=y(?:es)?\|)?(\d{4})\|(\d{1,2})\|(\d{1,2})',
-        text
-    )
-    if circa_match:
-        year, month, day = circa_match.groups()
-        return f"{year}-{month.zfill(2)}-{day.zfill(2)}"
-
-    # Regex to match death_date in plain text format: Month Day, Year (aged&nbsp;XX)
+    # Regex to match death_date in plain text format: Month Day, Year
     plain_text_match = re.search(
         r'death_date\s*=\s*([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})',
         text
@@ -329,6 +313,7 @@ def get_died_date(performer_url: str) -> str:
         return death_date_plain_match.group(1)
 
     return ''
+
 
 
 def parse_flatlist_occups(wikitext: str) -> list:
@@ -625,12 +610,7 @@ def main():
     # print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/John_Lennon")
     # print(occups)
-    #TODO:  check died date because apperantly after fix we have no data about that:
-    # https://en.wikipedia.org/wiki/John_Weider
-    # https://en.wikipedia.org/wiki/Leroy_Hutson
-    # https://en.wikipedia.org/wiki/Dennis_Edwards
-
-    died_date = get_died_date("https://en.wikipedia.org/wiki/George_Harrison")
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Dennis_Edwards")
     print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
