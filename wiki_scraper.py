@@ -613,6 +613,14 @@ def main():
     # TODO still no died_date:
     #  https://en.wikipedia.org/wiki/Young_Jessie
     #  https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist)
+    #  https://en.wikipedia.org/wiki/Carl_Wilson
+    #  https://en.wikipedia.org/wiki/Bobby_Hendricks
+    #  https://en.wikipedia.org/wiki/Mary_Wilson_(singer)
+    #  https://en.wikipedia.org/wiki/Ian_Stewart_(musician)
+    #  https://en.wikipedia.org/wiki/Doug_Sandom
+    # TODO bad parse died date:
+    #  https://en.wikipedia.org/wiki/John_Lennon
+    #  https://en.wikipedia.org/wiki/Jimmy_Lewis_(musician)
     died_date = get_died_date("https://en.wikipedia.org/wiki/Dennis_Edwards")
     print(died_date)
 
