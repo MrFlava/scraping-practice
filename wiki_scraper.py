@@ -618,9 +618,18 @@ def main():
     #  https://en.wikipedia.org/wiki/Mary_Wilson_(singer)
     #  https://en.wikipedia.org/wiki/Ian_Stewart_(musician)
     #  https://en.wikipedia.org/wiki/Doug_Sandom
+    #  https://en.wikipedia.org/wiki/Skip_Battin
+    #  https://en.wikipedia.org/wiki/Sam_Gooden
     # TODO bad parse died date:
     #  https://en.wikipedia.org/wiki/John_Lennon
     #  https://en.wikipedia.org/wiki/Jimmy_Lewis_(musician)
+    # TODO no birth data:
+    #  https://en.wikipedia.org/wiki/Jerry_Butler
+    # TODO bad genres parse:
+    #  https://en.wikipedia.org/wiki/Jim_Morrison
+    #  https://en.wikipedia.org/wiki/Eric_Burdon
+    # TODO bad occupations parse:
+    #  https://en.wikipedia.org/wiki/Chas_Chandler
     died_date = get_died_date("https://en.wikipedia.org/wiki/Dennis_Edwards")
     print(died_date)
 
