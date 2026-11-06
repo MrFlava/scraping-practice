@@ -620,6 +620,9 @@ def main():
     #  https://en.wikipedia.org/wiki/Doug_Sandom
     #  https://en.wikipedia.org/wiki/Skip_Battin
     #  https://en.wikipedia.org/wiki/Sam_Gooden
+    #  https://en.wikipedia.org/wiki/Jerry_Garcia
+    #  https://en.wikipedia.org/wiki/Phil_Lesh
+    #  https://en.wikipedia.org/wiki/John_Bonham
     # TODO bad parse died date:
     #  https://en.wikipedia.org/wiki/John_Lennon
     #  https://en.wikipedia.org/wiki/Jimmy_Lewis_(musician)
@@ -628,8 +631,16 @@ def main():
     # TODO bad genres parse:
     #  https://en.wikipedia.org/wiki/Jim_Morrison
     #  https://en.wikipedia.org/wiki/Eric_Burdon
+    #  https://en.wikipedia.org/wiki/John_Cale
     # TODO bad occupations parse:
     #  https://en.wikipedia.org/wiki/Chas_Chandler
+    #  https://en.wikipedia.org/wiki/Vic_Briggs
+    #  https://en.wikipedia.org/wiki/Joey_Covington
+    # TODO bad genres parse:
+    #  https://en.wikipedia.org/wiki/Donna_Jean_Godchaux
+    # TODO bad parse birthplace:
+    #  https://en.wikipedia.org/wiki/Spencer_Dryden
+    #  https://en.wikipedia.org/wiki/John_Cale
     died_date = get_died_date("https://en.wikipedia.org/wiki/Dennis_Edwards")
     print(died_date)
 
