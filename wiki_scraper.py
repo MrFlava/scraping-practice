@@ -623,6 +623,7 @@ def main():
     #  https://en.wikipedia.org/wiki/Jerry_Garcia
     #  https://en.wikipedia.org/wiki/Phil_Lesh
     #  https://en.wikipedia.org/wiki/John_Bonham
+    #  https://en.wikipedia.org/wiki/Tito_Jackson
     # TODO bad parse died date:
     #  https://en.wikipedia.org/wiki/John_Lennon
     #  https://en.wikipedia.org/wiki/Jimmy_Lewis_(musician)
@@ -632,6 +633,8 @@ def main():
     #  https://en.wikipedia.org/wiki/Jim_Morrison
     #  https://en.wikipedia.org/wiki/Eric_Burdon
     #  https://en.wikipedia.org/wiki/John_Cale
+    #  https://en.wikipedia.org/wiki/Robin_Gibb
+    #  https://en.wikipedia.org/wiki/Dave_Mason
     # TODO bad occupations parse:
     #  https://en.wikipedia.org/wiki/Chas_Chandler
     #  https://en.wikipedia.org/wiki/Vic_Briggs
@@ -641,6 +644,11 @@ def main():
     # TODO bad parse birthplace:
     #  https://en.wikipedia.org/wiki/Spencer_Dryden
     #  https://en.wikipedia.org/wiki/John_Cale
+    #  https://en.wikipedia.org/wiki/Barry_Gibb
+    # TODO bad parse death place:
+    #  https://en.wikipedia.org/wiki/Walter_Powers_(musician)
+    # TODO bad parse years active:
+    #  https://en.wikipedia.org/wiki/Michelle_Phillips
     died_date = get_died_date("https://en.wikipedia.org/wiki/Dennis_Edwards")
     print(died_date)
 
