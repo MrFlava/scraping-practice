@@ -473,6 +473,8 @@ def get_years_activity(performer_url: str) -> str:
     # Check for years active in flatlist format
     years_active = get_years_active_flatlist(wikitext)
     if years_active:
+        for key, value in YEARS_ACTIVE_ELEMENTS.items():
+            years_active = years_active.replace(key, value)
         return years_active
 
     # Extract years active directly
@@ -647,14 +649,12 @@ def main():
     #  https://en.wikipedia.org/wiki/Barry_Gibb
     # TODO bad parse death place:
     #  https://en.wikipedia.org/wiki/Walter_Powers_(musician)
-    # TODO bad parse years active:
-    #  https://en.wikipedia.org/wiki/Michelle_Phillips
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Dennis_Edwards")
-    print(died_date)
+    # died_date = get_died_date("https://en.wikipedia.org/wiki/Dennis_Edwards")
+    # print(died_date)
 
-    # died_place = get_death_place("https://en.wikipedia.org/wiki/David_Ruffin")
-    # print(died_place)
-    # years_active = get_years_activity("https://en.wikipedia.org/wiki/Cindy_Birdsong")
+    died_place = get_death_place("https://en.wikipedia.org/wiki/Walter_Powers_(musician)")
+    print(died_place)
+    # years_active = get_years_activity("https://en.wikipedia.org/wiki/Michelle_Phillips")
     # print(years_active)
     # nickame = get_nickname(source_edit_soup, 'https://en.wikipedia.org/wiki/Johnny_Moore_(singer)')
     # print(nickame)
