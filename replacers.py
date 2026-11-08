@@ -163,6 +163,7 @@ YEARS_ACTIVE_ELEMENTS_LIST = [
     '1960–19791986–present',
     "<!--STOP editing this without a reliable source; Phillips's professional career began with Mamas and Papas in 1965 by all accounts. She was 13 years old in 1957, and living in Mexico at that time-->",
     '1965–as of2015altpresent',
+    "<ref>Cite weburlhttps://www.yahoo.com/entertainment/michelle-phillips-look-long-journey-132715871.htmltitleMichelle Phillips: A Look at the Long Journey of the Mamas & the Papas Singer Turned ActressdateJuly 3, 2024websiteYahoo.comaccess-dateMay 31, 2026</ref>",
 ]
 
 GENRES_ELEMENTS = {
