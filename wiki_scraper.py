@@ -378,7 +378,10 @@ def get_genres(performer_url: str) -> List[str]:
     if genre_match:
         raw_genres = genre_match.group(1)
         raw_genres = re.sub(r'\[\[([^\]|]+)(?:\|([^\]]+))?\]\]', lambda m: m.group(2) or m.group(1), raw_genres)
-        genres = [re.sub(r'\s*\(.*?\)\s*', '', g.strip()) for g in raw_genres.split('|') if g.strip()]
+        genres = [
+            re.sub(
+                r'\s*\(.*?\)\s*', '', g.strip().replace('<br/>', '')
+            ) for g in raw_genres.split('|') if g.strip()]
         return list(set(genres))  # Remove duplicates
 
     return []
@@ -608,8 +611,8 @@ def main():
     # print(birth_date)
 
     # needs to check
-    # genres = get_genres("https://en.wikipedia.org/wiki/Robin_Gibb")
-    # print(genres)
+    genres = get_genres("https://en.wikipedia.org/wiki/Eric_Burdon")
+    print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/John_Lennon")
     # print(occups)
     # TODO still no died_date:
@@ -641,8 +644,6 @@ def main():
     #  https://en.wikipedia.org/wiki/Chas_Chandler
     #  https://en.wikipedia.org/wiki/Vic_Briggs
     #  https://en.wikipedia.org/wiki/Joey_Covington
-    # TODO bad genres parse:
-    #  https://en.wikipedia.org/wiki/Donna_Jean_Godchaux
     # TODO bad parse birthplace:
     #  https://en.wikipedia.org/wiki/Spencer_Dryden
     #  https://en.wikipedia.org/wiki/John_Cale
@@ -652,8 +653,8 @@ def main():
     # died_date = get_died_date("https://en.wikipedia.org/wiki/Dennis_Edwards")
     # print(died_date)
 
-    died_place = get_death_place("https://en.wikipedia.org/wiki/Walter_Powers_(musician)")
-    print(died_place)
+    # died_place = get_death_place("https://en.wikipedia.org/wiki/Walter_Powers_(musician)")
+    # print(died_place)
     # years_active = get_years_activity("https://en.wikipedia.org/wiki/Michelle_Phillips")
     # print(years_active)
     # nickame = get_nickname(source_edit_soup, 'https://en.wikipedia.org/wiki/Johnny_Moore_(singer)')
