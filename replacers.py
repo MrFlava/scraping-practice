@@ -57,6 +57,9 @@ REPLACE_OCCUPATION_ELEMENTS_LIST = [
     'occupations=',
     'Musician;songwriter',
     'Performerandsinger',
+    'spouse=KirstenLindholm',
+    '[[Artists and repertoire',
+    'A&R representative]]'
 ]
 
 OCCUPATION_REPLACEMENTS = {
@@ -80,6 +83,7 @@ OCCUPATION_REPLACEMENTS = {
     "[[philanthropyofmichaeljackson', 'philanthropist]]": 'philanthropist',
     'musician;songwriter': 'Musician-songwriter',
     'performerandsinger': 'Performer-singer',
+    'A&R representative]]': 'A&R representative',
     'hlist': REPLACE_DEFAULT,
     'flatlist': REPLACE_DEFAULT,
     'occupation=': REPLACE_DEFAULT,

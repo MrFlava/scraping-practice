@@ -331,10 +331,15 @@ def parse_flatlist_occups(wikitext: str) -> list:
         if match:
             content = match.group(1)
             raw_items = re.split(r'\n\*|\*|\n\||\|', content)
-            return [
+            occupations = [
                 re.sub(r'\[\[[^|\]]+\|([^\]]+)\]\]|\[\[([^\]]+)\]\]|\{\{.*?\}\}', '', item).strip()
                 for item in raw_items if item.strip()
             ]
+            # Replace elements using REPLACE_OCCUPATION_ELEMENTS
+            for i, occ in enumerate(occupations):
+                for k, v in REPLACE_OCCUPATION_ELEMENTS.items():
+                    occupations[i] = occupations[i].replace(k, v)
+            return occupations
     return []
 
 def get_occupations(performer_url: str) -> List[str]:
@@ -422,7 +427,13 @@ def get_death_place(performer_url: str) -> str:
         # Ensure proper formatting for "City, State, Country"
         death_place_str = re.sub(r'(, )+', ', ', death_place_str)
 
-        return death_place_str.replace("WestPhiladelphiaWestPhiladelphia", "West Philadelphia")
+        return death_place_str.replace(
+            "WestPhiladelphiaWestPhiladelphia",
+            "West Philadelphia"
+        ).replace(
+            "genreRockmusicRock",
+            ""
+        )
 
     return ''
 
@@ -610,11 +621,10 @@ def main():
     # birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Barbara_Martin_(singer)')
     # print(birth_date)
 
-    # needs to check
-    genres = get_genres("https://en.wikipedia.org/wiki/Eric_Burdon")
-    print(genres)
-    # occups = get_occupations("https://en.wikipedia.org/wiki/John_Lennon")
-    # print(occups)
+    # genres = get_genres("https://en.wikipedia.org/wiki/Eric_Burdon")
+    # print(genres)
+    occups = get_occupations("https://en.wikipedia.org/wiki/Joey_Covington")
+    print(occups)
     # TODO still no died_date:
     #  https://en.wikipedia.org/wiki/Young_Jessie
     #  https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist)
@@ -640,16 +650,10 @@ def main():
     #  https://en.wikipedia.org/wiki/John_Cale
     #  https://en.wikipedia.org/wiki/Robin_Gibb
     #  https://en.wikipedia.org/wiki/Dave_Mason
-    # TODO bad occupations parse:
-    #  https://en.wikipedia.org/wiki/Chas_Chandler
-    #  https://en.wikipedia.org/wiki/Vic_Briggs
-    #  https://en.wikipedia.org/wiki/Joey_Covington
     # TODO bad parse birthplace:
     #  https://en.wikipedia.org/wiki/Spencer_Dryden
     #  https://en.wikipedia.org/wiki/John_Cale
     #  https://en.wikipedia.org/wiki/Barry_Gibb
-    # TODO bad parse death place:
-    #  https://en.wikipedia.org/wiki/Walter_Powers_(musician)
     # died_date = get_died_date("https://en.wikipedia.org/wiki/Dennis_Edwards")
     # print(died_date)
 
