@@ -623,10 +623,9 @@ def main():
 
     # genres = get_genres("https://en.wikipedia.org/wiki/Eric_Burdon")
     # print(genres)
-    occups = get_occupations("https://en.wikipedia.org/wiki/Joey_Covington")
-    print(occups)
+    # occups = get_occupations("https://en.wikipedia.org/wiki/Joey_Covington")
+    # print(occups)
     # TODO still no died_date:
-    #  https://en.wikipedia.org/wiki/Young_Jessie
     #  https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist)
     #  https://en.wikipedia.org/wiki/Carl_Wilson
     #  https://en.wikipedia.org/wiki/Bobby_Hendricks
@@ -639,9 +638,6 @@ def main():
     #  https://en.wikipedia.org/wiki/Phil_Lesh
     #  https://en.wikipedia.org/wiki/John_Bonham
     #  https://en.wikipedia.org/wiki/Tito_Jackson
-    # TODO bad parse died date:
-    #  https://en.wikipedia.org/wiki/John_Lennon
-    #  https://en.wikipedia.org/wiki/Jimmy_Lewis_(musician)
     # TODO no birth data:
     #  https://en.wikipedia.org/wiki/Jerry_Butler
     # TODO bad genres parse:
@@ -654,8 +650,8 @@ def main():
     #  https://en.wikipedia.org/wiki/Spencer_Dryden
     #  https://en.wikipedia.org/wiki/John_Cale
     #  https://en.wikipedia.org/wiki/Barry_Gibb
-    # died_date = get_died_date("https://en.wikipedia.org/wiki/Dennis_Edwards")
-    # print(died_date)
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Tito_Jackson")
+    print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/Walter_Powers_(musician)")
     # print(died_place)
