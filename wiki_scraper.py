@@ -221,7 +221,14 @@ def get_birthplace(soup: BeautifulSoup, performer_url: Optional[str]) -> str:
     if birth_place_match:
         birth_place = birth_place_match.group(1)
         for k, v in REPLACE_BIRTH_PLACE_ELEMENTS.items():
-            birth_place = birth_place.replace(k, v)
+            birth_place = birth_place.replace(k, v).replace(
+                'GarnantCarmarthenshireWales<ref>{{citemagazineurl=https://www.newyorker.com/culture/culture'
+                '-desk/next-wave-forever-john-cale-at-seventy-fivetitle=NewWaveForever:JohnCaleatSeventy'
+                '-fivedate=6December2017access-date=19December2017magazine=TheNewYorkerauthor=SarahLarson}}</ref>',
+                'Garnant, Carmarthenshire, Wales'
+            ).replace("DouglasIsleofMan", "Douglas, Isle of Man").replace(
+                "SunflowerMississippiU.S.", "Sunflower, Mississippi, U.S."
+            )
         return birth_place.strip()
 
     return ''
@@ -600,12 +607,12 @@ def main():
     band_members_collection = get_performers_collection(DB_HALL_OF_FAME_BANDS_COLLECTION)
     band_members_list =  get_performers_from_db(band_members_collection, None)
 
-    # custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
-    #                      " Chrome/123.0.0.0 Safari/537.36")
-    # headers = {
-    #     'User-Agent': custom_user_agent
-    # }
-    # source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Barbara_Martin_(singer)' + '?action=edit&veswitched=1', headers=headers).text)
+    custom_user_agent = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"
+                         " Chrome/123.0.0.0 Safari/537.36")
+    headers = {
+        'User-Agent': custom_user_agent
+    }
+    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Jerry_Butler' + '?action=edit&veswitched=1', headers=headers).text)
     # textarea_edit_soup = source_edit_soup.find(
     #     'textarea',
     #     attrs={'id': 'wpTextbox1'}
@@ -616,14 +623,14 @@ def main():
     # personal_info = parse_wiki_text_personal_info(textarea_edit_text)
     # print(personal_info)
     #
-    # birth_place = get_birthplace(soup, performer_url="https://en.wikipedia.org/wiki/John_Entwistle")
-    # print(birth_place)
-    # birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Barbara_Martin_(singer)')
-    # print(birth_date)
+    birth_place = get_birthplace(source_edit_soup, performer_url="https://en.wikipedia.org/wiki/Jerry_Butler")
+    print(birth_place)
+    birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Jerry_Butler')
+    print(birth_date)
 
-    # genres = get_genres("https://en.wikipedia.org/wiki/Eric_Burdon")
+    # genres = get_genres("https://en.wikipedia.org/wiki/John_Cale")
     # print(genres)
-    # occups = get_occupations("https://en.wikipedia.org/wiki/Joey_Covington")
+    # occups = get_occupations("https://en.wikipedia.org/wiki/John_Cale")
     # print(occups)
     # TODO still no died_date:
     #  https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist)
@@ -646,12 +653,8 @@ def main():
     #  https://en.wikipedia.org/wiki/John_Cale
     #  https://en.wikipedia.org/wiki/Robin_Gibb
     #  https://en.wikipedia.org/wiki/Dave_Mason
-    # TODO bad parse birthplace:
-    #  https://en.wikipedia.org/wiki/Spencer_Dryden
-    #  https://en.wikipedia.org/wiki/John_Cale
-    #  https://en.wikipedia.org/wiki/Barry_Gibb
-    died_date = get_died_date("https://en.wikipedia.org/wiki/Tito_Jackson")
-    print(died_date)
+    # died_date = get_died_date("https://en.wikipedia.org/wiki/Tito_Jackson")
+    # print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/Walter_Powers_(musician)")
     # print(died_place)
