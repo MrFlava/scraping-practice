@@ -1,7 +1,7 @@
 import re
 
 REPLACE_DEFAULT = ''
-REPLACE_BIRTH_PLACE_ELEMENTS_LIST = [' ', '[', ']', '|', ',']
+REPLACE_BIRTH_PLACE_ELEMENTS_LIST = [' ', '[', ']', '|', ',', '<refname="Bio"/>']
 
 REPLACE_OCCUPATION_ELEMENTS_LIST = [
     '  ',
