@@ -263,7 +263,14 @@ def get_birth_day(soup: BeautifulSoup, performer_url: str) -> str:
     if not textarea:
         return ''
 
-    # Extract birth date using regex
+    # Extract birth date using regex for the new pattern
+    birth_date_match = re.search(r'birth_date\s*=\s*\{\{birth date\|(\d{4})\|(\d{1,2})\|(\d{1,2})\}\}', textarea.get_text())
+    if birth_date_match:
+        year, month, day = birth_date_match.groups()
+        return f"{year}-{month.zfill(2)}-{day.zfill(2)}"
+
+
+    # Extract birth date using regex for the existing pattern
     birth_date_match = re.search(r'birth_date\s*=\s*\{\{birth date\|(\d{4})\|(\d{2})\|(\d{2,3})\}\}', textarea.get_text())
     if birth_date_match:
         year, month, day = birth_date_match.groups()
@@ -645,8 +652,6 @@ def main():
     #  https://en.wikipedia.org/wiki/Phil_Lesh
     #  https://en.wikipedia.org/wiki/John_Bonham
     #  https://en.wikipedia.org/wiki/Tito_Jackson
-    # TODO no birth data:
-    #  https://en.wikipedia.org/wiki/Jerry_Butler
     # TODO bad genres parse:
     #  https://en.wikipedia.org/wiki/Jim_Morrison
     #  https://en.wikipedia.org/wiki/Eric_Burdon
