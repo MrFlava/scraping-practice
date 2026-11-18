@@ -263,15 +263,17 @@ def get_birth_day(soup: BeautifulSoup, performer_url: str) -> str:
     if not textarea:
         return ''
 
+    text = textarea.get_text()
+
     # Extract birth date using regex for the new pattern
-    birth_date_match = re.search(r'birth_date\s*=\s*\{\{birth date\|(\d{4})\|(\d{1,2})\|(\d{1,2})\}\}', textarea.get_text())
+    birth_date_match = re.search(r'birth_date\s*=\s*\{\{[Bb]irth date\|(\d{4})\|(\d{1,2})\|(\d{1,2})\}\}', text)
     if birth_date_match:
         year, month, day = birth_date_match.groups()
         return f"{year}-{month.zfill(2)}-{day.zfill(2)}"
 
 
     # Extract birth date using regex for the existing pattern
-    birth_date_match = re.search(r'birth_date\s*=\s*\{\{birth date\|(\d{4})\|(\d{2})\|(\d{2,3})\}\}', textarea.get_text())
+    birth_date_match = re.search(r'birth_date\s*=\s*\{\{birth date\|(\d{4})\|(\d{2})\|(\d{2,3})\}\}', text)
     if birth_date_match:
         year, month, day = birth_date_match.groups()
         day = day.zfill(2)[-2:]  # Normalize day to two digits
@@ -619,7 +621,7 @@ def main():
     headers = {
         'User-Agent': custom_user_agent
     }
-    source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Jerry_Butler' + '?action=edit&veswitched=1', headers=headers).text)
+    # source_edit_soup = BeautifulSoup(requests.get('https://en.wikipedia.org/wiki/Jim_Morrison' + '?action=edit&veswitched=1', headers=headers).text)
     # textarea_edit_soup = source_edit_soup.find(
     #     'textarea',
     #     attrs={'id': 'wpTextbox1'}
@@ -630,13 +632,13 @@ def main():
     # personal_info = parse_wiki_text_personal_info(textarea_edit_text)
     # print(personal_info)
     #
-    birth_place = get_birthplace(source_edit_soup, performer_url="https://en.wikipedia.org/wiki/Jerry_Butler")
-    print(birth_place)
-    birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Jerry_Butler')
-    print(birth_date)
+    # birth_place = get_birthplace(source_edit_soup, performer_url="https://en.wikipedia.org/wiki/Jim_Morrison")
+    # print(birth_place)
+    # birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Jim_Morrison')
+    # print(birth_date)
 
-    # genres = get_genres("https://en.wikipedia.org/wiki/John_Cale")
-    # print(genres)
+    genres = get_genres("https://en.wikipedia.org/wiki/Jim_Morrison")
+    print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/John_Cale")
     # print(occups)
     # TODO still no died_date:
