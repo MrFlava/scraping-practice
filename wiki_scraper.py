@@ -381,7 +381,6 @@ def get_occupations(performer_url: str) -> List[str]:
 
     return []
 
-
 def get_genres(performer_url: str) -> List[str]:
     headers = {
         'User-Agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
@@ -395,14 +394,29 @@ def get_genres(performer_url: str) -> List[str]:
         return []
 
     text = textarea.get_text()
-    genre_match = re.search(r'\|\s*genre\s*=\s*\{\{hlist\s*\|(.+?)\}\}', text, re.DOTALL | re.IGNORECASE)
-    if genre_match:
-        raw_genres = genre_match.group(1)
+
+    # Match the `hlist` pattern
+    hlist_match = re.search(r'\|\s*genre\s*=\s*\{\{hlist\s*\|(.+?)\}\}', text, re.DOTALL | re.IGNORECASE)
+    if hlist_match:
+        raw_genres = hlist_match.group(1)
         raw_genres = re.sub(r'\[\[([^\]|]+)(?:\|([^\]]+))?\]\]', lambda m: m.group(2) or m.group(1), raw_genres)
         genres = [
             re.sub(
-                r'\s*\(.*?\)\s*', '', g.strip().replace('<br/>', '')
+                r'\s*\(.*?\)\s*', '', g.strip()
+                .replace('<br/>', '')
+                .replace("[", '')
+                .replace("]", '')
             ) for g in raw_genres.split('|') if g.strip()]
+        return list(set(genres))  # Remove duplicates
+
+    # Match the `flatlist` or `plainlist` pattern
+    flatlist_match = re.search(r'\|\s*genre\s*=\s*\{\{(?:flatlist|plainlist)\s*\|\s*(.+?)\}\}', text, re.DOTALL | re.IGNORECASE)
+    if flatlist_match:
+        raw_genres = flatlist_match.group(1)
+        genres = [
+            re.sub(
+                r'\s*\(.*?\)\s*', '', g.strip().replace('<br/>', '')
+            ) for g in re.split(r'\n\*|\*|\n\||\|', raw_genres) if g.strip()]
         return list(set(genres))  # Remove duplicates
 
     return []
