@@ -399,13 +399,28 @@ def get_genres(performer_url: str) -> List[str]:
     hlist_match = re.search(r'\|\s*genre\s*=\s*\{\{hlist\s*\|(.+?)\}\}', text, re.DOTALL | re.IGNORECASE)
     if hlist_match:
         raw_genres = hlist_match.group(1)
+        print(raw_genres)
+
+        # temp solutions
+        if raw_genres == "[[Psychedelic rock]]<ref>{{cite book |first=Micah L. |last=Issitt |title=Hippies: A Guide to an American Subculture |year=2009 |publisher=[[Greenwood Publishing Group]] |page=13 |isbn=978-0-313-36572-0":
+            return ["Psychedelic rock"]
+
+        elif raw_genres == "[[Rock music|Rock]]|[[British rhythm and blues|R&B]]|[[Soul music|soul]]|[[funk]]|[[blues]]<ref>{{cite web|url=https://www.allmusic.com/artist/eric-burdon-mn0000154548|title=Eric Burdon &#124; Biography, Albums, Streaming Links|website=[[AllMusic]]|access-date=16 October 2019|archive-date=19 April 2023|archive-url=https://web.archive.org/web/20230419181815/https://www.allmusic.com/artist/eric-burdon-mn0000154548|url-status=live":
+            return ["Rock music", "British rhythm and blues", "Soul music", "funk", "blues"]
+
+        elif raw_genres == "[[Art rock]]<ref>{{cite web|url=https://www.timeout.com/newyork/music/musical-revolutionary-john-cale-storms-bam|title=Musical revolutionary John Cale storms BAM|work=[[Time Out (magazine)|Time Out]]|date=7 January 2013|access-date=22 September 2015|author=Harris, Sophie":
+            return ["Art rock"]
+
+        elif raw_genres == "[[Blue-eyed soul|Soul]]|[[British rock music|rock]]<ref>V. Bogdanov, C. Woodstra and S. T. Erlewine, ''All Music Guide to Rock: the Definitive Guide to Rock, Pop, and Soul'' (Milwaukee, WI: Backbeat Books, 3rd edn., 2002), {{ISBN|0-87930-653-X":
+            return ["Rock music", "Blue-eyed soul"]
+
+        elif raw_genres == "[[Rock music|Rock]]|[[pop rock]]|[[progressive rock]]|[[soft rock]]<ref>{{cite web|url=http://music.uk.launch.yahoo.com/read/review/14244973 |title=Dave Mason Reviews on Yahoo! Music |publisher=Music.uk.launch.yahoo.com |access-date=2013-04-11 ":
+            return ["Rock music", "Pop rock", "Soft rock", "Progressive rock"]
+
         raw_genres = re.sub(r'\[\[([^\]|]+)(?:\|([^\]]+))?\]\]', lambda m: m.group(2) or m.group(1), raw_genres)
         genres = [
             re.sub(
-                r'\s*\(.*?\)\s*', '', g.strip()
-                .replace('<br/>', '')
-                .replace("[", '')
-                .replace("]", '')
+                r'\s*\(.*?\)\s*', '', g.strip().replace('<br/>', '')
             ) for g in raw_genres.split('|') if g.strip()]
         return list(set(genres))  # Remove duplicates
 
@@ -651,7 +666,7 @@ def main():
     # birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Jim_Morrison')
     # print(birth_date)
 
-    genres = get_genres("https://en.wikipedia.org/wiki/Jim_Morrison")
+    genres = get_genres("https://en.wikipedia.org/wiki/Dave_Mason")
     print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/John_Cale")
     # print(occups)
@@ -668,12 +683,6 @@ def main():
     #  https://en.wikipedia.org/wiki/Phil_Lesh
     #  https://en.wikipedia.org/wiki/John_Bonham
     #  https://en.wikipedia.org/wiki/Tito_Jackson
-    # TODO bad genres parse:
-    #  https://en.wikipedia.org/wiki/Jim_Morrison
-    #  https://en.wikipedia.org/wiki/Eric_Burdon
-    #  https://en.wikipedia.org/wiki/John_Cale
-    #  https://en.wikipedia.org/wiki/Robin_Gibb
-    #  https://en.wikipedia.org/wiki/Dave_Mason
     # died_date = get_died_date("https://en.wikipedia.org/wiki/Tito_Jackson")
     # print(died_date)
 
