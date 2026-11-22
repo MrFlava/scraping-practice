@@ -295,16 +295,23 @@ def get_died_date(performer_url: str) -> str:
 
     text = textarea.get_text()
 
-    # Regex to match death_date with Death date and age, allowing missing day or month
+    # Regex to match death_date with nowrap and Death date and age
+    nowrap_match = re.search(
+        r'death_date\s*=\s*\{\{nowrap\|\{\{[Dd]eath date and age\|(\d{4})\|(\d{1,2})\|(\d{1,2})',
+        text
+    )
+    if nowrap_match:
+        year, month, day = nowrap_match.groups()
+        return f"{year}-{month.zfill(2)}-{day.zfill(2)}"
+
+    # Regex to match death_date with Death date and age (including mf=yes)
     death_date_match = re.search(
-        r'death_date\s*=\s*\{\{[Dd]eath date and age\s*\|\s*(?:df=y(?:es)?\s*\|\s*)?(\d{4})\s*\|\s*(\d{0,2})\s*\|\s*(\d{0,2})',
+        r'death_date\s*=\s*\{\{[Dd]eath date and age\|(?:mf=yes\|)?(\d{4})\|(\d{1,2})\|(\d{1,2})',
         text
     )
     if death_date_match:
         year, month, day = death_date_match.groups()
-        month = month.zfill(2) if month else "01"
-        day = day.zfill(2) if day else "01"
-        return f"{year}-{month}-{day}"
+        return f"{year}-{month.zfill(2)}-{day.zfill(2)}"
 
     # Regex to match death_date in plain text format: Month Day, Year
     plain_text_match = re.search(
@@ -329,8 +336,6 @@ def get_died_date(performer_url: str) -> str:
         return death_date_plain_match.group(1)
 
     return ''
-
-
 
 def parse_flatlist_occups(wikitext: str) -> list:
     patterns = [
@@ -666,25 +671,14 @@ def main():
     # birth_date = get_birth_day(source_edit_soup, performer_url='https://en.wikipedia.org/wiki/Jim_Morrison')
     # print(birth_date)
 
-    genres = get_genres("https://en.wikipedia.org/wiki/Dave_Mason")
-    print(genres)
+    # genres = get_genres("https://en.wikipedia.org/wiki/Dave_Mason")
+    # print(genres)
     # occups = get_occupations("https://en.wikipedia.org/wiki/John_Cale")
     # print(occups)
     # TODO still no died_date:
-    #  https://en.wikipedia.org/wiki/Earl_Carroll_(vocalist)
-    #  https://en.wikipedia.org/wiki/Carl_Wilson
-    #  https://en.wikipedia.org/wiki/Bobby_Hendricks
-    #  https://en.wikipedia.org/wiki/Mary_Wilson_(singer)
     #  https://en.wikipedia.org/wiki/Ian_Stewart_(musician)
-    #  https://en.wikipedia.org/wiki/Doug_Sandom
-    #  https://en.wikipedia.org/wiki/Skip_Battin
-    #  https://en.wikipedia.org/wiki/Sam_Gooden
-    #  https://en.wikipedia.org/wiki/Jerry_Garcia
-    #  https://en.wikipedia.org/wiki/Phil_Lesh
-    #  https://en.wikipedia.org/wiki/John_Bonham
-    #  https://en.wikipedia.org/wiki/Tito_Jackson
-    # died_date = get_died_date("https://en.wikipedia.org/wiki/Tito_Jackson")
-    # print(died_date)
+    died_date = get_died_date("https://en.wikipedia.org/wiki/Ian_Stewart_(musician)")
+    print(died_date)
 
     # died_place = get_death_place("https://en.wikipedia.org/wiki/Walter_Powers_(musician)")
     # print(died_place)
