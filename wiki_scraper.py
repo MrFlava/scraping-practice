@@ -309,6 +309,7 @@ def get_died_date(performer_url: str) -> str:
         r'death_date\s*=\s*\{\{[Dd]eath date and age\|(?:mf=yes\|)?(\d{4})\|(\d{1,2})\|(\d{1,2})',
         text
     )
+    print(death_date_match)
     if death_date_match:
         year, month, day = death_date_match.groups()
         return f"{year}-{month.zfill(2)}-{day.zfill(2)}"
