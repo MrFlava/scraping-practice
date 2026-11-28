@@ -295,9 +295,9 @@ def get_died_date(performer_url: str) -> str:
 
     text = textarea.get_text()
 
-    # Regex to match death_date with nowrap and Death date and age
+    # Regex to match death_date with nowrap and Death date and age (including df=yes)
     nowrap_match = re.search(
-        r'death_date\s*=\s*\{\{nowrap\|\{\{[Dd]eath date and age\|(\d{4})\|(\d{1,2})\|(\d{1,2})',
+        r'death_date\s*=\s*\{\{nowrap\|\{\{[Dd]eath date and age\|(?:df=yes\|)?(\d{4})\|(\d{1,2})\|(\d{1,2})',
         text
     )
     if nowrap_match:
@@ -309,7 +309,6 @@ def get_died_date(performer_url: str) -> str:
         r'death_date\s*=\s*\{\{[Dd]eath date and age\|(?:mf=yes\|)?(\d{4})\|(\d{1,2})\|(\d{1,2})',
         text
     )
-    print(death_date_match)
     if death_date_match:
         year, month, day = death_date_match.groups()
         return f"{year}-{month.zfill(2)}-{day.zfill(2)}"
